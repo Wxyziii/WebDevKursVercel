@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Webutvikling Kurs - Lær HTML, CSS & JavaScript</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="logo">⟨/⟩</span>
+            <span class="brand-text">WebDev Kurs</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link active">Hjem</a>
+            <a href="part1.html" class="nav-link">Del 1</a>
+            <a href="part2.html" class="nav-link" id="nav-part2">Del 2</a>
+            <a href="leaderboard.html" class="nav-link">Rangering</a>
+            <a href="gallery.html" class="nav-link">Galleri</a>
+        </div>
+        <div class="nav-auth">
+            <button class="btn btn-secondary btn-sm" id="auth-btn" onclick="showAuthModal()">Logg inn</button>
+            <div class="user-info" id="user-info" style="display: none;">
+                <span class="user-name"></span>
+                <button class="btn btn-secondary btn-sm" onclick="AuthService.logout()">Logg ut</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Gratis Kurs</div>
+            <h1 class="hero-title">Lær Webutvikling<br><span class="gradient-text">fra Bunnen av</span></h1>
+            <p class="hero-description">
+                Et komplett, selvforklarende kurs i HTML, CSS og JavaScript. 
+                Ingen forkunnskaper nødvendig – alt du trenger er 60 minutter og nysgjerrighet.
+            </p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number">2</span>
+                    <span class="stat-label">Deler</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">60</span>
+                    <span class="stat-label">Minutter</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">∞</span>
+                    <span class="stat-label">Muligheter</span>
+                </div>
+            </div>
+            <a href="part1.html" class="btn btn-primary">Start Kurset</a>
+        </div>
+        <div class="hero-visual">
+            <div class="code-preview glass-card">
+                <div class="code-header">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                </div>
+                <pre class="code-content"><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Min Side&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;h1&gt;Hei, verden!&lt;/h1&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            </div>
+        </div>
+    </main>
+
+    <section class="course-overview">
+        <h2 class="section-title">Hva du vil lære</h2>
+        <div class="cards-container">
+            <div class="course-card glass-card">
+                <div class="card-icon">📄</div>
+                <h3>Del 1: HTML & CSS Grunnlag</h3>
+                <p>Lær strukturen til nettsider med HTML og gi dem stil med CSS. Perfekt for nybegynnere.</p>
+                <ul class="card-list">
+                    <li>HTML-elementer og struktur</li>
+                    <li>CSS styling og farger</li>
+                    <li>Layout med Flexbox</li>
+                    <li>Bygg din første nettside</li>
+                </ul>
+                <div class="card-footer">
+                    <span class="duration">⏱️ 30 minutter</span>
+                    <a href="part1.html" class="btn btn-secondary">Start Del 1</a>
+                </div>
+            </div>
+
+            <div class="course-card glass-card" id="part2-card">
+                <div class="card-icon">🚀</div>
+                <h3>Del 2: Interaktiv JavaScript</h3>
+                <p>Gjør nettsiden din levende med JavaScript. Lag interaktive elementer og dynamisk innhold.</p>
+                <ul class="card-list">
+                    <li>JavaScript grunnleggende</li>
+                    <li>DOM-manipulering</li>
+                    <li>Event handling</li>
+                    <li>Bygg en komplett webapp</li>
+                </ul>
+                <div class="card-footer">
+                    <span class="duration">⏱️ 30 minutter</span>
+                    <a href="part2.html" class="btn btn-secondary" id="part2-btn">
+                        <span class="lock-icon">🔒</span> Lås opp med Del 1
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <h2 class="section-title">Kursfunksjoner</h2>
+        <div class="features-grid">
+            <div class="feature glass-card">
+                <div class="feature-icon">💻</div>
+                <h4>Live Kode-editor</h4>
+                <p>Skriv kode direkte i nettleseren med en profesjonell Monaco Editor.</p>
+            </div>
+            <div class="feature glass-card">
+                <div class="feature-icon">👁️</div>
+                <h4>Sanntids Preview</h4>
+                <p>Se endringene dine umiddelbart mens du koder.</p>
+            </div>
+            <div class="feature glass-card">
+                <div class="feature-icon">💾</div>
+                <h4>Auto-lagring</h4>
+                <p>Koden din lagres automatisk slik at du kan fortsette hvor du slapp.</p>
+            </div>
+            <div class="feature glass-card">
+                <div class="feature-icon">🎬</div>
+                <h4>Video & Bilder</h4>
+                <p>Multimedia-innhold som forklarer konseptene visuelt.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>© 2026 WebDev Kurs. Laget for å lære.</p>
+    </footer>
+
+    <script src="database.js"></script>
+    <script src="auth.js"></script>
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            updateAuthUI();
+        });
+    </script>
+</body>
+</html>

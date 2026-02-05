@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Del 2: Interaktiv JavaScript - WebDev Kurs</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="logo">⟨/⟩</span>
+            <span class="brand-text">WebDev Kurs</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Hjem</a>
+            <a href="part1.html" class="nav-link">Del 1</a>
+            <a href="part2.html" class="nav-link active" id="nav-part2">Del 2</a>
+            <a href="leaderboard.html" class="nav-link">Rangering</a>
+            <a href="gallery.html" class="nav-link">Galleri</a>
+        </div>
+        <div class="nav-auth">
+            <button class="btn btn-secondary btn-sm" id="auth-btn" onclick="showAuthModal()">Logg inn</button>
+            <div class="user-info" id="user-info" style="display: none;">
+                <span class="user-name"></span>
+                <button class="btn btn-secondary btn-sm" onclick="AuthService.logout()">Logg ut</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Locked Overlay (shown if Part 1 not completed) -->
+    <div class="locked-overlay" id="locked-overlay">
+        <div class="locked-content">
+            <div class="locked-icon">🔒</div>
+            <h2>Del 2 er Låst</h2>
+            <p>Du må fullføre Del 1 før du kan starte med JavaScript. 
+               Gå tilbake og fullfør HTML & CSS grunnlaget først.</p>
+            <a href="part1.html" class="btn btn-primary">← Gå til Del 1</a>
+        </div>
+    </div>
+
+    <div class="course-page">
+        <header class="course-header">
+            <div class="course-info">
+                <h1>Del 2: Interaktiv JavaScript</h1>
+                <p>Gjør nettsiden din levende med JavaScript</p>
+            </div>
+            <div class="course-controls">
+                <div class="timer" id="timer">
+                    <span class="timer-icon">⏱️</span>
+                    <span class="timer-display" id="timer-display">30:00</span>
+                </div>
+                <button class="btn btn-success" id="complete-btn">✓ Fullfør Kurset</button>
+            </div>
+        </header>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+        </div>
+
+        <div class="course-content">
+            <!-- Sidebar with exercises and media -->
+            <aside class="sidebar">
+                <div class="sidebar-tabs">
+                    <button class="sidebar-tab active" data-tab="exercises">Oppgaver</button>
+                    <button class="sidebar-tab" data-tab="media">Ressurser</button>
+                </div>
+                <div class="sidebar-content">
+                    <!-- Exercises Panel -->
+                    <div class="tab-panel active" id="exercises-panel">
+                        <div class="exercise" data-exercise="1">
+                            <div class="exercise-header">
+                                <span class="exercise-number" id="ex1-status">1</span>
+                                <h3 class="exercise-title">Prosjekt-seksjon</h3>
+                            </div>
+                            <p class="exercise-description">
+                                Vi fortsetter portfolioen! Legg til en prosjekt-seksjon for å vise arbeidet ditt.
+                            </p>
+                            <div class="exercise-hint">
+                                <strong>💡 Oppgave:</strong>
+                                I HTML, inni <code>&lt;main&gt;</code>, legg til:<br>
+                                <code>&lt;section class="prosjekter"&gt;</code><br>
+                                • <code>&lt;h2&gt;Mine Prosjekter&lt;/h2&gt;</code><br>
+                                • <code>&lt;div class="prosjekt-grid"&gt;&lt;/div&gt;</code><br>
+                                <code>&lt;/section&gt;</code>
+                            </div>
+                        </div>
+
+                        <div class="exercise" data-exercise="2">
+                            <div class="exercise-header">
+                                <span class="exercise-number" id="ex2-status">2</span>
+                                <h3 class="exercise-title">Prosjektkort</h3>
+                            </div>
+                            <p class="exercise-description">
+                                Lag kort som viser hvert prosjekt.
+                            </p>
+                            <div class="exercise-hint">
+                                <strong>💡 Oppgave:</strong>
+                                Inni <code>.prosjekt-grid</code>, legg til 2-3 kort:<br>
+                                <code>&lt;div class="prosjekt-kort"&gt;</code><br>
+                                • <code>&lt;h3&gt;Prosjektnavn&lt;/h3&gt;</code><br>
+                                • <code>&lt;p&gt;Beskrivelse&lt;/p&gt;</code><br>
+                                • <code>&lt;button class="se-mer-btn"&gt;Se mer&lt;/button&gt;</code><br>
+                                <code>&lt;/div&gt;</code>
+                            </div>
+                        </div>
+
+                        <div class="exercise" data-exercise="3">
+                            <div class="exercise-header">
+                                <span class="exercise-number" id="ex3-status">3</span>
+                                <h3 class="exercise-title">CSS Grid for prosjekter</h3>
+                            </div>
+                            <p class="exercise-description">
+                                Bruk CSS Grid for å vise prosjektene i et pent rutenett.
+                            </p>
+                            <div class="exercise-hint">
+                                <strong>💡 Oppgave:</strong>
+                                I CSS:<br>
+                                <code>.prosjekt-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }</code><br>
+                                <code>.prosjekt-kort { background: #f9f9f9; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }</code>
+                            </div>
+                        </div>
+
+                        <div class="exercise" data-exercise="4">
+                            <div class="exercise-header">
+                                <span class="exercise-number" id="ex4-status">4</span>
+                                <h3 class="exercise-title">Kontaktskjema</h3>
+                            </div>
+                            <p class="exercise-description">
+                                Legg til et kontaktskjema så besøkende kan nå deg.
+                            </p>
+                            <div class="exercise-hint">
+                                <strong>💡 Oppgave:</strong>
+                                Lag en ny seksjon før footer:<br>
+                                <code>&lt;section class="kontakt"&gt;</code><br>
+                                • <code>&lt;h2&gt;Kontakt meg&lt;/h2&gt;</code><br>
+                                • <code>&lt;form id="kontakt-form"&gt;</code><br>
+                                • <code>&lt;input type="text" id="navn" placeholder="Ditt navn"&gt;</code><br>
+                                • <code>&lt;input type="email" id="epost" placeholder="Din e-post"&gt;</code><br>
+                                • <code>&lt;textarea id="melding" placeholder="Din melding"&gt;&lt;/textarea&gt;</code><br>
+                                • <code>&lt;button type="submit"&gt;Send&lt;/button&gt;</code><br>
+                                <code>&lt;/form&gt;&lt;/section&gt;</code>
+                            </div>
+                        </div>
+
+                        <div class="exercise" data-exercise="5">
+                            <div class="exercise-header">
+                                <span class="exercise-number" id="ex5-status">5</span>
+                                <h3 class="exercise-title">Style skjemaet</h3>
+                            </div>
+                            <p class="exercise-description">
+                                Gjør skjemaet pent og brukervennlig.
+                            </p>
+                            <div class="exercise-hint">
+                                <strong>💡 Oppgave:</strong>
+                                I CSS:<br>
+                                <code>#kontakt-form { display: flex; flex-direction: column; gap: 15px; }</code><br>
+                                <code>#kontakt-form input, #kontakt-form textarea { padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; }</code><br>
+                                <code>#kontakt-form button { background: #333; color: white; padding: 12px; border: none; border-radius: 4px; cursor: pointer; }</code>
+                            </div>
+                        </div>
+
+                        <div class="exercise" data-exercise="6">
+                            <div class="exercise-header">
+                                <span class="exercise-number" id="ex6-status">6</span>
+                                <h3 class="exercise-title">JavaScript: Skjemavalidering</h3>
+                            </div>
+                            <p class="exercise-description">
+                                Bytt til <strong>script.js</strong>-fanen. La oss gjøre siden interaktiv!
+                            </p>
+                            <div class="exercise-hint">
+                                <strong>💡 Oppgave:</strong>
+                                I JavaScript:<br>
+                                <code>document.getElementById('kontakt-form').addEventListener('submit', function(e) {</code><br>
+                                <code>  e.preventDefault();</code><br>
+                                <code>  alert('Takk for meldingen!');</code><br>
+                                <code>});</code>
+                            </div>
+                        </div>
+
+                        <div class="exercise" data-exercise="7">
+                            <div class="exercise-header">
+                                <span class="exercise-number" id="ex7-status">7</span>
+                                <h3 class="exercise-title">Knapp-interaktivitet</h3>
+                            </div>
+                            <p class="exercise-description">
+                                Gjør "Se mer"-knappene interaktive.
+                            </p>
+                            <div class="exercise-hint">
+                                <strong>💡 Oppgave:</strong>
+                                I JavaScript:<br>
+                                <code>document.querySelectorAll('.se-mer-btn').forEach(btn => {</code><br>
+                                <code>  btn.addEventListener('click', function() {</code><br>
+                                <code>    alert('Mer info kommer snart!');</code><br>
+                                <code>  });</code><br>
+                                <code>});</code>
+                            </div>
+                        </div>
+
+                        <div class="exercise" data-exercise="8">
+                            <div class="exercise-header">
+                                <span class="exercise-number" id="ex8-status">8</span>
+                                <h3 class="exercise-title">Hover-effekter</h3>
+                            </div>
+                            <p class="exercise-description">
+                                Legg til animasjoner for en profesjonell følelse.
+                            </p>
+                            <div class="exercise-hint">
+                                <strong>💡 Oppgave:</strong>
+                                I CSS:<br>
+                                <code>.prosjekt-kort { transition: transform 0.3s, box-shadow 0.3s; }</code><br>
+                                <code>.prosjekt-kort:hover { transform: translateY(-5px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }</code><br>
+                                <code>.se-mer-btn:hover { background: #555; }</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Media Panel -->
+                    <div class="tab-panel" id="media-panel">
+                        <div class="media-item">
+                            <h4>⚡ JavaScript Basics</h4>
+                            <div class="media-placeholder">
+                                <span class="icon">📹</span>
+                                <span>Introduksjon til JavaScript</span>
+                            </div>
+                            <p>JavaScript er programmeringsspråket for nettet. Det kjører direkte i nettleseren og kan manipulere HTML og CSS dynamisk.</p>
+                        </div>
+
+                        <div class="media-item">
+                            <h4>🌲 DOM Forklart</h4>
+                            <div class="media-placeholder">
+                                <span class="icon">🖼️</span>
+                                <span>Document Object Model</span>
+                            </div>
+                            <p>DOM er en trestruktur som representerer HTML-dokumentet. JavaScript kan traversere og endre denne strukturen for å oppdatere siden.</p>
+                        </div>
+
+                        <div class="media-item">
+                            <h4>🎯 Event Flow</h4>
+                            <div class="media-placeholder">
+                                <span class="icon">🔄</span>
+                                <span>Capturing og Bubbling</span>
+                            </div>
+                            <p>Events "bobler" oppover i DOM-treet. Du kan lytte på events på hvilken som helst node i hierarkiet.</p>
+                        </div>
+
+                        <div class="media-item">
+                            <h4>📚 JavaScript Referanser</h4>
+                            <ul style="color: var(--text-secondary); font-size: 14px; padding-left: 20px;">
+                                <li style="margin-bottom: 8px;"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" style="color: var(--accent);">MDN JavaScript Guide</a></li>
+                                <li style="margin-bottom: 8px;"><a href="https://javascript.info/" target="_blank" style="color: var(--accent);">JavaScript.info</a></li>
+                                <li style="margin-bottom: 8px;"><a href="https://eloquentjavascript.net/" target="_blank" style="color: var(--accent);">Eloquent JavaScript (gratis bok)</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Editor Area -->
+            <div class="editor-area">
+                <div class="editor-toolbar">
+                    <div class="file-tabs">
+                        <button class="file-tab active" data-file="html">index.html</button>
+                        <button class="file-tab" data-file="css">style.css</button>
+                        <button class="file-tab" data-file="js">script.js</button>
+                    </div>
+                    <div class="toolbar-actions">
+                        <button class="toolbar-btn" id="save-btn">💾 Lagre</button>
+                        <button class="toolbar-btn" id="save-project-btn">📁 Lagre prosjekt</button>
+                        <button class="toolbar-btn" id="reset-btn">↺ Tilbakestill</button>
+                        <button class="toolbar-btn" id="download-btn">⬇ Last ned</button>
+                    </div>
+                </div>
+                <div class="editor-container">
+                    <div class="code-editor" id="editor-container"></div>
+                    <div class="resizer" id="resizer"></div>
+                    <div class="preview-container">
+                        <div class="preview-header">Live Preview</div>
+                        <iframe class="preview-frame" id="preview-frame"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Completion Modal -->
+    <div class="modal-overlay" id="completion-modal">
+        <div class="modal">
+            <div class="modal-icon">🏆</div>
+            <h2>Gratulerer!</h2>
+            <p>Du har fullført hele webutviklingskurset! Du har nå grunnleggende ferdigheter i HTML, CSS og JavaScript. Fortsett å øve og bygg egne prosjekter!</p>
+            <div class="modal-actions">
+                <a href="index.html" class="btn btn-primary">Tilbake til Hjem</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
+    <script src="database.js"></script>
+    <script src="auth.js"></script>
+    <script src="app.js"></script>
+    <script src="course-part2.js"></script>
+</body>
+</html>

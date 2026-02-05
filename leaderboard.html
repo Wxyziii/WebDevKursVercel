@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rangering - WebDev Kurs</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="logo">⟨/⟩</span>
+            <span class="brand-text">WebDev Kurs</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Hjem</a>
+            <a href="part1.html" class="nav-link">Del 1</a>
+            <a href="part2.html" class="nav-link" id="nav-part2">Del 2</a>
+            <a href="leaderboard.html" class="nav-link active">Rangering</a>
+            <a href="gallery.html" class="nav-link">Galleri</a>
+        </div>
+        <div class="nav-auth">
+            <button class="btn btn-secondary btn-sm" id="auth-btn" onclick="showAuthModal()">Logg inn</button>
+            <div class="user-info" id="user-info" style="display: none;">
+                <span class="user-name"></span>
+                <button class="btn btn-secondary btn-sm" onclick="AuthService.logout()">Logg ut</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div class="page-header">
+            <h1>🏆 Rangering</h1>
+            <p>Se hvem som har fullført kurset raskest</p>
+        </div>
+
+        <div class="leaderboard-container glass-card">
+            <div id="leaderboard-content">
+                <div class="loading">Laster rangeringsliste...</div>
+            </div>
+        </div>
+
+        <div class="leaderboard-info glass-card">
+            <h3>Om rangeringen</h3>
+            <p>Rangeringen viser brukere som har fullført både Del 1 og Del 2 av kurset, sortert etter total tid brukt.</p>
+            <div class="info-badges">
+                <div class="info-badge">
+                    <span class="valid-badge">✓ Gyldig</span>
+                    <span>Brukeren har bestått alle sjekkene</span>
+                </div>
+                <div class="info-badge">
+                    <span class="flag-badge">⚠️ Flagget</span>
+                    <span>Mistenkelig aktivitet oppdaget</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 WebDev Kurs. Laget for å lære.</p>
+    </footer>
+
+    <script src="database.js"></script>
+    <script src="auth.js"></script>
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            updateAuthUI();
+            await loadLeaderboard();
+        });
+    </script>
+</body>
+</html>

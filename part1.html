@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Del 1: HTML & CSS Grunnlag - WebDev Kurs</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="logo">⟨/⟩</span>
+            <span class="brand-text">WebDev Kurs</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Hjem</a>
+            <a href="part1.html" class="nav-link active">Del 1</a>
+            <a href="part2.html" class="nav-link" id="nav-part2">Del 2</a>
+            <a href="leaderboard.html" class="nav-link">Rangering</a>
+            <a href="gallery.html" class="nav-link">Galleri</a>
+        </div>
+        <div class="nav-auth">
+            <button class="btn btn-secondary btn-sm" id="auth-btn" onclick="showAuthModal()">Logg inn</button>
+            <div class="user-info" id="user-info" style="display: none;">
+                <span class="user-name"></span>
+                <button class="btn btn-secondary btn-sm" onclick="AuthService.logout()">Logg ut</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="course-page">
+        <header class="course-header">
+            <div class="course-info">
+                <h1>Del 1: HTML & CSS Grunnlag</h1>
+                <p>Lær å bygge og style nettsider fra bunnen av</p>
+            </div>
+            <div class="course-controls">
+                <div class="timer" id="timer">
+                    <span class="timer-icon">⏱️</span>
+                    <span class="timer-display" id="timer-display">30:00</span>
+                </div>
+                <button class="btn btn-success" id="complete-btn">✓ Fullfør Del 1</button>
+            </div>
+        </header>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+        </div>
+
+        <div class="course-content">
+            <!-- Sidebar with exercises and media -->
+            <aside class="sidebar">
+                <div class="sidebar-tabs">
+                    <button class="sidebar-tab active" data-tab="exercises">Oppgaver</button>
+                    <button class="sidebar-tab" data-tab="media">Ressurser</button>
+                </div>
+                <div class="sidebar-content">
+                    <!-- Exercises Panel -->
+                    <div class="tab-panel active" id="exercises-panel">
+                        <div class="exercise" data-exercise="1">
+                            <div class="exercise-header">
+                                <span class="exercise-number" id="ex1-status">1</span>
+                                <h3 class="exercise-title">Sett opp strukturen</h3>
+                            </div>
+                            <p class="exercise-description">
+                                Vi skal bygge en personlig portfolio-side! Start med å lage grunnstrukturen 
+                                med en <code>&lt;header&gt;</code>, <code>&lt;main&gt;</code> og <code>&lt;footer&gt;</code>.
+                            </p>
+                            <div class="exercise-hint">
+                                <strong>💡 Oppgave:</strong>
+                                Erstatt innholdet i body med:<br>
+                                <code>&lt;header&gt;&lt;/header&gt;</code><br>
+                                <code>&lt;main&gt;&lt;/main&gt;</code><br>
+                                <code>&lt;footer&gt;&lt;/footer&gt;</code>
+                            </div>
+                        </div>
+
+                        <div class="exercise" data-exercise="2">
+                            <div class="exercise-header">
+                                <span class="exercise-number" id="ex2-status">2</span>
+                                <h3 class="exercise-title">Header med navn</h3>
+                            </div>
+                            <p class="exercise-description">
+                                Headeren skal inneholde navnet ditt og en kort tittel/beskrivelse.
+                            </p>
+                            <div class="exercise-hint">
+                                <strong>💡 Oppgave:</strong>
+                                Inni <code>&lt;header&gt;</code>, legg til:<br>
+                                • <code>&lt;h1&gt;</code> med navnet ditt<br>
+                                • <code>&lt;p&gt;</code> med en tittel (f.eks. "Webutvikler")
+                            </div>
+                        </div>
+
+                        <div class="exercise" data-exercise="3">
+                            <div class="exercise-header">
+                                <span class="exercise-number" id="ex3-status">3</span>
+                                <h3 class="exercise-title">Om meg-seksjon</h3>
+                            </div>
+                            <p class="exercise-description">
+                                Lag en seksjon som forteller litt om deg selv.
+                            </p>
+                            <div class="exercise-hint">
+                                <strong>💡 Oppgave:</strong>
+                                Inni <code>&lt;main&gt;</code>, legg til:<br>
+                                <code>&lt;section class="om-meg"&gt;</code><br>
+                                • <code>&lt;h2&gt;Om meg&lt;/h2&gt;</code><br>
+                                • <code>&lt;p&gt;</code> med en beskrivelse av deg<br>
+                                <code>&lt;/section&gt;</code>
+                            </div>
+                        </div>
+
+                        <div class="exercise" data-exercise="4">
+                            <div class="exercise-header">
+                                <span class="exercise-number" id="ex4-status">4</span>
+                                <h3 class="exercise-title">Ferdigheter-liste</h3>
+                            </div>
+                            <p class="exercise-description">
+                                Vis frem ferdighetene dine i en liste.
+                            </p>
+                            <div class="exercise-hint">
+                                <strong>💡 Oppgave:</strong>
+                                Legg til en ny seksjon i main:<br>
+                                <code>&lt;section class="ferdigheter"&gt;</code><br>
+                                • <code>&lt;h2&gt;Ferdigheter&lt;/h2&gt;</code><br>
+                                • <code>&lt;ul&gt;</code> med minst 3 <code>&lt;li&gt;</code> elementer<br>
+                                <code>&lt;/section&gt;</code>
+                            </div>
+                        </div>
+
+                        <div class="exercise" data-exercise="5">
+                            <div class="exercise-header">
+                                <span class="exercise-number" id="ex5-status">5</span>
+                                <h3 class="exercise-title">Style headeren (CSS)</h3>
+                            </div>
+                            <p class="exercise-description">
+                                Nå skal vi style! Bytt til <strong>style.css</strong>-fanen.
+                            </p>
+                            <div class="exercise-hint">
+                                <strong>💡 Oppgave:</strong>
+                                I CSS-filen, legg til:<br>
+                                <code>header { background-color: #333; color: white; padding: 40px; text-align: center; }</code>
+                            </div>
+                        </div>
+
+                        <div class="exercise" data-exercise="6">
+                            <div class="exercise-header">
+                                <span class="exercise-number" id="ex6-status">6</span>
+                                <h3 class="exercise-title">Style body og seksjonene</h3>
+                            </div>
+                            <p class="exercise-description">
+                                Gi siden en fin bakgrunn og style seksjonene.
+                            </p>
+                            <div class="exercise-hint">
+                                <strong>💡 Oppgave:</strong>
+                                Legg til i CSS:<br>
+                                <code>body { font-family: Arial, sans-serif; margin: 0; background: #f5f5f5; }</code><br>
+                                <code>section { padding: 30px; max-width: 800px; margin: 20px auto; background: white; border-radius: 8px; }</code>
+                            </div>
+                        </div>
+
+                        <div class="exercise" data-exercise="7">
+                            <div class="exercise-header">
+                                <span class="exercise-number" id="ex7-status">7</span>
+                                <h3 class="exercise-title">Footer med kontaktinfo</h3>
+                            </div>
+                            <p class="exercise-description">
+                                Legg til en footer med kontaktinformasjon.
+                            </p>
+                            <div class="exercise-hint">
+                                <strong>💡 Oppgave:</strong>
+                                I HTML, inni <code>&lt;footer&gt;</code>:<br>
+                                • <code>&lt;p&gt;Kontakt: din@epost.no&lt;/p&gt;</code><br>
+                                I CSS:<br>
+                                <code>footer { background: #333; color: white; text-align: center; padding: 20px; }</code>
+                            </div>
+                        </div>
+
+                        <div class="exercise" data-exercise="8">
+                            <div class="exercise-header">
+                                <span class="exercise-number" id="ex8-status">8</span>
+                                <h3 class="exercise-title">Legg til et bilde</h3>
+                            </div>
+                            <p class="exercise-description">
+                                Gjør siden mer personlig med et profilbilde.
+                            </p>
+                            <div class="exercise-hint">
+                                <strong>💡 Oppgave:</strong>
+                                I header, legg til et bilde:<br>
+                                <code>&lt;img src="https://via.placeholder.com/150" alt="Profilbilde" class="profilbilde"&gt;</code><br>
+                                I CSS:<br>
+                                <code>.profilbilde { width: 150px; border-radius: 50%; margin-bottom: 20px; }</code>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Media Panel -->
+                    <div class="tab-panel" id="media-panel">
+                        <div class="media-item">
+                            <h4>📖 HTML Struktur</h4>
+                            <div class="media-placeholder">
+                                <span class="icon">🖼️</span>
+                                <span>HTML dokument struktur</span>
+                            </div>
+                            <p>Et HTML-dokument har alltid &lt;html&gt;, &lt;head&gt; og &lt;body&gt; som grunnstruktur.</p>
+                        </div>
+
+                        <div class="media-item">
+                            <h4>🎨 CSS Box Model</h4>
+                            <div class="media-placeholder">
+                                <span class="icon">📦</span>
+                                <span>Margin, Border, Padding, Content</span>
+                            </div>
+                            <p>Hver CSS-boks består av content (innhold), padding (indre avstand), border (ramme) og margin (ytre avstand).</p>
+                        </div>
+
+                        <div class="media-item">
+                            <h4>📐 Flexbox Guide</h4>
+                            <div class="media-placeholder">
+                                <span class="icon">↔️</span>
+                                <span>Flexbox layout</span>
+                            </div>
+                            <p>Flexbox gjør det enkelt å lage responsive layouts. Hovedakse (main axis) og tverrakse (cross axis) bestemmer retningen.</p>
+                        </div>
+
+                        <div class="media-item">
+                            <h4>🔗 Nyttige Ressurser</h4>
+                            <ul style="color: var(--text-secondary); font-size: 14px; padding-left: 20px;">
+                                <li style="margin-bottom: 8px;"><a href="https://developer.mozilla.org/no/" target="_blank" style="color: var(--accent);">MDN Web Docs</a></li>
+                                <li style="margin-bottom: 8px;"><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank" style="color: var(--accent);">CSS-Tricks Flexbox Guide</a></li>
+                                <li style="margin-bottom: 8px;"><a href="https://www.w3schools.com/" target="_blank" style="color: var(--accent);">W3Schools</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Editor Area -->
+            <div class="editor-area">
+                <div class="editor-toolbar">
+                    <div class="file-tabs">
+                        <button class="file-tab active" data-file="html">index.html</button>
+                        <button class="file-tab" data-file="css">style.css</button>
+                    </div>
+                    <div class="toolbar-actions">
+                        <button class="toolbar-btn" id="save-btn">💾 Lagre</button>
+                        <button class="toolbar-btn" id="save-project-btn">📁 Lagre prosjekt</button>
+                        <button class="toolbar-btn" id="reset-btn">↺ Tilbakestill</button>
+                        <button class="toolbar-btn" id="download-btn">⬇ Last ned</button>
+                    </div>
+                </div>
+                <div class="editor-container">
+                    <div class="code-editor" id="editor-container"></div>
+                    <div class="resizer" id="resizer"></div>
+                    <div class="preview-container">
+                        <div class="preview-header">Live Preview</div>
+                        <iframe class="preview-frame" id="preview-frame"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Completion Modal -->
+    <div class="modal-overlay" id="completion-modal">
+        <div class="modal">
+            <div class="modal-icon">🎉</div>
+            <h2>Del 1 Fullført!</h2>
+            <p>Gratulerer! Du har lært grunnleggende HTML og CSS. Nå er du klar for å ta det neste steget og lære JavaScript i Del 2.</p>
+            <div class="modal-actions">
+                <a href="index.html" class="btn btn-secondary">Tilbake til Hjem</a>
+                <a href="part2.html" class="btn btn-primary">Start Del 2 →</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
+    <script src="database.js"></script>
+    <script src="auth.js"></script>
+    <script src="app.js"></script>
+    <script src="course-part1.js"></script>
+</body>
+</html>
