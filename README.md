@@ -107,3 +107,4 @@ Som admin kan du:
 - **IKKE** del `SUPABASE_ANON_KEY` offentlig (selv om den er "anon", er det best practice)
 - For produksjon, vurder å bruke Vercel Environment Variables
 - Supabase gratis tier har begrensninger, men er nok for et kurs
+- Laget bare med AI
