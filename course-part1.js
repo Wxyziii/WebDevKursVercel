@@ -384,7 +384,7 @@ document.getElementById('download-btn').addEventListener('click', () => {
 // ========================================
 
 document.getElementById('complete-btn').addEventListener('click', async () => {
-    const timeUsed = (30 * 60) - timeRemaining;
+    const timeUsed = (15 * 60) - timeRemaining;
     
     // Run cheat detection
     const cheatAnalysis = CheatDetector.analyzeForCheating(timeUsed);

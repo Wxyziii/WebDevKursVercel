@@ -12,8 +12,8 @@ const CourseState = {
         }
         return {
             part1Completed: false,
-            part1TimeRemaining: 30 * 60,
-            part2TimeRemaining: 30 * 60,
+            part1TimeRemaining: 15 * 60,
+            part2TimeRemaining: 15 * 60,
             part1Code: {
                 html: this.getDefaultHTML(1),
                 css: this.getDefaultCSS(1),
