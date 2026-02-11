@@ -4,8 +4,8 @@
 
 // ⚠️ KONFIGURER DISSE VERDIENE FRA SUPABASE DASHBOARD:
 // Settings → API → Project URL og anon key
-const SUPABASE_URL = 'https://YOUR_PROJECT_ID.supabase.co';
-const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY_HERE';
+const SUPABASE_URL = 'https://advrfjmjwlqupdulsvul.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFkdnJmam1qd2xxdXBkdWxzdnVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA3ODU4MzEsImV4cCI6MjA4NjM2MTgzMX0.pjHX7wk5PoZV8EXncURwbpMhOwc_oyQ4QggB68kL1oA';
 
 // Import Supabase client
 const { createClient } = supabase;
@@ -415,4 +415,4 @@ class DatabaseService {
 }
 
 // Create global instance
-const db = new DatabaseService();
+const db = new DatabaseService();
