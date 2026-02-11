@@ -162,6 +162,40 @@ class DatabaseService {
         return data;
     }
 
+    async updateCompletion(completionId, updates) {
+        const dbUpdates = {};
+        if (updates.part1Time !== undefined) dbUpdates.part1_time = updates.part1Time;
+        if (updates.part2Time !== undefined) dbUpdates.part2_time = updates.part2Time;
+        if (updates.totalTime !== undefined) dbUpdates.total_time = updates.totalTime;
+        if (updates.isFlagged !== undefined) dbUpdates.is_flagged = updates.isFlagged;
+        if (updates.flagReason !== undefined) dbUpdates.flag_reason = updates.flagReason;
+        if (updates.cheatScore !== undefined) dbUpdates.cheat_score = updates.cheatScore;
+
+        const { data, error } = await this.client
+            .from('completions')
+            .update(dbUpdates)
+            .eq('id', completionId)
+            .select()
+            .single();
+
+        if (error) throw new Error(error.message);
+        return data;
+    }
+
+    async getLatestUserCompletion(userId) {
+        const { data, error } = await this.client
+            .from('completions')
+            .select('*')
+            .eq('user_id', userId)
+            .is('part2_time', null)
+            .order('completed_at', { ascending: false })
+            .limit(1)
+            .single();
+
+        if (error || !data) return null;
+        return data;
+    }
+
     async getLeaderboard(limit = 50) {
         const { data, error } = await this.client
             .from('completions')

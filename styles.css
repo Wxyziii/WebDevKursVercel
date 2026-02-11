@@ -1549,3 +1549,124 @@ body {
     padding: 48px;
     color: #ef4444;
 }
+
+/* ========================================
+   PROFILE PAGE
+======================================== */
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.profile-section {
+    padding: 24px;
+}
+
+.profile-section h3 {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.profile-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+}
+
+.stat-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.stat-value {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.private-section {
+    border: 1px dashed var(--accent);
+    background: rgba(59, 130, 246, 0.05);
+}
+
+.private-section h3::before {
+    content: '🔒 ';
+}
+
+.profile-projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+.profile-project-card {
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.profile-project-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+}
+
+.profile-project-card h4 {
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+}
+
+.project-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.project-part {
+    font-size: 0.8rem;
+    color: var(--accent);
+}
+
+.project-visibility {
+    font-size: 0.75rem;
+}
+
+.flag-warning {
+    margin-top: 16px;
+    padding: 12px;
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid var(--warning);
+    border-radius: 8px;
+    color: var(--warning);
+    font-size: 0.9rem;
+}
+
+.empty-text {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.profile-link {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.profile-link:hover {
+    color: var(--accent);
+}

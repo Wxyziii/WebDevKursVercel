@@ -476,8 +476,32 @@ document.getElementById('complete-btn')?.addEventListener('click', async () => {
     const user = AuthService.getCurrentUser();
     
     if (user) {
-        // Save completion to database
-        await db.saveCompletion(user.id, 2, timeUsed, cheatAnalysis.summary);
+        // Get existing completion from Part 1
+        const existingCompletion = await db.getLatestUserCompletion(user.id);
+        
+        if (existingCompletion) {
+            // Update existing completion with Part 2 time
+            const part1Time = existingCompletion.part1_time || 0;
+            const totalTime = part1Time + timeUsed;
+            
+            await db.updateCompletion(existingCompletion.id, {
+                part2Time: timeUsed,
+                totalTime: totalTime,
+                isFlagged: cheatAnalysis.isSuspicious || existingCompletion.is_flagged,
+                flagReason: cheatAnalysis.isSuspicious ? cheatAnalysis.flags.join(', ') : existingCompletion.flag_reason,
+                cheatScore: Math.max(cheatAnalysis.summary?.cheatScore || 0, existingCompletion.cheat_score || 0)
+            });
+        } else {
+            // No Part 1 completion found, create new (shouldn't normally happen)
+            await db.saveCompletion(user.id, {
+                part1Time: null,
+                part2Time: timeUsed,
+                totalTime: timeUsed,
+                isFlagged: cheatAnalysis.isSuspicious,
+                flagReason: cheatAnalysis.isSuspicious ? cheatAnalysis.flags.join(', ') : null,
+                cheatScore: cheatAnalysis.summary?.cheatScore || 0
+            });
+        }
         
         // Flag user if suspicious
         if (cheatAnalysis.isSuspicious) {

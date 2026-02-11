@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil - WebDev Kurs</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="logo">⟨/⟩</span>
+            <span class="brand-text">WebDev Kurs</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link">Hjem</a>
+            <a href="part1.html" class="nav-link">Del 1</a>
+            <a href="part2.html" class="nav-link" id="nav-part2">Del 2</a>
+            <a href="leaderboard.html" class="nav-link">Rangering</a>
+            <a href="gallery.html" class="nav-link">Galleri</a>
+        </div>
+        <div class="nav-auth">
+            <button class="btn btn-secondary btn-sm" id="auth-btn" onclick="showAuthModal()">Logg inn</button>
+            <div class="user-info" id="user-info" style="display: none;">
+                <span class="user-name"></span>
+                <button class="btn btn-secondary btn-sm" onclick="AuthService.logout()">Logg ut</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div id="profile-content">
+            <div class="loading">Laster profil...</div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p>© 2026 WebDev Kurs. Laget for å lære.</p>
+    </footer>
+
+    <script src="database.js"></script>
+    <script src="auth.js"></script>
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            updateAuthUI();
+            await loadProfile();
+        });
+    </script>
+</body>
+</html>

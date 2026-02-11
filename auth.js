@@ -352,7 +352,7 @@ function updateAuthUI() {
         if (authBtn) authBtn.style.display = 'none';
         if (userInfo) {
             userInfo.style.display = 'flex';
-            userInfo.querySelector('.user-name').textContent = user.name;
+            userInfo.querySelector('.user-name').innerHTML = `<a href="profile.html" class="profile-link">${escapeHtml(user.name)}</a>`;
         }
     } else {
         if (authBtn) authBtn.style.display = 'block';
@@ -396,7 +396,7 @@ async function loadLeaderboard() {
                     ${leaderboard.map((entry, index) => `
                         <tr class="${entry.isFlagged ? 'flagged' : ''}" data-completion-id="${entry.id}" data-user-id="${entry.userId}">
                             <td class="rank">${index + 1}</td>
-                            <td class="name">${escapeHtml(entry.userName)}</td>
+                            <td class="name"><a href="profile.html?id=${entry.userId}" class="profile-link">${escapeHtml(entry.userName)}</a></td>
                             <td>${formatTime(entry.part1Time)}</td>
                             <td>${formatTime(entry.part2Time)}</td>
                             <td class="total-time">${formatTime(entry.totalTime)}</td>
@@ -453,6 +453,28 @@ async function adminDeleteUser(userId) {
         await db.deleteUser(userId);
         showToast('Bruker og alt innhold slettet', 'success');
         loadLeaderboard();
+        loadGallery();
+    } catch (err) {
+        showToast('Feil ved sletting: ' + err.message, 'error');
+    }
+}
+
+// Delete project (for owner or admin)
+async function deleteProject(projectId) {
+    const currentUser = AuthService.getCurrentUser();
+    if (!currentUser) {
+        showToast('Du må være logget inn', 'error');
+        return;
+    }
+    
+    if (!confirm('Er du sikker på at du vil slette dette prosjektet?')) {
+        return;
+    }
+    
+    try {
+        await db.deleteProject(projectId);
+        showToast('Prosjekt slettet', 'success');
+        closeProjectModal();
         loadGallery();
     } catch (err) {
         showToast('Feil ved sletting: ' + err.message, 'error');
@@ -539,6 +561,10 @@ async function viewProject(projectId) {
     }
 
     const isAdmin = AuthService.isAdmin();
+    const currentUser = AuthService.getCurrentUser();
+    const isOwner = currentUser && currentUser.id === project.userId;
+    const canDelete = isAdmin || isOwner;
+    
     const modal = document.createElement('div');
     modal.className = 'modal-overlay active';
     modal.id = 'project-modal';
@@ -550,7 +576,7 @@ async function viewProject(projectId) {
                     <h2>${escapeHtml(project.title)}</h2>
                     <p class="project-author">av ${escapeHtml(project.userName)}</p>
                 </div>
-                ${isAdmin ? `<button class="btn btn-danger btn-sm" onclick="adminDeleteProject(${project.id})">🗑️ Slett prosjekt</button>` : ''}
+                ${canDelete ? `<button class="btn btn-danger btn-sm" onclick="deleteProject(${project.id})">🗑️ Slett prosjekt</button>` : ''}
             </div>
             
             <div class="project-tabs">
@@ -602,6 +628,144 @@ async function viewProject(projectId) {
 function closeProjectModal() {
     const modal = document.getElementById('project-modal');
     if (modal) modal.remove();
+}
+
+// ========================================
+// PROFILE PAGE
+// ========================================
+
+async function loadProfile() {
+    const container = document.getElementById('profile-content');
+    if (!container) return;
+
+    // Get user ID from URL or current user
+    const urlParams = new URLSearchParams(window.location.search);
+    const profileUserId = urlParams.get('id');
+    
+    const currentUser = AuthService.getCurrentUser();
+    const isOwnProfile = !profileUserId || (currentUser && profileUserId === currentUser.id);
+    
+    if (!profileUserId && !currentUser) {
+        container.innerHTML = `
+            <div class="glass-card" style="text-align: center; padding: 60px;">
+                <h2>Logg inn for å se din profil</h2>
+                <p style="margin: 20px 0;">Eller besøk en annen brukers profil via rangeringen.</p>
+                <button class="btn btn-primary" onclick="showAuthModal()">Logg inn</button>
+            </div>
+        `;
+        return;
+    }
+
+    const userId = profileUserId || currentUser.id;
+
+    try {
+        const user = await db.getUserById(userId);
+        if (!user) {
+            container.innerHTML = '<div class="error">Bruker ikke funnet</div>';
+            return;
+        }
+
+        const projects = await db.getUserProjects(userId);
+        const publicProjects = projects.filter(p => p.isPublic);
+        const completion = await db.getUserCompletion(userId);
+
+        container.innerHTML = `
+            <div class="page-header">
+                <h1>👤 ${escapeHtml(user.name)}</h1>
+                <p>${isOwnProfile ? 'Din profil' : 'Brukerprofil'}</p>
+            </div>
+
+            <div class="profile-grid">
+                <!-- Public Info -->
+                <div class="glass-card profile-section">
+                    <h3>📊 Statistikk</h3>
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Del 1</span>
+                            <span class="stat-value">${user.part1Completed ? '✅ Fullført' : '⏳ Ikke fullført'}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Del 2</span>
+                            <span class="stat-value">${user.part2Completed ? '✅ Fullført' : '⏳ Ikke fullført'}</span>
+                        </div>
+                        ${completion ? `
+                        <div class="stat-item">
+                            <span class="stat-label">Beste tid</span>
+                            <span class="stat-value">${completion.totalTime ? formatTime(completion.totalTime) : '-'}</span>
+                        </div>
+                        ` : ''}
+                        <div class="stat-item">
+                            <span class="stat-label">Offentlige prosjekter</span>
+                            <span class="stat-value">${publicProjects.length}</span>
+                        </div>
+                    </div>
+                    ${user.isFlagged ? `<div class="flag-warning">⚠️ Flagget: ${escapeHtml(user.flagReason || 'Ukjent grunn')}</div>` : ''}
+                </div>
+
+                <!-- Public Projects -->
+                <div class="glass-card profile-section">
+                    <h3>🎨 Offentlige prosjekter</h3>
+                    ${publicProjects.length > 0 ? `
+                        <div class="profile-projects">
+                            ${publicProjects.map(p => `
+                                <div class="profile-project-card" onclick="viewProject(${p.id})">
+                                    <h4>${escapeHtml(p.title)}</h4>
+                                    <span class="project-part">Del ${p.part}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : '<p class="empty-text">Ingen offentlige prosjekter ennå.</p>'}
+                </div>
+
+                ${isOwnProfile ? `
+                <!-- Private Section (Only visible to owner) -->
+                <div class="glass-card profile-section private-section">
+                    <h3>🔒 Privat informasjon</h3>
+                    <div class="profile-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">E-post</span>
+                            <span class="stat-value">${escapeHtml(user.email)}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Registrert</span>
+                            <span class="stat-value">${formatDate(user.createdAt)}</span>
+                        </div>
+                        ${completion ? `
+                        <div class="stat-item">
+                            <span class="stat-label">Del 1 tid</span>
+                            <span class="stat-value">${completion.part1Time ? formatTime(completion.part1Time) : '-'}</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Del 2 tid</span>
+                            <span class="stat-value">${completion.part2Time ? formatTime(completion.part2Time) : '-'}</span>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+
+                <!-- All Projects (Only visible to owner) -->
+                <div class="glass-card profile-section private-section">
+                    <h3>📁 Alle dine prosjekter</h3>
+                    ${projects.length > 0 ? `
+                        <div class="profile-projects">
+                            ${projects.map(p => `
+                                <div class="profile-project-card" onclick="viewProject(${p.id})">
+                                    <h4>${escapeHtml(p.title)}</h4>
+                                    <div class="project-meta">
+                                        <span class="project-part">Del ${p.part}</span>
+                                        <span class="project-visibility">${p.isPublic ? '🌐 Offentlig' : '🔒 Privat'}</span>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : '<p class="empty-text">Du har ingen prosjekter ennå.</p>'}
+                </div>
+                ` : ''}
+            </div>
+        `;
+    } catch (err) {
+        container.innerHTML = `<div class="error">Feil ved lasting: ${err.message}</div>`;
+    }
 }
 
 // ========================================
