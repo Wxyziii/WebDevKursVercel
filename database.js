@@ -169,12 +169,24 @@ class DatabaseService {
                 *,
                 users (name, is_flagged)
             `)
-            .order('total_time', { ascending: true })
-            .limit(limit);
+            .not('total_time', 'is', null)
+            .order('total_time', { ascending: true });
 
         if (error) throw new Error(error.message);
 
-        return data.map(entry => ({
+        // Filter to only best time per user
+        const bestByUser = new Map();
+        for (const entry of data) {
+            if (!bestByUser.has(entry.user_id) || entry.total_time < bestByUser.get(entry.user_id).total_time) {
+                bestByUser.set(entry.user_id, entry);
+            }
+        }
+
+        const uniqueEntries = Array.from(bestByUser.values())
+            .sort((a, b) => a.total_time - b.total_time)
+            .slice(0, limit);
+
+        return uniqueEntries.map(entry => ({
             id: entry.id,
             userId: entry.user_id,
             userName: entry.users?.name || 'Ukjent',

@@ -77,5 +77,18 @@ document.addEventListener('DOMContentLoaded', () => {
         header.style.backgroundPositionY = scrolled * 0.5 + 'px';
     });
 
+    // Kontaktskjema validering
+    document.getElementById('kontakt-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Takk for meldingen!');
+    });
+
+    // Se mer-knapper interaktivitet
+    document.querySelectorAll('.se-mer-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            alert('Mer info kommer snart!');
+        });
+    });
+
     console.log('Portfolio lastet! 🚀');
 });
