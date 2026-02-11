@@ -304,3 +304,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// ========================================
+// IMAGE LIGHTBOX
+// ========================================
+
+function openImageModal(src, alt) {
+    const modal = document.createElement('div');
+    modal.className = 'image-modal';
+    modal.innerHTML = `
+        <span class="image-modal-close">&times;</span>
+        <img src="${src}" alt="${alt}">
+        <div class="image-modal-caption">${alt}</div>
+    `;
+    
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal || e.target.classList.contains('image-modal-close')) {
+            modal.remove();
+        }
+    });
+    
+    document.addEventListener('keydown', function closeOnEscape(e) {
+        if (e.key === 'Escape') {
+            modal.remove();
+            document.removeEventListener('keydown', closeOnEscape);
+        }
+    });
+    
+    document.body.appendChild(modal);
+}
