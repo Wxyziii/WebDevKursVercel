@@ -20,9 +20,9 @@ create table if not exists public.users (
 create table if not exists public.completions (
     id bigint generated always as identity primary key,
     user_id uuid references public.users(id) on delete cascade,
-    part1_time integer not null,
-    part2_time integer not null,
-    total_time integer not null,
+    part1_time integer,
+    part2_time integer,
+    total_time integer,
     is_flagged boolean default false,
     flag_reason text,
     cheat_score integer default 0,

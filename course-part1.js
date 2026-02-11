@@ -393,7 +393,14 @@ document.getElementById('complete-btn').addEventListener('click', async () => {
     
     if (user) {
         // Save completion to database
-        await db.saveCompletion(user.id, 1, timeUsed, cheatAnalysis.summary);
+        await db.saveCompletion(user.id, {
+            part1Time: timeUsed,
+            part2Time: null,
+            totalTime: null,
+            isFlagged: cheatAnalysis.isSuspicious,
+            flagReason: cheatAnalysis.isSuspicious ? cheatAnalysis.flags.join(', ') : null,
+            cheatScore: cheatAnalysis.summary?.cheatScore || 0
+        });
         
         // Flag user if suspicious
         if (cheatAnalysis.isSuspicious) {

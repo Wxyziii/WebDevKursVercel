@@ -134,6 +134,10 @@ class DatabaseService {
         };
     }
 
+    async flagUser(userId, reason) {
+        return this.updateUser(userId, { isFlagged: true, flagReason: reason });
+    }
+
     // ========================================
     // COMPLETION/LEADERBOARD METHODS
     // ========================================
