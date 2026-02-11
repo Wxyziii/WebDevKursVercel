@@ -175,11 +175,10 @@ class DatabaseService {
             .from('completions')
             .update(dbUpdates)
             .eq('id', completionId)
-            .select()
-            .single();
+            .select();
 
         if (error) throw new Error(error.message);
-        return data;
+        return data?.[0] || null;
     }
 
     async getLatestUserCompletion(userId) {
