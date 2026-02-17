@@ -18,18 +18,20 @@
         <span class="brand-text">WebDev Kurs</span>
       </div>
       <div class="nav-links">
-        <a href="index.html" class="nav-link">Hjem</a>
-        <a href="part1.html" class="nav-link active">Del 1</a>
-        <a href="part2.html" class="nav-link" id="nav-part2">Del 2</a>
-        <a href="part3.html" class="nav-link" id="nav-part3">Del 3</a>
-        <a href="leaderboard.html" class="nav-link">Rangering</a>
-        <a href="gallery.html" class="nav-link">Galleri</a>
+        <a href="index.html" class="nav-link" data-i18n="nav.home">Hjem</a>
+        <a href="part1.html" class="nav-link active" data-i18n="nav.part1">Del 1</a>
+        <a href="part2.html" class="nav-link" id="nav-part2" data-i18n="nav.part2">Del 2</a>
+        <a href="part3.html" class="nav-link" id="nav-part3" data-i18n="nav.part3">Del 3</a>
+        <a href="leaderboard.html" class="nav-link" data-i18n="nav.leaderboard">Rangering</a>
+        <a href="gallery.html" class="nav-link" data-i18n="nav.gallery">Galleri</a>
       </div>
       <div class="nav-auth">
+        <button id="lang-toggle" onclick="Lang.toggle()">🇬🇧 EN</button>
         <button
           class="btn btn-secondary btn-sm"
           id="auth-btn"
           onclick="showAuthModal()"
+          data-i18n="nav.login"
         >
           Logg inn
         </button>
@@ -38,6 +40,7 @@
           <button
             class="btn btn-secondary btn-sm"
             onclick="AuthService.logout()"
+            data-i18n="nav.logout"
           >
             Logg ut
           </button>
@@ -48,15 +51,15 @@
     <div class="course-page">
       <header class="course-header">
         <div class="course-info">
-          <h1>Del 1: HTML & CSS Grunnlag</h1>
-          <p>Lær å bygge og style nettsider fra bunnen av</p>
+          <h1 data-i18n="part1.title">Del 1: HTML & CSS Grunnlag</h1>
+          <p data-i18n="part1.subtitle">Lær å bygge og style nettsider fra bunnen av</p>
         </div>
         <div class="course-controls">
           <div class="timer" id="timer">
             <span class="timer-icon">⏱️</span>
             <span class="timer-display" id="timer-display">15:00</span>
           </div>
-          <button class="btn btn-success" id="complete-btn">
+          <button class="btn btn-success" id="complete-btn" data-i18n="part1.complete">
             ✓ Fullfør Del 1
           </button>
         </div>
@@ -70,10 +73,10 @@
         <!-- Sidebar with exercises and media -->
         <aside class="sidebar">
           <div class="sidebar-tabs">
-            <button class="sidebar-tab active" data-tab="exercises">
+            <button class="sidebar-tab active" data-tab="exercises" data-i18n="course.exercises">
               Oppgaver
             </button>
-            <button class="sidebar-tab" data-tab="media">Ressurser</button>
+            <button class="sidebar-tab" data-tab="media" data-i18n="course.resources">Ressurser</button>
           </div>
           <div class="sidebar-content">
             <!-- Exercises Panel -->
@@ -81,9 +84,9 @@
               <div class="exercise" data-exercise="1">
                 <div class="exercise-header">
                   <span class="exercise-number" id="ex1-status">1</span>
-                  <h3 class="exercise-title">Sett opp strukturen</h3>
+                  <h3 class="exercise-title" data-i18n="part1.ex1.title">Sett opp strukturen</h3>
                 </div>
-                <p class="exercise-description">
+                <p class="exercise-description" data-i18n="part1.ex1.desc">
                   Vi skal bygge en personlig portfolio-side! Start med å lage
                   grunnstrukturen med en <code>&lt;header&gt;</code>,
                   <code>&lt;main&gt;</code> og <code>&lt;footer&gt;</code>.
@@ -100,9 +103,9 @@
               <div class="exercise" data-exercise="2">
                 <div class="exercise-header">
                   <span class="exercise-number" id="ex2-status">2</span>
-                  <h3 class="exercise-title">Header med navn</h3>
+                  <h3 class="exercise-title" data-i18n="part1.ex2.title">Header med navn</h3>
                 </div>
-                <p class="exercise-description">
+                <p class="exercise-description" data-i18n="part1.ex2.desc">
                   Headeren skal inneholde navnet ditt og en kort
                   tittel/beskrivelse.
                 </p>
@@ -117,9 +120,9 @@
               <div class="exercise" data-exercise="3">
                 <div class="exercise-header">
                   <span class="exercise-number" id="ex3-status">3</span>
-                  <h3 class="exercise-title">Om meg-seksjon</h3>
+                  <h3 class="exercise-title" data-i18n="part1.ex3.title">Om meg-seksjon</h3>
                 </div>
-                <p class="exercise-description">
+                <p class="exercise-description" data-i18n="part1.ex3.desc">
                   Lag en seksjon som forteller litt om deg selv.
                 </p>
                 <div class="exercise-hint">
@@ -135,9 +138,9 @@
               <div class="exercise" data-exercise="4">
                 <div class="exercise-header">
                   <span class="exercise-number" id="ex4-status">4</span>
-                  <h3 class="exercise-title">Ferdigheter-liste</h3>
+                  <h3 class="exercise-title" data-i18n="part1.ex4.title">Ferdigheter-liste</h3>
                 </div>
-                <p class="exercise-description">
+                <p class="exercise-description" data-i18n="part1.ex4.desc">
                   Vis frem ferdighetene dine i en liste.
                 </p>
                 <div class="exercise-hint">
@@ -154,9 +157,9 @@
               <div class="exercise" data-exercise="5">
                 <div class="exercise-header">
                   <span class="exercise-number" id="ex5-status">5</span>
-                  <h3 class="exercise-title">Style headeren (CSS)</h3>
+                  <h3 class="exercise-title" data-i18n="part1.ex5.title">Style headeren (CSS)</h3>
                 </div>
-                <p class="exercise-description">
+                <p class="exercise-description" data-i18n="part1.ex5.desc">
                   Nå skal vi style! Bytt til <strong>style.css</strong>-fanen.
                 </p>
                 <div class="exercise-hint">
@@ -172,9 +175,9 @@
               <div class="exercise" data-exercise="6">
                 <div class="exercise-header">
                   <span class="exercise-number" id="ex6-status">6</span>
-                  <h3 class="exercise-title">Style body og seksjonene</h3>
+                  <h3 class="exercise-title" data-i18n="part1.ex6.title">Style body og seksjonene</h3>
                 </div>
-                <p class="exercise-description">
+                <p class="exercise-description" data-i18n="part1.ex6.desc">
                   Gi siden en fin bakgrunn og style seksjonene.
                 </p>
                 <div class="exercise-hint">
@@ -194,9 +197,9 @@
               <div class="exercise" data-exercise="7">
                 <div class="exercise-header">
                   <span class="exercise-number" id="ex7-status">7</span>
-                  <h3 class="exercise-title">Footer med kontaktinfo</h3>
+                  <h3 class="exercise-title" data-i18n="part1.ex7.title">Footer med kontaktinfo</h3>
                 </div>
-                <p class="exercise-description">
+                <p class="exercise-description" data-i18n="part1.ex7.desc">
                   Legg til en footer med kontaktinformasjon.
                 </p>
                 <div class="exercise-hint">
@@ -214,9 +217,9 @@
               <div class="exercise" data-exercise="8">
                 <div class="exercise-header">
                   <span class="exercise-number" id="ex8-status">8</span>
-                  <h3 class="exercise-title">Legg til et bilde</h3>
+                  <h3 class="exercise-title" data-i18n="part1.ex8.title">Legg til et bilde</h3>
                 </div>
-                <p class="exercise-description">
+                <p class="exercise-description" data-i18n="part1.ex8.desc">
                   Gjør siden mer personlig med et profilbilde.
                 </p>
                 <div class="exercise-hint">
@@ -238,49 +241,49 @@
             <!-- Media Panel -->
             <div class="tab-panel" id="media-panel">
               <div class="media-item">
-                <h4>📖 HTML Struktur</h4>
+                <h4 data-i18n="part1.res.htmlTitle">📖 HTML Struktur</h4>
                 <img
                   src="assets/images/HTMLStructure.png"
                   alt="HTML dokument struktur"
                   class="media-image"
                   onclick="openImageModal(this.src, this.alt)"
                 />
-                <p>
+                <p data-i18n="part1.res.htmlDesc">
                   Et HTML-dokument har alltid &lt;html&gt;, &lt;head&gt; og
                   &lt;body&gt; som grunnstruktur.
                 </p>
               </div>
 
               <div class="media-item">
-                <h4>🎨 CSS Box Model</h4>
+                <h4 data-i18n="part1.res.cssTitle">🎨 CSS Box Model</h4>
                 <img
                   src="assets/images/CSSModel.png"
                   alt="CSS Box Model"
                   class="media-image"
                   onclick="openImageModal(this.src, this.alt)"
                 />
-                <p>
+                <p data-i18n="part1.res.cssDesc">
                   Hver CSS-boks består av content (innhold), padding (indre
                   avstand), border (ramme) og margin (ytre avstand).
                 </p>
               </div>
 
               <div class="media-item">
-                <h4>📐 Flexbox Guide</h4>
+                <h4 data-i18n="part1.res.flexTitle">📐 Flexbox Guide</h4>
                 <img
                   src="assets/images/FlexBoxGuide.png"
                   alt="Flexbox layout guide"
                   class="media-image"
                   onclick="openImageModal(this.src, this.alt)"
                 />
-                <p>
+                <p data-i18n="part1.res.flexDesc">
                   Flexbox gjør det enkelt å lage responsive layouts. Hovedakse
                   (main axis) og tverrakse (cross axis) bestemmer retningen.
                 </p>
               </div>
 
               <div class="media-item">
-                <h4>🔗 Nyttige Ressurser</h4>
+                <h4 data-i18n="part1.res.linksTitle">🔗 Nyttige Ressurser</h4>
                 <ul
                   style="
                     color: var(--text-secondary);
@@ -328,19 +331,19 @@
               <button class="file-tab" data-file="css">style.css</button>
             </div>
             <div class="toolbar-actions">
-              <button class="toolbar-btn" id="save-btn">💾 Lagre</button>
-              <button class="toolbar-btn" id="save-project-btn">
+              <button class="toolbar-btn" id="save-btn" data-i18n="course.save">💾 Lagre</button>
+              <button class="toolbar-btn" id="save-project-btn" data-i18n="course.saveProject">
                 📁 Lagre prosjekt
               </button>
-              <button class="toolbar-btn" id="reset-btn">↺ Tilbakestill</button>
-              <button class="toolbar-btn" id="download-btn">⬇ Last ned</button>
+              <button class="toolbar-btn" id="reset-btn" data-i18n="course.reset">↺ Tilbakestill</button>
+              <button class="toolbar-btn" id="download-btn" data-i18n="course.download">⬇ Last ned</button>
             </div>
           </div>
           <div class="editor-container">
             <div class="code-editor" id="editor-container"></div>
             <div class="resizer" id="resizer"></div>
             <div class="preview-container">
-              <div class="preview-header">Live Preview</div>
+              <div class="preview-header" data-i18n="course.livePreview">Live Preview</div>
               <iframe class="preview-frame" id="preview-frame"></iframe>
             </div>
           </div>
@@ -352,14 +355,14 @@
     <div class="modal-overlay" id="completion-modal">
       <div class="modal">
         <div class="modal-icon">🎉</div>
-        <h2>Del 1 Fullført!</h2>
-        <p>
+        <h2 data-i18n="part1.completedTitle">Del 1 Fullført!</h2>
+        <p data-i18n="part1.completedMsg">
           Gratulerer! Du har lært grunnleggende HTML og CSS. Nå er du klar for å
           ta det neste steget og lære JavaScript i Del 2.
         </p>
         <div class="modal-actions">
-          <a href="index.html" class="btn btn-secondary">Tilbake til Hjem</a>
-          <a href="part2.html" class="btn btn-primary">Start Del 2 →</a>
+          <a href="index.html" class="btn btn-secondary" data-i18n="course.backHome">Tilbake til Hjem</a>
+          <a href="part2.html" class="btn btn-primary" data-i18n="part1.startPart2">Start Del 2 →</a>
         </div>
       </div>
     </div>
@@ -370,7 +373,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
     <script src="assets/js/database.js"></script>
     <script src="assets/js/auth.js"></script>
-    <script src="assets/js/app.js?v=6"></script>
+    <script src="assets/js/lang.js"></script>
+    <script src="assets/js/app.js?v=7"></script>
     <script src="assets/js/course-part1.js"></script>
   </body>
 </html>

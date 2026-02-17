@@ -15,35 +15,37 @@
             <span class="brand-text">WebDev Kurs</span>
         </div>
         <div class="nav-links">
-            <a href="index.html" class="nav-link">Hjem</a>
-            <a href="part1.html" class="nav-link">Del 1</a>
-            <a href="part2.html" class="nav-link" id="nav-part2">Del 2</a>
-            <a href="part3.html" class="nav-link" id="nav-part3">Del 3</a>
-            <a href="leaderboard.html" class="nav-link">Rangering</a>
-            <a href="gallery.html" class="nav-link">Galleri</a>
+            <a href="index.html" class="nav-link" data-i18n="nav.home">Hjem</a>
+            <a href="part1.html" class="nav-link" data-i18n="nav.part1">Del 1</a>
+            <a href="part2.html" class="nav-link" id="nav-part2" data-i18n="nav.part2">Del 2</a>
+            <a href="part3.html" class="nav-link" id="nav-part3" data-i18n="nav.part3">Del 3</a>
+            <a href="leaderboard.html" class="nav-link" data-i18n="nav.leaderboard">Rangering</a>
+            <a href="gallery.html" class="nav-link" data-i18n="nav.gallery">Galleri</a>
         </div>
         <div class="nav-auth">
-            <button class="btn btn-secondary btn-sm" id="auth-btn" onclick="showAuthModal()">Logg inn</button>
+            <button id="lang-toggle" onclick="Lang.toggle()">🇬🇧 EN</button>
+            <button class="btn btn-secondary btn-sm" id="auth-btn" onclick="showAuthModal()" data-i18n="nav.login">Logg inn</button>
             <div class="user-info" id="user-info" style="display: none;">
                 <span class="user-name"></span>
-                <button class="btn btn-secondary btn-sm" onclick="AuthService.logout()">Logg ut</button>
+                <button class="btn btn-secondary btn-sm" onclick="AuthService.logout()" data-i18n="nav.logout">Logg ut</button>
             </div>
         </div>
     </nav>
 
     <main class="page-content">
         <div id="profile-content">
-            <div class="loading">Laster profil...</div>
+            <div class="loading" data-i18n="profile.loading">Laster profil...</div>
         </div>
     </main>
 
     <footer class="footer">
-        <p>© 2026 WebDev Kurs. Laget for å lære.</p>
+        <p data-i18n="index.footer">© 2026 WebDev Kurs. Laget for å lære.</p>
     </footer>
 
     <script src="assets/js/database.js"></script>
     <script src="assets/js/auth.js"></script>
-    <script src="assets/js/app.js?v=6"></script>
+    <script src="assets/js/lang.js"></script>
+    <script src="assets/js/app.js?v=7"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             updateAuthUI();

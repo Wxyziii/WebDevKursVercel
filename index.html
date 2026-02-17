@@ -15,45 +15,46 @@
             <span class="brand-text">WebDev Kurs</span>
         </div>
         <div class="nav-links">
-            <a href="index.html" class="nav-link active">Hjem</a>
-            <a href="part1.html" class="nav-link">Del 1</a>
-            <a href="part2.html" class="nav-link" id="nav-part2">Del 2</a>
-            <a href="part3.html" class="nav-link" id="nav-part3">Del 3</a>
-            <a href="leaderboard.html" class="nav-link">Rangering</a>
-            <a href="gallery.html" class="nav-link">Galleri</a>
+            <a href="index.html" class="nav-link active" data-i18n="nav.home">Hjem</a>
+            <a href="part1.html" class="nav-link" data-i18n="nav.part1">Del 1</a>
+            <a href="part2.html" class="nav-link" id="nav-part2" data-i18n="nav.part2">Del 2</a>
+            <a href="part3.html" class="nav-link" id="nav-part3" data-i18n="nav.part3">Del 3</a>
+            <a href="leaderboard.html" class="nav-link" data-i18n="nav.leaderboard">Rangering</a>
+            <a href="gallery.html" class="nav-link" data-i18n="nav.gallery">Galleri</a>
         </div>
         <div class="nav-auth">
-            <button class="btn btn-secondary btn-sm" id="auth-btn" onclick="showAuthModal()">Logg inn</button>
+            <button id="lang-toggle" onclick="Lang.toggle()">🇬🇧 EN</button>
+            <button class="btn btn-secondary btn-sm" id="auth-btn" onclick="showAuthModal()" data-i18n="nav.login">Logg inn</button>
             <div class="user-info" id="user-info" style="display: none;">
                 <span class="user-name"></span>
-                <button class="btn btn-secondary btn-sm" onclick="AuthService.logout()">Logg ut</button>
+                <button class="btn btn-secondary btn-sm" onclick="AuthService.logout()" data-i18n="nav.logout">Logg ut</button>
             </div>
         </div>
     </nav>
 
     <main class="hero">
         <div class="hero-content">
-            <div class="hero-badge">Gratis Kurs</div>
-            <h1 class="hero-title">Lær Webutvikling<br><span class="gradient-text">fra Bunnen av</span></h1>
-            <p class="hero-description">
+            <div class="hero-badge" data-i18n="index.badge">Gratis Kurs</div>
+            <h1 class="hero-title"><span data-i18n="index.title1">Lær Webutvikling</span><br><span class="gradient-text" data-i18n="index.title2">fra Bunnen av</span></h1>
+            <p class="hero-description" data-i18n="index.desc">
                 Et komplett, selvforklarende kurs i HTML, CSS og JavaScript. 
                 Ingen forkunnskaper nødvendig – alt du trenger er 60 minutter og nysgjerrighet.
             </p>
             <div class="hero-stats">
                 <div class="stat">
                     <span class="stat-number">3</span>
-                    <span class="stat-label">Deler</span>
+                    <span class="stat-label" data-i18n="index.stat.parts">Deler</span>
                 </div>
                 <div class="stat">
                     <span class="stat-number">60</span>
-                    <span class="stat-label">Minutter</span>
+                    <span class="stat-label" data-i18n="index.stat.minutes">Minutter</span>
                 </div>
                 <div class="stat">
                     <span class="stat-number">∞</span>
-                    <span class="stat-label">Muligheter</span>
+                    <span class="stat-label" data-i18n="index.stat.possibilities">Muligheter</span>
                 </div>
             </div>
-            <a href="part1.html" class="btn btn-primary">Start Kurset</a>
+            <a href="part1.html" class="btn btn-primary" data-i18n="index.startCourse">Start Kurset</a>
         </div>
         <div class="hero-visual">
             <div class="code-preview glass-card">
@@ -76,56 +77,56 @@
     </main>
 
     <section class="course-overview">
-        <h2 class="section-title">Hva du vil lære</h2>
+        <h2 class="section-title" data-i18n="index.whatYouLearn">Hva du vil lære</h2>
         <div class="cards-container">
             <div class="course-card glass-card">
                 <div class="card-icon">📄</div>
-                <h3>Del 1: HTML & CSS Grunnlag</h3>
-                <p>Lær strukturen til nettsider med HTML og gi dem stil med CSS. Perfekt for nybegynnere.</p>
+                <h3 data-i18n="index.part1.title">Del 1: HTML & CSS Grunnlag</h3>
+                <p data-i18n="index.part1.desc">Lær strukturen til nettsider med HTML og gi dem stil med CSS. Perfekt for nybegynnere.</p>
                 <ul class="card-list">
-                    <li>HTML-elementer og struktur</li>
-                    <li>CSS styling og farger</li>
-                    <li>Layout med Flexbox</li>
-                    <li>Bygg din første nettside</li>
+                    <li data-i18n="index.part1.item1">HTML-elementer og struktur</li>
+                    <li data-i18n="index.part1.item2">CSS styling og farger</li>
+                    <li data-i18n="index.part1.item3">Layout med Flexbox</li>
+                    <li data-i18n="index.part1.item4">Bygg din første nettside</li>
                 </ul>
                 <div class="card-footer">
-                    <span class="duration">⏱️ 15 minutter</span>
-                    <a href="part1.html" class="btn btn-secondary">Start Del 1</a>
+                    <span class="duration" data-i18n="index.part1.duration">⏱️ 15 minutter</span>
+                    <a href="part1.html" class="btn btn-secondary" data-i18n="index.part1.start">Start Del 1</a>
                 </div>
             </div>
 
             <div class="course-card glass-card" id="part2-card">
                 <div class="card-icon">🚀</div>
-                <h3>Del 2: Interaktiv JavaScript</h3>
-                <p>Gjør nettsiden din levende med JavaScript. Lag interaktive elementer og dynamisk innhold.</p>
+                <h3 data-i18n="index.part2.title">Del 2: Interaktiv JavaScript</h3>
+                <p data-i18n="index.part2.desc">Gjør nettsiden din levende med JavaScript. Lag interaktive elementer og dynamisk innhold.</p>
                 <ul class="card-list">
-                    <li>JavaScript grunnleggende</li>
-                    <li>DOM-manipulering</li>
-                    <li>Event handling</li>
-                    <li>Bygg en komplett webapp</li>
+                    <li data-i18n="index.part2.item1">JavaScript grunnleggende</li>
+                    <li data-i18n="index.part2.item2">DOM-manipulering</li>
+                    <li data-i18n="index.part2.item3">Event handling</li>
+                    <li data-i18n="index.part2.item4">Bygg en komplett webapp</li>
                 </ul>
                 <div class="card-footer">
-                    <span class="duration">⏱️ 15 minutter</span>
+                    <span class="duration" data-i18n="index.part2.duration">⏱️ 15 minutter</span>
                     <a href="part2.html" class="btn btn-secondary" id="part2-btn">
-                        <span class="lock-icon">🔒</span> Lås opp med Del 1
+                        <span class="lock-icon">🔒</span> <span data-i18n="index.part2.locked">Lås opp med Del 1</span>
                     </a>
                 </div>
             </div>
 
             <div class="course-card glass-card" id="part3-card">
                 <div class="card-icon">⚛️</div>
-                <h3>Del 3: React + Vite</h3>
-                <p>Bygg moderne webapper med React og Vite. Lær komponent-basert utvikling og state management.</p>
+                <h3 data-i18n="index.part3.title">Del 3: React + Vite</h3>
+                <p data-i18n="index.part3.desc">Bygg moderne webapper med React og Vite. Lær komponent-basert utvikling og state management.</p>
                 <ul class="card-list">
-                    <li>React-komponenter og JSX</li>
-                    <li>useState og state management</li>
-                    <li>Props og barnkomponenter</li>
-                    <li>Bygg en komplett React-app</li>
+                    <li data-i18n="index.part3.item1">React-komponenter og JSX</li>
+                    <li data-i18n="index.part3.item2">useState og state management</li>
+                    <li data-i18n="index.part3.item3">Props og barnkomponenter</li>
+                    <li data-i18n="index.part3.item4">Bygg en komplett React-app</li>
                 </ul>
                 <div class="card-footer">
-                    <span class="duration">⏱️ 30 minutter</span>
+                    <span class="duration" data-i18n="index.part3.duration">⏱️ 30 minutter</span>
                     <a href="part3.html" class="btn btn-secondary" id="part3-btn">
-                        <span class="lock-icon">🔒</span> Lås opp med Del 2
+                        <span class="lock-icon">🔒</span> <span data-i18n="index.part3.locked">Lås opp med Del 2</span>
                     </a>
                 </div>
             </div>
@@ -133,38 +134,39 @@
     </section>
 
     <section class="features">
-        <h2 class="section-title">Kursfunksjoner</h2>
+        <h2 class="section-title" data-i18n="index.features.title">Kursfunksjoner</h2>
         <div class="features-grid">
             <div class="feature glass-card">
                 <div class="feature-icon">💻</div>
-                <h4>Live Kode-editor</h4>
-                <p>Skriv kode direkte i nettleseren med en profesjonell Monaco Editor.</p>
+                <h4 data-i18n="index.features.editor">Live Kode-editor</h4>
+                <p data-i18n="index.features.editorDesc">Skriv kode direkte i nettleseren med en profesjonell Monaco Editor.</p>
             </div>
             <div class="feature glass-card">
                 <div class="feature-icon">👁️</div>
-                <h4>Sanntids Preview</h4>
-                <p>Se endringene dine umiddelbart mens du koder.</p>
+                <h4 data-i18n="index.features.preview">Sanntids Preview</h4>
+                <p data-i18n="index.features.previewDesc">Se endringene dine umiddelbart mens du koder.</p>
             </div>
             <div class="feature glass-card">
                 <div class="feature-icon">💾</div>
-                <h4>Auto-lagring</h4>
-                <p>Koden din lagres automatisk slik at du kan fortsette hvor du slapp.</p>
+                <h4 data-i18n="index.features.autosave">Auto-lagring</h4>
+                <p data-i18n="index.features.autosaveDesc">Koden din lagres automatisk slik at du kan fortsette hvor du slapp.</p>
             </div>
             <div class="feature glass-card">
                 <div class="feature-icon">🎬</div>
-                <h4>Video & Bilder</h4>
-                <p>Multimedia-innhold som forklarer konseptene visuelt.</p>
+                <h4 data-i18n="index.features.media">Video & Bilder</h4>
+                <p data-i18n="index.features.mediaDesc">Multimedia-innhold som forklarer konseptene visuelt.</p>
             </div>
         </div>
     </section>
 
     <footer class="footer">
-        <p>© 2026 WebDev Kurs. Laget for å lære.</p>
+        <p data-i18n="index.footer">© 2026 WebDev Kurs. Laget for å lære.</p>
     </footer>
 
     <script src="assets/js/database.js"></script>
     <script src="assets/js/auth.js"></script>
-    <script src="assets/js/app.js?v=6"></script>
+    <script src="assets/js/lang.js"></script>
+    <script src="assets/js/app.js?v=7"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             updateAuthUI();

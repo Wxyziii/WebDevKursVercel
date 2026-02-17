@@ -384,7 +384,7 @@ function updateNavigation() {
         if (navPart2) navPart2.classList.remove('locked');
         if (part2Card) part2Card.classList.remove('locked');
         if (part2Btn) {
-            part2Btn.innerHTML = 'Start Del 2';
+            part2Btn.innerHTML = typeof Lang !== 'undefined' ? Lang.t('index.part1.start').replace('1', '2') : 'Start Del 2';
         }
     } else {
         if (navPart2) navPart2.classList.add('locked');
@@ -395,7 +395,7 @@ function updateNavigation() {
         if (navPart3) navPart3.classList.remove('locked');
         if (part3Card) part3Card.classList.remove('locked');
         if (part3Btn) {
-            part3Btn.innerHTML = 'Start Del 3';
+            part3Btn.innerHTML = typeof Lang !== 'undefined' ? Lang.t('index.part1.start').replace('1', '3') : 'Start Del 3';
         }
     } else {
         if (navPart3) navPart3.classList.add('locked');
@@ -415,7 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (navPart2 && !CourseState.isPart1Completed()) {
         navPart2.addEventListener('click', (e) => {
             e.preventDefault();
-            showToast('Fullfør Del 1 først for å låse opp Del 2', 'info');
+            showToast(typeof Lang !== 'undefined' ? Lang.t('toast.unlockPart2') : 'Fullfør Del 1 først for å låse opp Del 2', 'info');
         });
     }
     
@@ -423,7 +423,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (navPart3 && !CourseState.isPart2Completed()) {
         navPart3.addEventListener('click', (e) => {
             e.preventDefault();
-            showToast('Fullfør Del 2 først for å låse opp Del 3', 'info');
+            showToast(typeof Lang !== 'undefined' ? Lang.t('toast.unlockPart3') : 'Fullfør Del 2 først for å låse opp Del 3', 'info');
         });
     }
     
@@ -431,7 +431,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (part2Btn && !CourseState.isPart1Completed()) {
         part2Btn.addEventListener('click', (e) => {
             e.preventDefault();
-            showToast('Fullfør Del 1 først for å låse opp Del 2', 'info');
+            showToast(typeof Lang !== 'undefined' ? Lang.t('toast.unlockPart2') : 'Fullfør Del 1 først for å låse opp Del 2', 'info');
         });
     }
     
@@ -439,7 +439,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (part3Btn && !CourseState.isPart2Completed()) {
         part3Btn.addEventListener('click', (e) => {
             e.preventDefault();
-            showToast('Fullfør Del 2 først for å låse opp Del 3', 'info');
+            showToast(typeof Lang !== 'undefined' ? Lang.t('toast.unlockPart3') : 'Fullfør Del 2 først for å låse opp Del 3', 'info');
         });
     }
 });
@@ -472,18 +472,18 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('75 minutes elapsed - clearing localStorage');
             
             // Show notification before clearing
-            showToast('Session utløpt (75 min) - localStorage ryddes', 'info');
+            showToast(typeof Lang !== 'undefined' ? Lang.t('toast.sessionExpired') : 'Session utløpt (75 min) - localStorage ryddes', 'info');
             
             // Clear all localStorage data after a short delay
             setTimeout(() => {
                 localStorage.clear();
                 
                 // Show final message
-                showToast('Kurset er tilbakestilt. Last siden på nytt for å starte på nytt.', 'info');
+                showToast(typeof Lang !== 'undefined' ? Lang.t('toast.courseReset') : 'Kurset er tilbakestilt. Last siden på nytt for å starte på nytt.', 'info');
                 
                 // Optionally reload after 3 seconds
                 setTimeout(() => {
-                    if (confirm('Session utløpt. Vil du laste siden på nytt?')) {
+                    if (confirm(typeof Lang !== 'undefined' ? Lang.t('confirm.sessionExpired') : 'Session utløpt. Vil du laste siden på nytt?')) {
                         window.location.reload();
                     }
                 }, 3000);

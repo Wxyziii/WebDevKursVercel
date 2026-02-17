@@ -15,18 +15,19 @@
             <span class="brand-text">WebDev Kurs</span>
         </div>
         <div class="nav-links">
-            <a href="index.html" class="nav-link">Hjem</a>
-            <a href="part1.html" class="nav-link">Del 1</a>
-            <a href="part2.html" class="nav-link" id="nav-part2">Del 2</a>
-            <a href="part3.html" class="nav-link active" id="nav-part3">Del 3</a>
-            <a href="leaderboard.html" class="nav-link">Rangering</a>
-            <a href="gallery.html" class="nav-link">Galleri</a>
+            <a href="index.html" class="nav-link" data-i18n="nav.home">Hjem</a>
+            <a href="part1.html" class="nav-link" data-i18n="nav.part1">Del 1</a>
+            <a href="part2.html" class="nav-link" id="nav-part2" data-i18n="nav.part2">Del 2</a>
+            <a href="part3.html" class="nav-link active" id="nav-part3" data-i18n="nav.part3">Del 3</a>
+            <a href="leaderboard.html" class="nav-link" data-i18n="nav.leaderboard">Rangering</a>
+            <a href="gallery.html" class="nav-link" data-i18n="nav.gallery">Galleri</a>
         </div>
         <div class="nav-auth">
-            <button class="btn btn-secondary btn-sm" id="auth-btn" onclick="showAuthModal()">Logg inn</button>
+            <button id="lang-toggle" onclick="Lang.toggle()">🇬🇧 EN</button>
+            <button class="btn btn-secondary btn-sm" id="auth-btn" onclick="showAuthModal()" data-i18n="nav.login">Logg inn</button>
             <div class="user-info" id="user-info" style="display: none;">
                 <span class="user-name"></span>
-                <button class="btn btn-secondary btn-sm" onclick="AuthService.logout()">Logg ut</button>
+                <button class="btn btn-secondary btn-sm" onclick="AuthService.logout()" data-i18n="nav.logout">Logg ut</button>
             </div>
         </div>
     </nav>
@@ -35,25 +36,25 @@
     <div class="locked-overlay" id="locked-overlay">
         <div class="locked-content">
             <div class="locked-icon">🔒</div>
-            <h2>Del 3 er Låst</h2>
-            <p>Du må fullføre Del 2 før du kan starte med React + Vite.
+            <h2 data-i18n="part3.locked.title">Del 3 er Låst</h2>
+            <p data-i18n="part3.locked.msg">Du må fullføre Del 2 før du kan starte med React + Vite.
                Gå tilbake og fullfør JavaScript-delen først.</p>
-            <a href="part2.html" class="btn btn-primary">← Gå til Del 2</a>
+            <a href="part2.html" class="btn btn-primary" data-i18n="part3.locked.btn">← Gå til Del 2</a>
         </div>
     </div>
 
     <div class="course-page">
         <header class="course-header">
             <div class="course-info">
-                <h1>Del 3: React + Vite</h1>
-                <p>Bygg moderne webapper med React og Vite</p>
+                <h1 data-i18n="part3.title">Del 3: React + Vite</h1>
+                <p data-i18n="part3.subtitle">Bygg moderne webapper med React og Vite</p>
             </div>
             <div class="course-controls">
                 <div class="timer" id="timer">
                     <span class="timer-icon">⏱️</span>
                     <span class="timer-display" id="timer-display">30:00</span>
                 </div>
-                <button class="btn btn-success" id="complete-btn">✓ Fullfør Kurset</button>
+                <button class="btn btn-success" id="complete-btn" data-i18n="part3.complete">✓ Fullfør Kurset</button>
             </div>
         </header>
 
@@ -65,8 +66,8 @@
             <!-- Sidebar with exercises and media -->
             <aside class="sidebar">
                 <div class="sidebar-tabs">
-                    <button class="sidebar-tab active" data-tab="exercises">Oppgaver</button>
-                    <button class="sidebar-tab" data-tab="media">Ressurser</button>
+                    <button class="sidebar-tab active" data-tab="exercises" data-i18n="course.exercises">Oppgaver</button>
+                    <button class="sidebar-tab" data-tab="media" data-i18n="course.resources">Ressurser</button>
                 </div>
                 <div class="sidebar-content">
                     <!-- Exercises Panel -->
@@ -74,9 +75,9 @@
                         <div class="exercise" data-exercise="1">
                             <div class="exercise-header">
                                 <span class="exercise-number" id="ex1-status">1</span>
-                                <h3 class="exercise-title">React-komponent</h3>
+                                <h3 class="exercise-title" data-i18n="part3.ex1.title">React-komponent</h3>
                             </div>
-                            <p class="exercise-description">
+                            <p class="exercise-description" data-i18n="part3.ex1.desc">
                                 Vi starter med å bygge en React-komponent! Lag en <code>App</code>-funksjon som returnerer JSX.
                             </p>
                             <div class="exercise-hint">
@@ -95,9 +96,9 @@
                         <div class="exercise" data-exercise="2">
                             <div class="exercise-header">
                                 <span class="exercise-number" id="ex2-status">2</span>
-                                <h3 class="exercise-title">useState Hook</h3>
+                                <h3 class="exercise-title" data-i18n="part3.ex2.title">useState Hook</h3>
                             </div>
-                            <p class="exercise-description">
+                            <p class="exercise-description" data-i18n="part3.ex2.desc">
                                 Bruk <code>useState</code> for å legge til tilstand (state) i komponenten.<br>
                                 <em style="color: #e74c3c; font-size: 13px;">⚠️ Ikke bruk "import" - hooks er allerede tilgjengelig!</em>
                             </p>
@@ -114,9 +115,9 @@
                         <div class="exercise" data-exercise="3">
                             <div class="exercise-header">
                                 <span class="exercise-number" id="ex3-status">3</span>
-                                <h3 class="exercise-title">Event Handler</h3>
+                                <h3 class="exercise-title" data-i18n="part3.ex3.title">Event Handler</h3>
                             </div>
-                            <p class="exercise-description">
+                            <p class="exercise-description" data-i18n="part3.ex3.desc">
                                 Legg til en knapp som øker telleren når du klikker.
                             </p>
                             <div class="exercise-hint">
@@ -131,9 +132,9 @@
                         <div class="exercise" data-exercise="4">
                             <div class="exercise-header">
                                 <span class="exercise-number" id="ex4-status">4</span>
-                                <h3 class="exercise-title">Barnkomponent</h3>
+                                <h3 class="exercise-title" data-i18n="part3.ex4.title">Barnkomponent</h3>
                             </div>
-                            <p class="exercise-description">
+                            <p class="exercise-description" data-i18n="part3.ex4.desc">
                                 Lag en egen <code>Card</code>-komponent som du bruker inne i App.
                             </p>
                             <div class="exercise-hint">
@@ -154,9 +155,9 @@
                         <div class="exercise" data-exercise="5">
                             <div class="exercise-header">
                                 <span class="exercise-number" id="ex5-status">5</span>
-                                <h3 class="exercise-title">Style med CSS</h3>
+                                <h3 class="exercise-title" data-i18n="part3.ex5.title">Style med CSS</h3>
                             </div>
-                            <p class="exercise-description">
+                            <p class="exercise-description" data-i18n="part3.ex5.desc">
                                 Bytt til <strong>App.css</strong>-fanen og style komponentene.
                             </p>
                             <div class="exercise-hint">
@@ -170,9 +171,9 @@
                         <div class="exercise" data-exercise="6">
                             <div class="exercise-header">
                                 <span class="exercise-number" id="ex6-status">6</span>
-                                <h3 class="exercise-title">Liste med .map()</h3>
+                                <h3 class="exercise-title" data-i18n="part3.ex6.title">Liste med .map()</h3>
                             </div>
-                            <p class="exercise-description">
+                            <p class="exercise-description" data-i18n="part3.ex6.desc">
                                 Bruk <code>.map()</code> for å vise en liste med data.
                             </p>
                             <div class="exercise-hint">
@@ -190,9 +191,9 @@
                         <div class="exercise" data-exercise="7">
                             <div class="exercise-header">
                                 <span class="exercise-number" id="ex7-status">7</span>
-                                <h3 class="exercise-title">Betinget rendering</h3>
+                                <h3 class="exercise-title" data-i18n="part3.ex7.title">Betinget rendering</h3>
                             </div>
-                            <p class="exercise-description">
+                            <p class="exercise-description" data-i18n="part3.ex7.desc">
                                 Vis eller skjul innhold basert på state.
                             </p>
                             <div class="exercise-hint">
@@ -207,9 +208,9 @@
                         <div class="exercise" data-exercise="8">
                             <div class="exercise-header">
                                 <span class="exercise-number" id="ex8-status">8</span>
-                                <h3 class="exercise-title">Hover og animasjon</h3>
+                                <h3 class="exercise-title" data-i18n="part3.ex8.title">Hover og animasjon</h3>
                             </div>
-                            <p class="exercise-description">
+                            <p class="exercise-description" data-i18n="part3.ex8.desc">
                                 Legg til hover-effekter og overganger for en profesjonell følelse.
                             </p>
                             <div class="exercise-hint">
@@ -225,7 +226,7 @@
                     <!-- Media Panel -->
                     <div class="tab-panel" id="media-panel">
                         <div class="media-item" style="background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107;">
-                            <h4 style="color: #856404; margin-top: 0;">⚠️ Viktig: Ingen imports!</h4>
+                            <h4 style="color: #856404; margin-top: 0;" data-i18n="part3.res.warnTitle">⚠️ Viktig: Ingen imports!</h4>
                             <p style="color: #856404; margin-bottom: 0;">
                                 Vi bruker React fra CDN, ikke en build tool som Vite.<br>
                                 <strong>Ikke bruk:</strong> <code>import { useState } from "react"</code><br>
@@ -235,17 +236,17 @@
                         </div>
                         
                         <div class="media-item">
-                            <h4>⚛️ React Komponent-tre</h4>
-                            <p>React bygger UI som et tre av komponenter. Hver komponent har sin egen tilstand og kan sende data nedover via props.</p>
+                            <h4 data-i18n="part3.res.reactTitle">⚛️ React Komponent-tre</h4>
+                            <p data-i18n="part3.res.reactDesc">React bygger UI som et tre av komponenter. Hver komponent har sin egen tilstand og kan sende data nedover via props.</p>
                         </div>
 
                         <div class="media-item">
-                            <h4>⚡ Vite Byggesystem</h4>
-                            <p>Vite er et lynraskt byggesystem for moderne webprosjekter. Det bruker ES-moduler for rask utvikling og Rollup for produksjonsbygg.</p>
+                            <h4 data-i18n="part3.res.viteTitle">⚡ Vite Byggesystem</h4>
+                            <p data-i18n="part3.res.viteDesc">Vite er et lynraskt byggesystem for moderne webprosjekter. Det bruker ES-moduler for rask utvikling og Rollup for produksjonsbygg.</p>
                         </div>
 
                         <div class="media-item">
-                            <h4>📚 React + Vite Referanser</h4>
+                            <h4 data-i18n="part3.res.linksTitle">📚 React + Vite Referanser</h4>
                             <ul style="color: var(--text-secondary); font-size: 14px; padding-left: 20px;">
                                 <li style="margin-bottom: 8px;"><a href="https://react.dev/" target="_blank" style="color: var(--accent);">React Dokumentasjon</a></li>
                                 <li style="margin-bottom: 8px;"><a href="https://vitejs.dev/" target="_blank" style="color: var(--accent);">Vite Dokumentasjon</a></li>
@@ -266,17 +267,17 @@
                         <button class="file-tab" data-file="main">main.jsx</button>
                     </div>
                     <div class="toolbar-actions">
-                        <button class="toolbar-btn" id="save-btn">💾 Lagre</button>
-                        <button class="toolbar-btn" id="save-project-btn">📁 Lagre prosjekt</button>
-                        <button class="toolbar-btn" id="reset-btn">↺ Tilbakestill</button>
-                        <button class="toolbar-btn" id="download-btn">⬇ Last ned</button>
+                        <button class="toolbar-btn" id="save-btn" data-i18n="course.save">💾 Lagre</button>
+                        <button class="toolbar-btn" id="save-project-btn" data-i18n="course.saveProject">📁 Lagre prosjekt</button>
+                        <button class="toolbar-btn" id="reset-btn" data-i18n="course.reset">↺ Tilbakestill</button>
+                        <button class="toolbar-btn" id="download-btn" data-i18n="course.download">⬇ Last ned</button>
                     </div>
                 </div>
                 <div class="editor-container">
                     <div class="code-editor" id="editor-container"></div>
                     <div class="resizer" id="resizer"></div>
                     <div class="preview-container">
-                        <div class="preview-header">Live Preview</div>
+                        <div class="preview-header" data-i18n="course.livePreview">Live Preview</div>
                         <iframe class="preview-frame" id="preview-frame"></iframe>
                     </div>
                 </div>
@@ -288,10 +289,10 @@
     <div class="modal-overlay" id="completion-modal">
         <div class="modal">
             <div class="modal-icon">🏆</div>
-            <h2>Gratulerer!</h2>
-            <p>Du har fullført hele webutviklingskurset! Du har nå ferdigheter i HTML, CSS, JavaScript og React. Fortsett å øve og bygg egne prosjekter!</p>
+            <h2 data-i18n="part3.completedTitle">Gratulerer!</h2>
+            <p data-i18n="part3.completedMsg">Du har fullført hele webutviklingskurset! Du har nå ferdigheter i HTML, CSS, JavaScript og React. Fortsett å øve og bygg egne prosjekter!</p>
             <div class="modal-actions">
-                <a href="index.html" class="btn btn-primary">Tilbake til Hjem</a>
+                <a href="index.html" class="btn btn-primary" data-i18n="course.backHome">Tilbake til Hjem</a>
             </div>
         </div>
     </div>
@@ -302,7 +303,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
     <script src="assets/js/database.js"></script>
     <script src="assets/js/auth.js"></script>
-    <script src="assets/js/app.js?v=6"></script>
+    <script src="assets/js/lang.js"></script>
+    <script src="assets/js/app.js?v=7"></script>
     <script src="assets/js/course-part3.js"></script>
 </body>
 </html>

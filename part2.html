@@ -15,18 +15,19 @@
             <span class="brand-text">WebDev Kurs</span>
         </div>
         <div class="nav-links">
-            <a href="index.html" class="nav-link">Hjem</a>
-            <a href="part1.html" class="nav-link">Del 1</a>
-            <a href="part2.html" class="nav-link active" id="nav-part2">Del 2</a>
-            <a href="part3.html" class="nav-link" id="nav-part3">Del 3</a>
-            <a href="leaderboard.html" class="nav-link">Rangering</a>
-            <a href="gallery.html" class="nav-link">Galleri</a>
+            <a href="index.html" class="nav-link" data-i18n="nav.home">Hjem</a>
+            <a href="part1.html" class="nav-link" data-i18n="nav.part1">Del 1</a>
+            <a href="part2.html" class="nav-link active" id="nav-part2" data-i18n="nav.part2">Del 2</a>
+            <a href="part3.html" class="nav-link" id="nav-part3" data-i18n="nav.part3">Del 3</a>
+            <a href="leaderboard.html" class="nav-link" data-i18n="nav.leaderboard">Rangering</a>
+            <a href="gallery.html" class="nav-link" data-i18n="nav.gallery">Galleri</a>
         </div>
         <div class="nav-auth">
-            <button class="btn btn-secondary btn-sm" id="auth-btn" onclick="showAuthModal()">Logg inn</button>
+            <button id="lang-toggle" onclick="Lang.toggle()">🇬🇧 EN</button>
+            <button class="btn btn-secondary btn-sm" id="auth-btn" onclick="showAuthModal()" data-i18n="nav.login">Logg inn</button>
             <div class="user-info" id="user-info" style="display: none;">
                 <span class="user-name"></span>
-                <button class="btn btn-secondary btn-sm" onclick="AuthService.logout()">Logg ut</button>
+                <button class="btn btn-secondary btn-sm" onclick="AuthService.logout()" data-i18n="nav.logout">Logg ut</button>
             </div>
         </div>
     </nav>
@@ -35,25 +36,25 @@
     <div class="locked-overlay" id="locked-overlay">
         <div class="locked-content">
             <div class="locked-icon">🔒</div>
-            <h2>Del 2 er Låst</h2>
-            <p>Du må fullføre Del 1 før du kan starte med JavaScript. 
+            <h2 data-i18n="part2.locked.title">Del 2 er Låst</h2>
+            <p data-i18n="part2.locked.msg">Du må fullføre Del 1 før du kan starte med JavaScript. 
                Gå tilbake og fullfør HTML & CSS grunnlaget først.</p>
-            <a href="part1.html" class="btn btn-primary">← Gå til Del 1</a>
+            <a href="part1.html" class="btn btn-primary" data-i18n="part2.locked.btn">← Gå til Del 1</a>
         </div>
     </div>
 
     <div class="course-page">
         <header class="course-header">
             <div class="course-info">
-                <h1>Del 2: Interaktiv JavaScript</h1>
-                <p>Gjør nettsiden din levende med JavaScript</p>
+                <h1 data-i18n="part2.title">Del 2: Interaktiv JavaScript</h1>
+                <p data-i18n="part2.subtitle">Gjør nettsiden din levende med JavaScript</p>
             </div>
             <div class="course-controls">
                 <div class="timer" id="timer">
                     <span class="timer-icon">⏱️</span>
                     <span class="timer-display" id="timer-display">15:00</span>
                 </div>
-                <button class="btn btn-success" id="complete-btn">✓ Fullfør Kurset</button>
+                <button class="btn btn-success" id="complete-btn" data-i18n="part2.complete">✓ Fullfør Kurset</button>
             </div>
         </header>
 
@@ -65,8 +66,8 @@
             <!-- Sidebar with exercises and media -->
             <aside class="sidebar">
                 <div class="sidebar-tabs">
-                    <button class="sidebar-tab active" data-tab="exercises">Oppgaver</button>
-                    <button class="sidebar-tab" data-tab="media">Ressurser</button>
+                    <button class="sidebar-tab active" data-tab="exercises" data-i18n="course.exercises">Oppgaver</button>
+                    <button class="sidebar-tab" data-tab="media" data-i18n="course.resources">Ressurser</button>
                 </div>
                 <div class="sidebar-content">
                     <!-- Exercises Panel -->
@@ -74,9 +75,9 @@
                         <div class="exercise" data-exercise="1">
                             <div class="exercise-header">
                                 <span class="exercise-number" id="ex1-status">1</span>
-                                <h3 class="exercise-title">Prosjekt-seksjon</h3>
+                                <h3 class="exercise-title" data-i18n="part2.ex1.title">Prosjekt-seksjon</h3>
                             </div>
-                            <p class="exercise-description">
+                            <p class="exercise-description" data-i18n="part2.ex1.desc">
                                 Vi fortsetter portfolioen! Legg til en prosjekt-seksjon for å vise arbeidet ditt.
                             </p>
                             <div class="exercise-hint">
@@ -92,9 +93,9 @@
                         <div class="exercise" data-exercise="2">
                             <div class="exercise-header">
                                 <span class="exercise-number" id="ex2-status">2</span>
-                                <h3 class="exercise-title">Prosjektkort</h3>
+                                <h3 class="exercise-title" data-i18n="part2.ex2.title">Prosjektkort</h3>
                             </div>
-                            <p class="exercise-description">
+                            <p class="exercise-description" data-i18n="part2.ex2.desc">
                                 Lag kort som viser hvert prosjekt.
                             </p>
                             <div class="exercise-hint">
@@ -111,9 +112,9 @@
                         <div class="exercise" data-exercise="3">
                             <div class="exercise-header">
                                 <span class="exercise-number" id="ex3-status">3</span>
-                                <h3 class="exercise-title">CSS Grid for prosjekter</h3>
+                                <h3 class="exercise-title" data-i18n="part2.ex3.title">CSS Grid for prosjekter</h3>
                             </div>
-                            <p class="exercise-description">
+                            <p class="exercise-description" data-i18n="part2.ex3.desc">
                                 Bruk CSS Grid for å vise prosjektene i et pent rutenett.
                             </p>
                             <div class="exercise-hint">
@@ -127,9 +128,9 @@
                         <div class="exercise" data-exercise="4">
                             <div class="exercise-header">
                                 <span class="exercise-number" id="ex4-status">4</span>
-                                <h3 class="exercise-title">Kontaktskjema</h3>
+                                <h3 class="exercise-title" data-i18n="part2.ex4.title">Kontaktskjema</h3>
                             </div>
-                            <p class="exercise-description">
+                            <p class="exercise-description" data-i18n="part2.ex4.desc">
                                 Legg til et kontaktskjema så besøkende kan nå deg.
                             </p>
                             <div class="exercise-hint">
@@ -149,9 +150,9 @@
                         <div class="exercise" data-exercise="5">
                             <div class="exercise-header">
                                 <span class="exercise-number" id="ex5-status">5</span>
-                                <h3 class="exercise-title">Style skjemaet</h3>
+                                <h3 class="exercise-title" data-i18n="part2.ex5.title">Style skjemaet</h3>
                             </div>
-                            <p class="exercise-description">
+                            <p class="exercise-description" data-i18n="part2.ex5.desc">
                                 Gjør skjemaet pent og brukervennlig.
                             </p>
                             <div class="exercise-hint">
@@ -166,9 +167,9 @@
                         <div class="exercise" data-exercise="6">
                             <div class="exercise-header">
                                 <span class="exercise-number" id="ex6-status">6</span>
-                                <h3 class="exercise-title">JavaScript: Skjemavalidering</h3>
+                                <h3 class="exercise-title" data-i18n="part2.ex6.title">JavaScript: Skjemavalidering</h3>
                             </div>
-                            <p class="exercise-description">
+                            <p class="exercise-description" data-i18n="part2.ex6.desc">
                                 Bytt til <strong>script.js</strong>-fanen. La oss gjøre siden interaktiv!
                             </p>
                             <div class="exercise-hint">
@@ -184,9 +185,9 @@
                         <div class="exercise" data-exercise="7">
                             <div class="exercise-header">
                                 <span class="exercise-number" id="ex7-status">7</span>
-                                <h3 class="exercise-title">Knapp-interaktivitet</h3>
+                                <h3 class="exercise-title" data-i18n="part2.ex7.title">Knapp-interaktivitet</h3>
                             </div>
-                            <p class="exercise-description">
+                            <p class="exercise-description" data-i18n="part2.ex7.desc">
                                 Gjør "Se mer"-knappene interaktive.
                             </p>
                             <div class="exercise-hint">
@@ -203,9 +204,9 @@
                         <div class="exercise" data-exercise="8">
                             <div class="exercise-header">
                                 <span class="exercise-number" id="ex8-status">8</span>
-                                <h3 class="exercise-title">Hover-effekter</h3>
+                                <h3 class="exercise-title" data-i18n="part2.ex8.title">Hover-effekter</h3>
                             </div>
-                            <p class="exercise-description">
+                            <p class="exercise-description" data-i18n="part2.ex8.desc">
                                 Legg til animasjoner for en profesjonell følelse.
                             </p>
                             <div class="exercise-hint">
@@ -221,19 +222,19 @@
                     <!-- Media Panel -->
                     <div class="tab-panel" id="media-panel">
                         <div class="media-item">
-                            <h4>🌲 DOM Forklart</h4>
+                            <h4 data-i18n="part2.res.domTitle">🌲 DOM Forklart</h4>
                             <img src="assets/images/DOM.png" alt="Document Object Model" class="media-image" onclick="openImageModal(this.src, this.alt)">
-                            <p>DOM er en trestruktur som representerer HTML-dokumentet. JavaScript kan traversere og endre denne strukturen for å oppdatere siden.</p>
+                            <p data-i18n="part2.res.domDesc">DOM er en trestruktur som representerer HTML-dokumentet. JavaScript kan traversere og endre denne strukturen for å oppdatere siden.</p>
                         </div>
 
                         <div class="media-item">
-                            <h4>🎯 Event Flow</h4>
+                            <h4 data-i18n="part2.res.eventTitle">🎯 Event Flow</h4>
                             <img src="assets/images/EventFlow.png" alt="Event Capturing og Bubbling" class="media-image" onclick="openImageModal(this.src, this.alt)">
-                            <p>Events "bobler" oppover i DOM-treet. Du kan lytte på events på hvilken som helst node i hierarkiet.</p>
+                            <p data-i18n="part2.res.eventDesc">Events "bobler" oppover i DOM-treet. Du kan lytte på events på hvilken som helst node i hierarkiet.</p>
                         </div>
 
                         <div class="media-item">
-                            <h4>📚 JavaScript Referanser</h4>
+                            <h4 data-i18n="part2.res.linksTitle">📚 JavaScript Referanser</h4>
                             <ul style="color: var(--text-secondary); font-size: 14px; padding-left: 20px;">
                                 <li style="margin-bottom: 8px;"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" style="color: var(--accent);">MDN JavaScript Guide</a></li>
                                 <li style="margin-bottom: 8px;"><a href="https://javascript.info/" target="_blank" style="color: var(--accent);">JavaScript.info</a></li>
@@ -253,17 +254,17 @@
                         <button class="file-tab" data-file="js">script.js</button>
                     </div>
                     <div class="toolbar-actions">
-                        <button class="toolbar-btn" id="save-btn">💾 Lagre</button>
-                        <button class="toolbar-btn" id="save-project-btn">📁 Lagre prosjekt</button>
-                        <button class="toolbar-btn" id="reset-btn">↺ Tilbakestill</button>
-                        <button class="toolbar-btn" id="download-btn">⬇ Last ned</button>
+                        <button class="toolbar-btn" id="save-btn" data-i18n="course.save">💾 Lagre</button>
+                        <button class="toolbar-btn" id="save-project-btn" data-i18n="course.saveProject">📁 Lagre prosjekt</button>
+                        <button class="toolbar-btn" id="reset-btn" data-i18n="course.reset">↺ Tilbakestill</button>
+                        <button class="toolbar-btn" id="download-btn" data-i18n="course.download">⬇ Last ned</button>
                     </div>
                 </div>
                 <div class="editor-container">
                     <div class="code-editor" id="editor-container"></div>
                     <div class="resizer" id="resizer"></div>
                     <div class="preview-container">
-                        <div class="preview-header">Live Preview</div>
+                        <div class="preview-header" data-i18n="course.livePreview">Live Preview</div>
                         <iframe class="preview-frame" id="preview-frame"></iframe>
                     </div>
                 </div>
@@ -275,11 +276,11 @@
     <div class="modal-overlay" id="completion-modal">
         <div class="modal">
             <div class="modal-icon">🎉</div>
-            <h2>Del 2 Fullført!</h2>
-            <p>Gratulerer! Du har lært JavaScript og DOM-manipulering. Nå er du klar for å ta det neste steget og lære React + Vite i Del 3.</p>
+            <h2 data-i18n="part2.completedTitle">Del 2 Fullført!</h2>
+            <p data-i18n="part2.completedMsg">Gratulerer! Du har lært JavaScript og DOM-manipulering. Nå er du klar for å ta det neste steget og lære React + Vite i Del 3.</p>
             <div class="modal-actions">
-                <a href="index.html" class="btn btn-secondary">Tilbake til Hjem</a>
-                <a href="part3.html" class="btn btn-primary">Start Del 3 →</a>
+                <a href="index.html" class="btn btn-secondary" data-i18n="course.backHome">Tilbake til Hjem</a>
+                <a href="part3.html" class="btn btn-primary" data-i18n="part2.startPart3">Start Del 3 →</a>
             </div>
         </div>
     </div>
@@ -290,7 +291,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
     <script src="assets/js/database.js"></script>
     <script src="assets/js/auth.js"></script>
-    <script src="assets/js/app.js?v=6"></script>
+    <script src="assets/js/lang.js"></script>
+    <script src="assets/js/app.js?v=7"></script>
     <script src="assets/js/course-part2.js"></script>
 </body>
 </html>
