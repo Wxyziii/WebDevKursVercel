@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <title>Clear Cache & Storage</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            max-width: 600px;
+            margin: 100px auto;
+            padding: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        h1 { color: #333; margin-bottom: 20px; }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s;
+        }
+        button:hover { background: #5568d3; transform: translateY(-2px); }
+        .success { background: #10b981; }
+        .success:hover { background: #059669; }
+        pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: left;
+            font-size: 12px;
+            overflow-x: auto;
+        }
+        .status { margin-top: 20px; padding: 15px; border-radius: 8px; display: none; }
+        .status.show { display: block; }
+        .status.success-msg { background: #d1fae5; color: #065f46; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🔄 Clear Cache & Storage</h1>
+        <p>If you're seeing errors about "cannot read properties of undefined", click below to clear your browser cache and localStorage.</p>
+        
+        <button onclick="clearAll()" class="success">Clear Everything</button>
+        <button onclick="clearLocalStorage()">Clear localStorage Only</button>
+        <button onclick="showState()">Show Current State</button>
+        
+        <div id="status" class="status"></div>
+        <pre id="output"></pre>
+        
+        <hr style="margin: 30px 0; border: none; border-top: 1px solid #ddd;">
+        
+        <p style="color: #666; font-size: 14px;">After clearing, go back to:</p>
+        <a href="index.html"><button>🏠 Homepage</button></a>
+        <a href="part3.html"><button>⚛️ Del 3</button></a>
+    </div>
+    
+    <script>
+        function clearAll() {
+            try {
+                // Clear localStorage
+                localStorage.clear();
+                
+                // Clear sessionStorage
+                sessionStorage.clear();
+                
+                // Clear cookies
+                document.cookie.split(";").forEach(function(c) { 
+                    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
+                });
+                
+                showStatus('✅ All cache and storage cleared! Reloading in 2 seconds...', true);
+                setTimeout(() => window.location.reload(true), 2000);
+            } catch (e) {
+                showStatus('❌ Error: ' + e.message, false);
+            }
+        }
+        
+        function clearLocalStorage() {
+            try {
+                const oldState = localStorage.getItem('webdev_course_state');
+                localStorage.removeItem('webdev_course_state');
+                
+                showStatus('✅ localStorage cleared!', true);
+                document.getElementById('output').textContent = 'Old state was:\n\n' + 
+                    (oldState ? JSON.stringify(JSON.parse(oldState), null, 2) : 'empty');
+            } catch (e) {
+                showStatus('❌ Error: ' + e.message, false);
+            }
+        }
+        
+        function showState() {
+            const output = document.getElementById('output');
+            try {
+                const state = localStorage.getItem('webdev_course_state');
+                if (!state) {
+                    output.textContent = 'No state found in localStorage';
+                    return;
+                }
+                
+                const parsed = JSON.parse(state);
+                output.textContent = JSON.stringify(parsed, null, 2);
+                
+                // Check for part3Code
+                if (!parsed.part3Code) {
+                    showStatus('⚠️ Old state detected! Missing part3Code. Please clear localStorage.', false);
+                } else {
+                    showStatus('✅ State looks good!', true);
+                }
+            } catch (e) {
+                output.textContent = 'Error: ' + e.message;
+            }
+        }
+        
+        function showStatus(message, isSuccess) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = 'status show ' + (isSuccess ? 'success-msg' : '');
+        }
+        
+        // Auto-check on load
+        window.addEventListener('load', () => {
+            const state = localStorage.getItem('webdev_course_state');
+            if (state) {
+                try {
+                    const parsed = JSON.parse(state);
+                    if (!parsed.part3Code) {
+                        showStatus('⚠️ Old state detected! Click "Clear Everything" to fix errors.', false);
+                    }
+                } catch (e) {}
+            }
+        });
+    </script>
+</body>
+</html>
