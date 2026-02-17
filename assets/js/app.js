@@ -318,13 +318,17 @@ console.log('Portfolio lastet! 🚀');
     
     getDefaultJSX() {
         return `// App.jsx - Din React-komponent
-// Følg oppgavene for å bygge en React-app!
+// VIKTIG: Ikke bruk "import" - useState, useEffect og useRef er allerede tilgjengelig!
+// Vi bruker React fra CDN, ikke en build tool.
 
 function App() {
+    // Hooks er tilgjengelig direkte: useState, useEffect, useRef
+    
     return (
         <div className="app">
             {/* Start her! Erstatt denne kommentaren med JSX */}
             <h1>Hei fra React!</h1>
+            <p>Bruk useState, ikke import!</p>
         </div>
     );
 }

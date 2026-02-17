@@ -98,14 +98,16 @@
                                 <h3 class="exercise-title">useState Hook</h3>
                             </div>
                             <p class="exercise-description">
-                                Bruk <code>useState</code> for å legge til tilstand (state) i komponenten.
+                                Bruk <code>useState</code> for å legge til tilstand (state) i komponenten.<br>
+                                <em style="color: #e74c3c; font-size: 13px;">⚠️ Ikke bruk "import" - hooks er allerede tilgjengelig!</em>
                             </p>
                             <div class="exercise-hint">
                                 <strong>💡 Oppgave:</strong>
                                 Legg til en teller med useState:<br>
                                 <code>const [count, setCount] = useState(0);</code><br>
                                 Vis telleren i JSX:<br>
-                                <code>&lt;p&gt;Teller: {count}&lt;/p&gt;</code>
+                                <code>&lt;p&gt;Teller: {count}&lt;/p&gt;</code><br>
+                                <em style="color: #888; font-size: 12px;">Merk: useState er allerede tilgjengelig fra main.jsx</em>
                             </div>
                         </div>
 
@@ -222,6 +224,16 @@
 
                     <!-- Media Panel -->
                     <div class="tab-panel" id="media-panel">
+                        <div class="media-item" style="background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107;">
+                            <h4 style="color: #856404; margin-top: 0;">⚠️ Viktig: Ingen imports!</h4>
+                            <p style="color: #856404; margin-bottom: 0;">
+                                Vi bruker React fra CDN, ikke en build tool som Vite.<br>
+                                <strong>Ikke bruk:</strong> <code>import { useState } from "react"</code><br>
+                                <strong>Bruk direkte:</strong> <code>const [state, setState] = useState()</code><br>
+                                Hooks (useState, useEffect, useRef) er allerede tilgjengelig!
+                            </p>
+                        </div>
+                        
                         <div class="media-item">
                             <h4>⚛️ React Komponent-tre</h4>
                             <p>React bygger UI som et tre av komponenter. Hver komponent har sin egen tilstand og kan sende data nedover via props.</p>
@@ -290,7 +302,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
     <script src="assets/js/database.js"></script>
     <script src="assets/js/auth.js"></script>
-    <script src="assets/js/app.js?v=2"></script>
+    <script src="assets/js/app.js?v=4"></script>
     <script src="assets/js/course-part3.js"></script>
 </body>
 </html>
