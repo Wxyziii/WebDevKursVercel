@@ -614,7 +614,8 @@ function showCheatWarningModal(analysis) {
                 Husk at ekte læring tar tid!
             </p>
             <div class="modal-actions">
-                <a href="index.html" class="btn btn-primary">Tilbake til Hjem</a>
+                <a href="index.html" class="btn btn-secondary">Tilbake til Hjem</a>
+                <a href="part3.html" class="btn btn-primary">Start Del 3 →</a>
             </div>
         </div>
     `;
