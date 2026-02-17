@@ -445,6 +445,69 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ========================================
+// AUTO-CLEAR LOCALSTORAGE AFTER 35 MINUTES
+// ========================================
+
+(function initAutoClearTimer() {
+    const SESSION_KEY = 'webdev_session_start';
+    const CLEAR_AFTER_MS = 35 * 60 * 1000; // 35 minutes in milliseconds
+    
+    // Get or set session start time
+    let sessionStart = localStorage.getItem(SESSION_KEY);
+    
+    if (!sessionStart) {
+        // First visit - set start time
+        sessionStart = Date.now().toString();
+        localStorage.setItem(SESSION_KEY, sessionStart);
+    }
+    
+    // Check if 35 minutes have passed
+    function checkAndClearIfExpired() {
+        const startTime = parseInt(localStorage.getItem(SESSION_KEY));
+        const currentTime = Date.now();
+        const elapsed = currentTime - startTime;
+        
+        if (elapsed >= CLEAR_AFTER_MS) {
+            // Time's up! Clear everything
+            console.log('35 minutes elapsed - clearing localStorage');
+            
+            // Show notification before clearing
+            showToast('Session utløpt (35 min) - localStorage ryddes', 'info');
+            
+            // Clear all localStorage data after a short delay
+            setTimeout(() => {
+                localStorage.clear();
+                
+                // Show final message
+                showToast('Kurset er tilbakestilt. Last siden på nytt for å starte på nytt.', 'info');
+                
+                // Optionally reload after 3 seconds
+                setTimeout(() => {
+                    if (confirm('Session utløpt. Vil du laste siden på nytt?')) {
+                        window.location.reload();
+                    }
+                }, 3000);
+            }, 1000);
+            
+            return true;
+        }
+        
+        return false;
+    }
+    
+    // Check immediately on load
+    if (!checkAndClearIfExpired()) {
+        // If not expired, check every minute
+        setInterval(checkAndClearIfExpired, 60 * 1000);
+        
+        // Optional: Show time remaining in console
+        const startTime = parseInt(sessionStart);
+        const timeRemaining = CLEAR_AFTER_MS - (Date.now() - startTime);
+        console.log(`Session will auto-clear in ${Math.floor(timeRemaining / 60000)} minutes`);
+    }
+})();
+
+// ========================================
 // IMAGE LIGHTBOX
 // ========================================
 
