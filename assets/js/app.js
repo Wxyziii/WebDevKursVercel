@@ -7,9 +7,29 @@ const CourseState = {
     
     getState() {
         const stored = localStorage.getItem(this.STORAGE_KEY);
+        let state;
+        
         if (stored) {
-            return JSON.parse(stored);
+            state = JSON.parse(stored);
+            
+            // Migrate old state to new structure if needed
+            if (!state.part2Completed) {
+                state.part2Completed = false;
+            }
+            if (!state.part3TimeRemaining) {
+                state.part3TimeRemaining = 30 * 60;
+            }
+            if (!state.part3Code) {
+                state.part3Code = {
+                    jsx: this.getDefaultJSX(),
+                    css: this.getDefaultCSS(3),
+                    main: this.getDefaultMain()
+                };
+            }
+            
+            return state;
         }
+        
         return {
             part1Completed: false,
             part2Completed: false,
@@ -115,12 +135,34 @@ ${part1Css}
     
     saveCode(part, type, code) {
         const state = this.getState();
+        
+        // Ensure part code exists
+        if (!state[`part${part}Code`]) {
+            if (part === 3) {
+                state[`part${part}Code`] = {
+                    jsx: this.getDefaultJSX(),
+                    css: this.getDefaultCSS(3),
+                    main: this.getDefaultMain()
+                };
+            }
+        }
+        
         state[`part${part}Code`][type] = code;
         this.saveState(state);
     },
     
     getCode(part, type) {
-        return this.getState()[`part${part}Code`][type];
+        const state = this.getState();
+        const partCode = state[`part${part}Code`];
+        
+        // If part code doesn't exist, return defaults
+        if (!partCode) {
+            if (part === 1) return type === 'html' ? this.getDefaultHTML(1) : type === 'css' ? this.getDefaultCSS(1) : '';
+            if (part === 2) return type === 'html' ? this.getDefaultHTML(2) : type === 'css' ? this.getDefaultCSS(2) : type === 'js' ? this.getDefaultJS() : '';
+            if (part === 3) return type === 'jsx' ? this.getDefaultJSX() : type === 'css' ? this.getDefaultCSS(3) : type === 'main' ? this.getDefaultMain() : '';
+        }
+        
+        return partCode[type] || '';
     },
     
     saveTimeRemaining(part, time) {
@@ -130,7 +172,16 @@ ${part1Css}
     },
     
     getTimeRemaining(part) {
-        return this.getState()[`part${part}TimeRemaining`];
+        const state = this.getState();
+        const timeRemaining = state[`part${part}TimeRemaining`];
+        
+        // Return defaults if not set
+        if (timeRemaining === undefined) {
+            if (part === 1 || part === 2) return 15 * 60;
+            if (part === 3) return 30 * 60;
+        }
+        
+        return timeRemaining;
     },
     
     resetCourse() {
