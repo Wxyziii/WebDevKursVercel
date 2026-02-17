@@ -445,12 +445,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ========================================
-// AUTO-CLEAR LOCALSTORAGE AFTER 35 MINUTES
+// AUTO-CLEAR LOCALSTORAGE AFTER 75 MINUTES
 // ========================================
 
 (function initAutoClearTimer() {
     const SESSION_KEY = 'webdev_session_start';
-    const CLEAR_AFTER_MS = 35 * 60 * 1000; // 35 minutes in milliseconds
+    const CLEAR_AFTER_MS = 75 * 60 * 1000; // 75 minutes in milliseconds
     
     // Get or set session start time
     let sessionStart = localStorage.getItem(SESSION_KEY);
@@ -469,10 +469,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (elapsed >= CLEAR_AFTER_MS) {
             // Time's up! Clear everything
-            console.log('35 minutes elapsed - clearing localStorage');
+            console.log('75 minutes elapsed - clearing localStorage');
             
             // Show notification before clearing
-            showToast('Session utløpt (35 min) - localStorage ryddes', 'info');
+            showToast('Session utløpt (75 min) - localStorage ryddes', 'info');
             
             // Clear all localStorage data after a short delay
             setTimeout(() => {
