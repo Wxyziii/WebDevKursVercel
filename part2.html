@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Del 2: Interaktiv JavaScript - WebDev Kurs</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -222,13 +222,13 @@
                     <div class="tab-panel" id="media-panel">
                         <div class="media-item">
                             <h4>🌲 DOM Forklart</h4>
-                            <img src="DOM.png" alt="Document Object Model" class="media-image" onclick="openImageModal(this.src, this.alt)">
+                            <img src="assets/images/DOM.png" alt="Document Object Model" class="media-image" onclick="openImageModal(this.src, this.alt)">
                             <p>DOM er en trestruktur som representerer HTML-dokumentet. JavaScript kan traversere og endre denne strukturen for å oppdatere siden.</p>
                         </div>
 
                         <div class="media-item">
                             <h4>🎯 Event Flow</h4>
-                            <img src="EventFlow.png" alt="Event Capturing og Bubbling" class="media-image" onclick="openImageModal(this.src, this.alt)">
+                            <img src="assets/images/EventFlow.png" alt="Event Capturing og Bubbling" class="media-image" onclick="openImageModal(this.src, this.alt)">
                             <p>Events "bobler" oppover i DOM-treet. Du kan lytte på events på hvilken som helst node i hierarkiet.</p>
                         </div>
 
@@ -288,9 +288,9 @@
     <div class="toast-container"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
-    <script src="database.js"></script>
-    <script src="auth.js"></script>
-    <script src="app.js"></script>
-    <script src="course-part2.js"></script>
+    <script src="assets/js/database.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/course-part2.js"></script>
 </body>
 </html>
