@@ -12,8 +12,10 @@ const CourseState = {
         }
         return {
             part1Completed: false,
+            part2Completed: false,
             part1TimeRemaining: 15 * 60,
             part2TimeRemaining: 15 * 60,
+            part3TimeRemaining: 30 * 60,
             part1Code: {
                 html: this.getDefaultHTML(1),
                 css: this.getDefaultCSS(1),
@@ -23,6 +25,11 @@ const CourseState = {
                 html: this.getDefaultHTML(2),
                 css: this.getDefaultCSS(2),
                 js: this.getDefaultJS()
+            },
+            part3Code: {
+                jsx: this.getDefaultJSX(),
+                css: this.getDefaultCSS(3),
+                main: this.getDefaultMain()
             }
         };
     },
@@ -94,6 +101,16 @@ ${part1Css}
     
     isPart1Completed() {
         return this.getState().part1Completed;
+    },
+    
+    isPart2Completed() {
+        return this.getState().part2Completed;
+    },
+    
+    completePart2() {
+        const state = this.getState();
+        state.part2Completed = true;
+        this.saveState(state);
     },
     
     saveCode(part, type, code) {
@@ -197,6 +214,19 @@ ${part1Css}
 /* Legg til CSS her etterhvert som du gjør oppgavene */
 `;
         }
+        if (part === 3) {
+            return `/* App.css - Stiler for React-appen */
+
+.app {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Legg til mer CSS her etterhvert som du gjør oppgavene */
+`;
+        }
         return `/* Din CSS fra Del 1 vil vises her */
 * {
     margin: 0;
@@ -233,6 +263,30 @@ console.log('Portfolio lastet! 🚀');
 // Legg til JavaScript her etterhvert som du gjør oppgavene
 
 `;
+    },
+    
+    getDefaultJSX() {
+        return `// App.jsx - Din React-komponent
+// Følg oppgavene for å bygge en React-app!
+
+function App() {
+    return (
+        <div className="app">
+            {/* Start her! Erstatt denne kommentaren med JSX */}
+            <h1>Hei fra React!</h1>
+        </div>
+    );
+}
+`;
+    },
+    
+    getDefaultMain() {
+        return `// main.jsx - Inngangspunktet for React-appen
+// Dette filen monterer App-komponenten i DOM-en
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+`;
     }
 };
 
@@ -267,6 +321,9 @@ function updateNavigation() {
     const navPart2 = document.getElementById('nav-part2');
     const part2Card = document.getElementById('part2-card');
     const part2Btn = document.getElementById('part2-btn');
+    const navPart3 = document.getElementById('nav-part3');
+    const part3Card = document.getElementById('part3-card');
+    const part3Btn = document.getElementById('part3-btn');
     
     if (CourseState.isPart1Completed()) {
         if (navPart2) navPart2.classList.remove('locked');
@@ -277,6 +334,17 @@ function updateNavigation() {
     } else {
         if (navPart2) navPart2.classList.add('locked');
         if (part2Card) part2Card.classList.add('locked');
+    }
+    
+    if (CourseState.isPart2Completed()) {
+        if (navPart3) navPart3.classList.remove('locked');
+        if (part3Card) part3Card.classList.remove('locked');
+        if (part3Btn) {
+            part3Btn.innerHTML = 'Start Del 3';
+        }
+    } else {
+        if (navPart3) navPart3.classList.add('locked');
+        if (part3Card) part3Card.classList.add('locked');
     }
 }
 
@@ -296,11 +364,27 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
+    const navPart3 = document.getElementById('nav-part3');
+    if (navPart3 && !CourseState.isPart2Completed()) {
+        navPart3.addEventListener('click', (e) => {
+            e.preventDefault();
+            showToast('Fullfør Del 2 først for å låse opp Del 3', 'info');
+        });
+    }
+    
     const part2Btn = document.getElementById('part2-btn');
     if (part2Btn && !CourseState.isPart1Completed()) {
         part2Btn.addEventListener('click', (e) => {
             e.preventDefault();
             showToast('Fullfør Del 1 først for å låse opp Del 2', 'info');
+        });
+    }
+    
+    const part3Btn = document.getElementById('part3-btn');
+    if (part3Btn && !CourseState.isPart2Completed()) {
+        part3Btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            showToast('Fullfør Del 2 først for å låse opp Del 3', 'info');
         });
     }
 });

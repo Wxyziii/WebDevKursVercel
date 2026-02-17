@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil - WebDev Kurs</title>
+    <title>Rangering - WebDev Kurs</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -18,7 +18,8 @@
             <a href="index.html" class="nav-link">Hjem</a>
             <a href="part1.html" class="nav-link">Del 1</a>
             <a href="part2.html" class="nav-link" id="nav-part2">Del 2</a>
-            <a href="leaderboard.html" class="nav-link">Rangering</a>
+            <a href="part3.html" class="nav-link" id="nav-part3">Del 3</a>
+            <a href="leaderboard.html" class="nav-link active">Rangering</a>
             <a href="gallery.html" class="nav-link">Galleri</a>
         </div>
         <div class="nav-auth">
@@ -31,8 +32,30 @@
     </nav>
 
     <main class="page-content">
-        <div id="profile-content">
-            <div class="loading">Laster profil...</div>
+        <div class="page-header">
+            <h1>🏆 Rangering</h1>
+            <p>Se hvem som har fullført kurset raskest</p>
+        </div>
+
+        <div class="leaderboard-container glass-card">
+            <div id="leaderboard-content">
+                <div class="loading">Laster rangeringsliste...</div>
+            </div>
+        </div>
+
+        <div class="leaderboard-info glass-card">
+            <h3>Om rangeringen</h3>
+            <p>Rangeringen viser brukere som har fullført både Del 1 og Del 2 av kurset, sortert etter total tid brukt.</p>
+            <div class="info-badges">
+                <div class="info-badge">
+                    <span class="valid-badge">✓ Gyldig</span>
+                    <span>Brukeren har bestått alle sjekkene</span>
+                </div>
+                <div class="info-badge">
+                    <span class="flag-badge">⚠️ Flagget</span>
+                    <span>Mistenkelig aktivitet oppdaget</span>
+                </div>
+            </div>
         </div>
     </main>
 
@@ -46,7 +69,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             updateAuthUI();
-            await loadProfile();
+            await loadLeaderboard();
         });
     </script>
 </body>
