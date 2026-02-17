@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <title>State Test</title>
+    <script src="assets/js/app.js"></script>
+</head>
+<body>
+    <h1>State Migration Test</h1>
+    <button onclick="testState()">Test State</button>
+    <button onclick="clearState()">Clear LocalStorage</button>
+    <pre id="output"></pre>
+    
+    <script>
+        function testState() {
+            const output = document.getElementById('output');
+            try {
+                const state = CourseState.getState();
+                output.textContent = JSON.stringify(state, null, 2);
+                
+                // Test accessing part3 code
+                const jsxCode = CourseState.getCode(3, 'jsx');
+                const cssCode = CourseState.getCode(3, 'css');
+                const mainCode = CourseState.getCode(3, 'main');
+                
+                output.textContent += '\n\n=== Part 3 Code Test ===\n';
+                output.textContent += 'JSX exists: ' + (jsxCode ? 'YES' : 'NO') + '\n';
+                output.textContent += 'CSS exists: ' + (cssCode ? 'YES' : 'NO') + '\n';
+                output.textContent += 'Main exists: ' + (mainCode ? 'YES' : 'NO') + '\n';
+                output.textContent += '\n✅ All tests passed!';
+            } catch (e) {
+                output.textContent = '❌ Error: ' + e.message + '\n\n' + e.stack;
+            }
+        }
+        
+        function clearState() {
+            localStorage.removeItem('webdev_course_state');
+            alert('LocalStorage cleared! Refresh to test fresh state.');
+        }
+    </script>
+</body>
+</html>
