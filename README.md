@@ -1,110 +1,104 @@
-# WebDev Kurs - Setup Guide
+# WebDev Kurs 🌐
 
-## 🚀 Sette opp Supabase (10 minutter)
+A free, self-contained web development course built as a static site and deployed on Vercel. Students learn HTML, CSS, JavaScript, and React through hands-on exercises with a live code editor — no setup required.
 
-### Steg 1: Opprett Supabase-prosjekt
-1. Gå til [supabase.com](https://supabase.com) og logg inn (eller lag konto)
-2. Klikk **"New Project"**
-3. Velg en organisasjon, gi prosjektet et navn (f.eks. "webdev-kurs")
-4. Lag et sterkt database-passord (lagre det!)
-5. Velg region nærmest deg (f.eks. Frankfurt)
-6. Klikk **"Create new project"** og vent 2 minutter
+## Features
 
-### Steg 2: Opprett database-tabeller
-1. I Supabase Dashboard, gå til **SQL Editor** (venstre meny)
-2. Klikk **"New query"**
-3. Kopier HELE innholdet fra filen `supabase-setup.sql`
-4. Lim inn i SQL Editor
-5. Klikk **"Run"** (eller Ctrl+Enter)
-6. Du skal se "Success" melding
+- **3 Course Parts** — HTML & CSS (15 min), JavaScript (15 min), React + Vite (30 min)
+- **Monaco Code Editor** — Professional in-browser editor with syntax highlighting and autocomplete
+- **Live Preview** — Instant visual feedback as students write code
+- **Auto-save** — Progress saved to `localStorage` automatically
+- **Progressive Unlock** — Each part unlocks after completing the previous one
+- **Cheat Detection** — Tracks keystrokes, code changes, and timing for integrity
+- **Leaderboard** — Ranked by completion time with validity badges
+- **Project Gallery** — Showcase of student-submitted work
+- **🇳🇴/🇬🇧 Language Toggle** — Full Norwegian and English support
+- **Auto-clear** — Session resets after 75 minutes
 
-### Steg 3: Hent API-nøkler
-1. Gå til **Settings** → **API** (venstre meny)
-2. Under "Project URL", kopier URL-en (ser ut som `https://xxxxx.supabase.co`)
-3. Under "Project API keys", kopier **anon/public** key
+## Tech Stack
 
-### Steg 4: Konfigurer nettsiden
-1. Åpne filen `database.js`
-2. Erstatt linje 7-8 med dine verdier:
-```javascript
-const SUPABASE_URL = 'https://DIN_PROJECT_ID.supabase.co';
-const SUPABASE_ANON_KEY = 'din_anon_key_her';
+| Layer | Technology |
+|-------|-----------|
+| Frontend | Vanilla HTML, CSS, JavaScript |
+| Editor | [Monaco Editor](https://microsoft.github.io/monaco-editor/) (CDN) |
+| React (Del 3) | React 18 + Babel standalone via CDN |
+| Database | [Supabase](https://supabase.com/) (auth, completions, projects) |
+| Hosting | [Vercel](https://vercel.com/) (static site) |
+| i18n | Custom `Lang` module with `data-i18n` attributes |
+
+## Project Structure
+
+```
+WebDevKursVercel/
+├── index.html                # Homepage
+├── part1.html                # Del 1: HTML & CSS
+├── part2.html                # Del 2: JavaScript
+├── part3.html                # Del 3: React + Vite
+├── gallery.html              # Project gallery
+├── leaderboard.html          # Leaderboard
+├── profile.html              # User profile
+├── vercel.json               # Vercel deployment config
+│
+├── assets/
+│   ├── css/styles.css        # Main stylesheet
+│   ├── js/
+│   │   ├── app.js            # Core state management & UI helpers
+│   │   ├── lang.js           # i18n translations (NO/EN)
+│   │   ├── auth.js           # Supabase authentication
+│   │   ├── database.js       # Supabase database service
+│   │   ├── course-part1.js   # Part 1 editor & exercises
+│   │   ├── course-part2.js   # Part 2 editor & exercises
+│   │   └── course-part3.js   # Part 3 editor & exercises
+│   └── images/               # Educational diagrams
+│
+├── sql/                      # Database schema
+│   └── supabase-setup.sql
+└── docs/                     # Additional documentation
 ```
 
-### Steg 5: Aktiver e-post auth
-1. I Supabase, gå til **Authentication** → **Providers**
-2. Sjekk at **Email** er aktivert
-3. (Valgfritt) Under **Authentication** → **Settings**, kan du:
-   - Skru av "Confirm email" for enklere testing
-   - Justere "Site URL" til din Vercel URL senere
+## Getting Started
 
----
+### Local Development
 
-## 🌐 Deploy til Vercel
+No build step needed — just serve the static files:
 
-### Alternativ A: Via GitHub (anbefalt)
 ```bash
-git init
-git add .
-git commit -m "Initial commit"
-git branch -M main
-git remote add origin https://github.com/DITT-BRUKERNAVN/webdev-kurs.git
-git push -u origin main
+# Using Python
+python3 -m http.server 8000
+
+# Using Node.js
+npx serve .
 ```
 
-Deretter:
-1. Gå til [vercel.com](https://vercel.com) og logg inn med GitHub
-2. Klikk **"New Project"**
-3. Importer GitHub-repoet ditt
-4. Klikk **"Deploy"**
-5. Ferdig! Du får en URL som `webdev-kurs.vercel.app`
+Then open `http://localhost:8000` in your browser.
 
-### Alternativ B: Vercel CLI
+### Deploy to Vercel
+
+1. Push the repository to GitHub
+2. Import the repo in [Vercel](https://vercel.com/new)
+3. Deploy — no build settings needed (static site)
+
+Or via CLI:
+
 ```bash
-npm install -g vercel
-vercel
+npm i -g vercel
+vercel --prod
 ```
 
----
+### Database Setup
 
-## 👤 Admin-konto
+1. Create a [Supabase](https://supabase.com/) project
+2. Run `sql/supabase-setup.sql` in the Supabase SQL editor
+3. Update the Supabase URL and anon key in `assets/js/database.js`
 
-For å bli admin, registrer deg med e-posten:
-```
-admin@kurs.no
-```
+## How It Works
 
-Som admin kan du:
-- Slette oppføringer fra leaderboard
-- Slette prosjekter fra galleriet
-- Se slett-knapper i UI
+1. **Part 1** — Students build a portfolio site learning HTML structure and CSS styling (8 exercises)
+2. **Part 2** — Extends the portfolio with JavaScript interactivity: forms, events, DOM manipulation (8 exercises)
+3. **Part 3** — Introduces React concepts: components, useState, props, .map(), conditional rendering (8 exercises)
 
----
+Each part has a timer, exercise checklist, resource panel with diagrams, and a completion modal that unlocks the next part.
 
-## 📁 Filstruktur
+## License
 
-```
-├── index.html          # Startside
-├── part1.html          # Kurs del 1 (HTML/CSS)
-├── part2.html          # Kurs del 2 (JavaScript)
-├── leaderboard.html    # Rangering
-├── gallery.html        # Prosjektgalleri
-├── styles.css          # All styling
-├── app.js              # Hoved-app logikk
-├── auth.js             # Autentisering & UI
-├── database.js         # Supabase tilkobling
-├── course-part1.js     # Del 1 kode-editor
-├── course-part2.js     # Del 2 kode-editor
-├── supabase-setup.sql  # Database oppsett
-├── vercel.json         # Vercel konfigurasjon
-└── README.md           # Denne filen
-```
-
----
-
-## ⚠️ Viktig
-
-- **IKKE** del `SUPABASE_ANON_KEY` offentlig (selv om den er "anon", er det best practice)
-- For produksjon, vurder å bruke Vercel Environment Variables
-- Supabase gratis tier har begrensninger, men er nok for et kurs
-- Laget bare med AI
+This project is for educational purposes.
