@@ -412,9 +412,13 @@ function startTimer() {
 
   timerInterval = setInterval(() => {
     timeRemaining--;
-    CourseState.saveTimeRemaining(3, timeRemaining);
     updateTimerDisplay();
-    updateProgress();
+
+    try {
+      CourseState.saveTimeRemaining(3, timeRemaining);
+    } catch (e) {
+      // localStorage might fail in private browsing mode
+    }
 
     if (timeRemaining <= 0) {
       clearInterval(timerInterval);
