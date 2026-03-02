@@ -586,9 +586,14 @@ document.getElementById("complete-btn")?.addEventListener("click", async () => {
       }
 
       // Update user record
-      await db.updateUser(user.id, { part3Completed: true });
+      try {
+        await db.updateUser(user.id, { part3Completed: true });
+      } catch (e) {
+        console.warn("Could not update part3_completed (run Supabase migration):", e.message);
+      }
     } catch (err) {
       console.error("Failed to save completion to database:", err);
+      showToast("DB-feil: " + err.message, "error");
     }
   }
 

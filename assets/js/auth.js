@@ -368,6 +368,10 @@ async function loadLeaderboard() {
     const container = document.getElementById('leaderboard-content');
     if (!container) return;
 
+    // Refresh user from DB to ensure admin status is current
+    await AuthService.refreshUser();
+    updateAuthUI();
+
     container.innerHTML = '<div class="loading">Laster rangeringsliste...</div>';
     const isAdmin = AuthService.isAdmin();
 
@@ -511,6 +515,9 @@ async function adminDeleteProject(projectId) {
 async function loadGallery() {
     const container = document.getElementById('gallery-content');
     if (!container) return;
+
+    // Refresh user from DB to ensure admin/owner status is current
+    await AuthService.refreshUser();
 
     container.innerHTML = '<div class="loading">Laster prosjekter...</div>';
 
