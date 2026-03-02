@@ -540,49 +540,55 @@ document.getElementById("complete-btn")?.addEventListener("click", async () => {
   const user = AuthService.getCurrentUser();
 
   if (user) {
-    // Get existing completion
-    const existingCompletion = await db.getLatestUserCompletion(user.id);
+    try {
+      // Get existing completion
+      const existingCompletion = await db.getLatestUserCompletion(user.id);
 
-    if (existingCompletion) {
-      const part1Time = existingCompletion.part1_time || 0;
-      const part2Time = existingCompletion.part2_time || 0;
-      const totalTime = part1Time + part2Time + timeUsed;
+      if (existingCompletion) {
+        const part1Time = existingCompletion.part1_time || 0;
+        const part2Time = existingCompletion.part2_time || 0;
+        const totalTime = part1Time + part2Time + timeUsed;
 
-      await db.updateCompletion(existingCompletion.id, {
-        part3Time: timeUsed,
-        totalTime: totalTime,
-        isFlagged: cheatAnalysis.isSuspicious || existingCompletion.is_flagged,
-        flagReason: cheatAnalysis.isSuspicious
-          ? cheatAnalysis.flags.join(", ")
-          : existingCompletion.flag_reason,
-        cheatScore: Math.max(
-          cheatAnalysis.summary?.cheatScore || 0,
-          existingCompletion.cheat_score || 0,
-        ),
-      });
-    } else {
-      await db.saveCompletion(user.id, {
-        part1Time: null,
-        part2Time: null,
-        part3Time: timeUsed,
-        totalTime: timeUsed,
-        isFlagged: cheatAnalysis.isSuspicious,
-        flagReason: cheatAnalysis.isSuspicious
-          ? cheatAnalysis.flags.join(", ")
-          : null,
-        cheatScore: cheatAnalysis.summary?.cheatScore || 0,
-      });
+        await db.updateCompletion(existingCompletion.id, {
+          part3Time: timeUsed,
+          totalTime: totalTime,
+          isFlagged: cheatAnalysis.isSuspicious || existingCompletion.is_flagged,
+          flagReason: cheatAnalysis.isSuspicious
+            ? cheatAnalysis.flags.join(", ")
+            : existingCompletion.flag_reason,
+          cheatScore: Math.max(
+            cheatAnalysis.summary?.cheatScore || 0,
+            existingCompletion.cheat_score || 0,
+          ),
+        });
+      } else {
+        await db.saveCompletion(user.id, {
+          part1Time: null,
+          part2Time: null,
+          part3Time: timeUsed,
+          totalTime: timeUsed,
+          isFlagged: cheatAnalysis.isSuspicious,
+          flagReason: cheatAnalysis.isSuspicious
+            ? cheatAnalysis.flags.join(", ")
+            : null,
+          cheatScore: cheatAnalysis.summary?.cheatScore || 0,
+        });
+      }
+
+      // Flag user if suspicious
+      if (cheatAnalysis.isSuspicious) {
+        await db.flagUser(user.id, cheatAnalysis.flags.join(", "));
+        console.warn("User flagged for suspicious activity:", cheatAnalysis);
+      }
+
+      // Update user record
+      await db.updateUser(user.id, { part3Completed: true });
+    } catch (err) {
+      console.error("Failed to save completion to database:", err);
     }
-
-    // Flag user if suspicious
-    if (cheatAnalysis.isSuspicious) {
-      await db.flagUser(user.id, cheatAnalysis.flags.join(", "));
-      console.warn("User flagged for suspicious activity:", cheatAnalysis);
-    }
-
-    // Update user record
-    await db.updateUser(user.id, { part3Completed: true });
   }
+
+  CourseState.completePart3();
 
   if (timerInterval) {
     clearInterval(timerInterval);

@@ -133,6 +133,12 @@ ${part1Css}
         this.saveState(state);
     },
     
+    completePart3() {
+        const state = this.getState();
+        state.part3Completed = true;
+        this.saveState(state);
+    },
+    
     saveCode(part, type, code) {
         const state = this.getState();
         

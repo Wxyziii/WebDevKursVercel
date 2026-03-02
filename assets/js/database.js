@@ -47,6 +47,7 @@ class DatabaseService {
                 is_admin: isAdmin,
                 part1_completed: false,
                 part2_completed: false,
+                part3_completed: false,
                 is_flagged: false,
                 flag_reason: null,
                 created_at: new Date().toISOString()
@@ -106,6 +107,7 @@ class DatabaseService {
         const dbUpdates = {};
         if (updates.part1Completed !== undefined) dbUpdates.part1_completed = updates.part1Completed;
         if (updates.part2Completed !== undefined) dbUpdates.part2_completed = updates.part2Completed;
+        if (updates.part3Completed !== undefined) dbUpdates.part3_completed = updates.part3Completed;
         if (updates.isFlagged !== undefined) dbUpdates.is_flagged = updates.isFlagged;
         if (updates.flagReason !== undefined) dbUpdates.flag_reason = updates.flagReason;
 
@@ -128,6 +130,7 @@ class DatabaseService {
             isAdmin: dbUser.is_admin,
             part1Completed: dbUser.part1_completed,
             part2Completed: dbUser.part2_completed,
+            part3Completed: dbUser.part3_completed,
             isFlagged: dbUser.is_flagged,
             flagReason: dbUser.flag_reason,
             createdAt: dbUser.created_at
@@ -149,6 +152,7 @@ class DatabaseService {
                 user_id: userId,
                 part1_time: completionData.part1Time,
                 part2_time: completionData.part2Time,
+                part3_time: completionData.part3Time,
                 total_time: completionData.totalTime,
                 is_flagged: completionData.isFlagged || false,
                 flag_reason: completionData.flagReason || null,
@@ -166,6 +170,7 @@ class DatabaseService {
         const dbUpdates = {};
         if (updates.part1Time !== undefined) dbUpdates.part1_time = updates.part1Time;
         if (updates.part2Time !== undefined) dbUpdates.part2_time = updates.part2Time;
+        if (updates.part3Time !== undefined) dbUpdates.part3_time = updates.part3Time;
         if (updates.totalTime !== undefined) dbUpdates.total_time = updates.totalTime;
         if (updates.isFlagged !== undefined) dbUpdates.is_flagged = updates.isFlagged;
         if (updates.flagReason !== undefined) dbUpdates.flag_reason = updates.flagReason;
@@ -186,7 +191,6 @@ class DatabaseService {
             .from('completions')
             .select('*')
             .eq('user_id', userId)
-            .is('part2_time', null)
             .order('completed_at', { ascending: false })
             .limit(1)
             .single();
@@ -225,6 +229,7 @@ class DatabaseService {
             userName: entry.users?.name || 'Ukjent',
             part1Time: entry.part1_time,
             part2Time: entry.part2_time,
+            part3Time: entry.part3_time,
             totalTime: entry.total_time,
             isFlagged: entry.is_flagged || entry.users?.is_flagged,
             flagReason: entry.flag_reason,

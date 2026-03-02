@@ -387,6 +387,7 @@ async function loadLeaderboard() {
                         <th>Navn</th>
                         <th>Del 1</th>
                         <th>Del 2</th>
+                        <th>Del 3</th>
                         <th>Total tid</th>
                         <th>Status</th>
                         ${isAdmin ? '<th>Admin</th>' : ''}
@@ -399,6 +400,7 @@ async function loadLeaderboard() {
                             <td class="name"><a href="profile.html?id=${entry.userId}" class="profile-link">${escapeHtml(entry.userName)}</a></td>
                             <td>${formatTime(entry.part1Time)}</td>
                             <td>${formatTime(entry.part2Time)}</td>
+                            <td>${formatTime(entry.part3Time)}</td>
                             <td class="total-time">${formatTime(entry.totalTime)}</td>
                             <td class="status">
                                 ${entry.isFlagged ? '<span class="flag-badge">⚠️ Flagget</span>' : '<span class="valid-badge">✓ Gyldig</span>'}
@@ -532,7 +534,7 @@ async function loadGallery() {
             preview.className = 'gallery-preview';
             
             const iframe = document.createElement('iframe');
-            iframe.sandbox = 'allow-scripts';
+            iframe.sandbox = 'allow-scripts allow-same-origin';
             iframe.srcdoc = buildProjectHTML(project);
             preview.appendChild(iframe);
             
@@ -581,9 +583,9 @@ async function viewProject(projectId) {
             
             <div class="project-tabs">
                 <button class="project-tab active" data-tab="preview">Preview</button>
-                <button class="project-tab" data-tab="html">HTML</button>
+                <button class="project-tab" data-tab="html">${project.part === 3 ? 'App.jsx' : 'HTML'}</button>
                 <button class="project-tab" data-tab="css">CSS</button>
-                ${project.js ? '<button class="project-tab" data-tab="js">JavaScript</button>' : ''}
+                ${project.js ? `<button class="project-tab" data-tab="js">${project.part === 3 ? 'main.jsx' : 'JavaScript'}</button>` : ''}
             </div>
             
             <div class="project-content">
@@ -773,6 +775,26 @@ async function loadProfile() {
 // ========================================
 
 function buildProjectHTML(project) {
+    // Part 3 (React/JSX) projects need React CDN + Babel
+    if (project.part === 3) {
+        return `<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<style>${project.css}</style>
+<script src="https://unpkg.com/react@18/umd/react.development.js"><\/script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"><\/script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"><\/script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+${project.html}
+${project.js || ''}
+<\/script>
+</body></html>`;
+    }
+
     let html = project.html;
     
     if (html.includes('</head>')) {
