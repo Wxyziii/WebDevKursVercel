@@ -6,10 +6,13 @@ WebDevKursVercel/
 ├── part1.html              # Del 1: HTML & CSS (15 min)
 ├── part2.html              # Del 2: JavaScript (15 min)
 ├── part3.html              # Del 3: React + Vite (30 min)
+├── part4.html              # Ekstra: Fritt Prosjekt (ubegrenset)
 ├── gallery.html            # Project gallery
 ├── leaderboard.html        # Leaderboard
 ├── profile.html            # User profile
+├── clear-cache.html        # Cache clearing utility
 ├── test.html               # Test page
+├── test-state.html         # State test page
 ├── vercel.json             # Vercel deployment config
 │
 ├── assets/                 # Static assets
@@ -17,11 +20,13 @@ WebDevKursVercel/
 │   │   └── styles.css     # Main stylesheet
 │   ├── js/
 │   │   ├── app.js         # Core app logic & state management
-│   │   ├── auth.js        # Authentication service
+│   │   ├── auth.js        # Authentication service & cheat detection
 │   │   ├── database.js    # Supabase database service
-│   │   ├── course-part1.js
-│   │   ├── course-part2.js
-│   │   └── course-part3.js
+│   │   ├── lang.js        # i18n translations (NO/EN)
+│   │   ├── course-part1.js # Part 1 editor & exercises
+│   │   ├── course-part2.js # Part 2 editor & exercises
+│   │   ├── course-part3.js # Part 3 editor & exercises
+│   │   └── course-part4.js # Part 4 free-build editor
 │   ├── images/
 │   │   ├── CSSModel.png
 │   │   ├── DOM.png

@@ -16,7 +16,7 @@ let cssEditorContainer = null;
 let jsEditorContainer = null;
 
 // Initialize cheat detection
-if (CourseState.isPart1Completed()) {
+if (isAdminUser() || CourseState.isPart1Completed()) {
   CheatDetector.init(2);
 }
 
@@ -27,7 +27,7 @@ if (CourseState.isPart1Completed()) {
 document.addEventListener("DOMContentLoaded", () => {
   updateAuthUI();
 
-  if (!CourseState.isPart1Completed()) {
+  if (!isAdminUser() && !CourseState.isPart1Completed()) {
     document.getElementById("locked-overlay").style.display = "flex";
     return;
   }
@@ -54,7 +54,7 @@ require.config({
 });
 
 require(["vs/editor/editor.main"], function () {
-  if (!CourseState.isPart1Completed()) return;
+  if (!isAdminUser() && !CourseState.isPart1Completed()) return;
 
   // Define dark theme
   monaco.editor.defineTheme("courseTheme", {

@@ -584,7 +584,13 @@ function showToast(message, type = 'success') {
     }, 3000);
 }
 
+// Check if current user is admin (bypasses all locks)
+function isAdminUser() {
+    return typeof AuthService !== 'undefined' && AuthService.isAdmin();
+}
+
 function updateNavigation() {
+    const admin = isAdminUser();
     const navPart2 = document.getElementById('nav-part2');
     const part2Card = document.getElementById('part2-card');
     const part2Btn = document.getElementById('part2-btn');
@@ -592,7 +598,7 @@ function updateNavigation() {
     const part3Card = document.getElementById('part3-card');
     const part3Btn = document.getElementById('part3-btn');
     
-    if (CourseState.isPart1Completed()) {
+    if (admin || CourseState.isPart1Completed()) {
         if (navPart2) navPart2.classList.remove('locked');
         if (part2Card) part2Card.classList.remove('locked');
         if (part2Btn) {
@@ -603,7 +609,7 @@ function updateNavigation() {
         if (part2Card) part2Card.classList.add('locked');
     }
     
-    if (CourseState.isPart2Completed()) {
+    if (admin || CourseState.isPart2Completed()) {
         if (navPart3) navPart3.classList.remove('locked');
         if (part3Card) part3Card.classList.remove('locked');
         if (part3Btn) {
@@ -618,7 +624,7 @@ function updateNavigation() {
     const part4Card = document.getElementById('part4-card');
     const part4Btn = document.getElementById('part4-btn');
 
-    if (CourseState.isPart3Completed()) {
+    if (admin || CourseState.isPart3Completed()) {
         if (navPart4) navPart4.classList.remove('locked');
         if (part4Card) part4Card.classList.remove('locked');
         if (part4Btn) {
@@ -637,9 +643,11 @@ function updateNavigation() {
 document.addEventListener('DOMContentLoaded', () => {
     updateNavigation();
     
-    // Handle locked navigation
+    const admin = isAdminUser();
+
+    // Handle locked navigation (admin bypasses all locks)
     const navPart2 = document.getElementById('nav-part2');
-    if (navPart2 && !CourseState.isPart1Completed()) {
+    if (navPart2 && !admin && !CourseState.isPart1Completed()) {
         navPart2.addEventListener('click', (e) => {
             e.preventDefault();
             showToast(typeof Lang !== 'undefined' ? Lang.t('toast.unlockPart2') : 'Fullfør Del 1 først for å låse opp Del 2', 'info');
@@ -647,7 +655,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     const navPart3 = document.getElementById('nav-part3');
-    if (navPart3 && !CourseState.isPart2Completed()) {
+    if (navPart3 && !admin && !CourseState.isPart2Completed()) {
         navPart3.addEventListener('click', (e) => {
             e.preventDefault();
             showToast(typeof Lang !== 'undefined' ? Lang.t('toast.unlockPart3') : 'Fullfør Del 2 først for å låse opp Del 3', 'info');
@@ -655,7 +663,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     const part2Btn = document.getElementById('part2-btn');
-    if (part2Btn && !CourseState.isPart1Completed()) {
+    if (part2Btn && !admin && !CourseState.isPart1Completed()) {
         part2Btn.addEventListener('click', (e) => {
             e.preventDefault();
             showToast(typeof Lang !== 'undefined' ? Lang.t('toast.unlockPart2') : 'Fullfør Del 1 først for å låse opp Del 2', 'info');
@@ -663,7 +671,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     const part3Btn = document.getElementById('part3-btn');
-    if (part3Btn && !CourseState.isPart2Completed()) {
+    if (part3Btn && !admin && !CourseState.isPart2Completed()) {
         part3Btn.addEventListener('click', (e) => {
             e.preventDefault();
             showToast(typeof Lang !== 'undefined' ? Lang.t('toast.unlockPart3') : 'Fullfør Del 2 først for å låse opp Del 3', 'info');
@@ -671,7 +679,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const navPart4 = document.getElementById('nav-part4');
-    if (navPart4 && !CourseState.isPart3Completed()) {
+    if (navPart4 && !admin && !CourseState.isPart3Completed()) {
         navPart4.addEventListener('click', (e) => {
             e.preventDefault();
             showToast(typeof Lang !== 'undefined' ? Lang.t('toast.unlockPart4') : 'Fullfør Del 3 først for å låse opp Ekstra', 'info');
@@ -679,7 +687,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const part4Btn = document.getElementById('part4-btn');
-    if (part4Btn && !CourseState.isPart3Completed()) {
+    if (part4Btn && !admin && !CourseState.isPart3Completed()) {
         part4Btn.addEventListener('click', (e) => {
             e.preventDefault();
             showToast(typeof Lang !== 'undefined' ? Lang.t('toast.unlockPart4') : 'Fullfør Del 3 først for å låse opp Ekstra', 'info');

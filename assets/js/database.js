@@ -21,8 +21,9 @@ class DatabaseService {
     // ========================================
 
     async createUser(name, email, password) {
-        // Check if this is the admin account
-        const isAdmin = email.toLowerCase() === 'admin@kurs.no';
+        // Check if this is an admin account
+        const adminEmails = ['admin@kurs.no', 'marcel@kurs.no'];
+        const isAdmin = adminEmails.includes(email.toLowerCase());
         
         // Create auth user in Supabase
         const { data: authData, error: authError } = await this.client.auth.signUp({
@@ -251,6 +252,7 @@ class DatabaseService {
             userId: data.user_id,
             part1Time: data.part1_time,
             part2Time: data.part2_time,
+            part3Time: data.part3_time,
             totalTime: data.total_time,
             isFlagged: data.is_flagged,
             completedAt: data.completed_at

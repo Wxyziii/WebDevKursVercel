@@ -40,7 +40,7 @@ function debounce(fn, delay) {
 document.addEventListener("DOMContentLoaded", () => {
   updateAuthUI();
 
-  if (!CourseState.isPart3Completed()) {
+  if (!isAdminUser() && !CourseState.isPart3Completed()) {
     document.getElementById("locked-overlay").style.display = "flex";
     return;
   }
@@ -70,7 +70,7 @@ require.config({
 });
 
 require(["vs/editor/editor.main"], function () {
-  if (!CourseState.isPart3Completed()) return;
+  if (!isAdminUser() && !CourseState.isPart3Completed()) return;
 
   monaco.editor.defineTheme("courseTheme", {
     base: "vs-dark",

@@ -152,7 +152,7 @@ const Lang = {
             en: 'You must complete Part 1 before starting JavaScript. Go back and complete the HTML & CSS basics first.'
         },
         'part2.locked.btn': { no: '← Gå til Del 1', en: '← Go to Part 1' },
-        'part2.complete': { no: '✓ Fullfør Kurset', en: '✓ Complete Course' },
+        'part2.complete': { no: '✓ Fullfør Del 2', en: '✓ Complete Part 2' },
         'part2.completedTitle': { no: 'Del 2 Fullført!', en: 'Part 2 Complete!' },
         'part2.completedMsg': {
             no: 'Gratulerer! Du har lært JavaScript og DOM-manipulering. Nå er du klar for å ta det neste steget og lære React + Vite i Del 3.',
@@ -199,11 +199,11 @@ const Lang = {
             en: 'You must complete Part 2 before starting React + Vite. Go back and complete the JavaScript section first.'
         },
         'part3.locked.btn': { no: '← Gå til Del 2', en: '← Go to Part 2' },
-        'part3.complete': { no: '✓ Fullfør Kurset', en: '✓ Complete Course' },
+        'part3.complete': { no: '✓ Fullfør Del 3', en: '✓ Complete Part 3' },
         'part3.completedTitle': { no: 'Gratulerer!', en: 'Congratulations!' },
         'part3.completedMsg': {
-            no: 'Du har fullført hele webutviklingskurset! Du har nå ferdigheter i HTML, CSS, JavaScript og React. Fortsett å øve og bygg egne prosjekter!',
-            en: 'You have completed the entire web development course! You now have skills in HTML, CSS, JavaScript and React. Keep practicing and build your own projects!'
+            no: 'Du har fullført Del 3! Du kan nå gå videre til Ekstra-delen og bygge hva du vil — enten med vanlig HTML/CSS/JS eller React!',
+            en: 'You have completed Part 3! You can now go to the Extra section and build whatever you want — using either plain HTML/CSS/JS or React!'
         },
         'part3.ex1.title': { no: 'React-komponent', en: 'React component' },
         'part3.ex1.desc': {
@@ -268,6 +268,15 @@ const Lang = {
         'part4.save': { no: '💾 Lagre', en: '💾 Save' },
         'part4.ideas': { no: '💡 Prosjektideer', en: '💡 Project Ideas' },
         'part4.resources': { no: '📚 Ressurser', en: '📚 Resources' },
+
+        // Part 4 index card
+        'index.part4.title': { no: 'Ekstra: Fritt Prosjekt', en: 'Extra: Free Project' },
+        'index.part4.desc': { no: 'Bygg hva du vil! Velg mellom HTML/CSS/JS eller React og lag ditt eget prosjekt fra bunnen av.', en: 'Build what you want! Choose between HTML/CSS/JS or React and create your own project from scratch.' },
+        'index.part4.li1': { no: 'Fritt valg av teknologi', en: 'Free choice of technology' },
+        'index.part4.li2': { no: '8 prosjektideer med startkode', en: '8 project ideas with starter code' },
+        'index.part4.li3': { no: 'Del prosjektet i galleriet', en: 'Share your project in the gallery' },
+        'index.part4.li4': { no: 'Ingen oppgaver – bare kreativitet!', en: 'No assignments – just creativity!' },
+        'index.part4.locked': { no: 'Lås opp med Del 3', en: 'Unlock with Part 3' },
 
         // ========== GALLERY ==========
         'gallery.title': { no: '🎨 Prosjektgalleri', en: '🎨 Project Gallery' },

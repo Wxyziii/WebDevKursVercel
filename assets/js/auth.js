@@ -697,6 +697,10 @@ async function loadProfile() {
                             <span class="stat-label">Del 2</span>
                             <span class="stat-value">${user.part2Completed ? '✅ Fullført' : '⏳ Ikke fullført'}</span>
                         </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Del 3</span>
+                            <span class="stat-value">${user.part3Completed ? '✅ Fullført' : '⏳ Ikke fullført'}</span>
+                        </div>
                         ${completion ? `
                         <div class="stat-item">
                             <span class="stat-label">Beste tid</span>
@@ -748,6 +752,10 @@ async function loadProfile() {
                             <span class="stat-label">Del 2 tid</span>
                             <span class="stat-value">${completion.part2Time ? formatTime(completion.part2Time) : '-'}</span>
                         </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Del 3 tid</span>
+                            <span class="stat-value">${completion.part3Time ? formatTime(completion.part3Time) : '-'}</span>
+                        </div>
                         ` : ''}
                     </div>
                 </div>
@@ -782,8 +790,8 @@ async function loadProfile() {
 // ========================================
 
 function buildProjectHTML(project) {
-    // Part 3 (React/JSX) projects need React CDN + Babel
-    if (project.part === 3) {
+    // Part 3 and Part 4 React projects need React CDN + Babel
+    if (project.part === 3 || (project.part === 4 && !project.html.includes('<!DOCTYPE'))) {
         return `<!DOCTYPE html>
 <html><head>
 <meta charset="UTF-8">
