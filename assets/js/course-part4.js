@@ -1837,6 +1837,12 @@ function App() {
   },
 };
 
+const ideaNames = {
+  todo: '📝 Todo-liste', quiz: '❓ Quiz-app', calculator: '🔢 Kalkulator',
+  countdown: '⏱️ Nedtelling', colorpicker: '🎨 Fargevelger', weather: '🌤️ Vær-app',
+  memory: '🃏 Memory-spill', portfolio: '👤 Portfolio'
+};
+
 function loadIdea(type) {
   if (!ideaTemplates[type]) return;
 
@@ -1845,6 +1851,7 @@ function loadIdea(type) {
 
   const tmpl = ideaTemplates[type];
 
+  // Load full working code silently (for preview iframe only)
   if (currentMode === 'html') {
     if (htmlEditor) htmlEditor.setValue(tmpl.html || CourseState.getDefaultHTML(4));
     if (cssEditor) cssEditor.setValue(tmpl.css || CourseState.getDefaultCSS(4));
@@ -1855,12 +1862,13 @@ function loadIdea(type) {
     if (mainEditor) mainEditor.setValue(CourseState.getDefaultMain());
   }
 
-  setEditorsReadOnly(true);
-
-  document.getElementById('preview-banner').classList.add('active');
-
   updatePreview();
-  showToast(`Forhåndsvisning av ${type} — klikk "Start å kode" for å begynne!`, 'info');
+
+  // Hide editor, show full-width preview with overlay
+  document.querySelector('.editor-area').classList.add('preview-mode');
+  const overlay = document.getElementById('preview-overlay');
+  document.getElementById('preview-overlay-title').textContent = ideaNames[type] || type;
+  overlay.classList.add('active');
 }
 
 function setEditorsReadOnly(readOnly) {
@@ -1891,9 +1899,14 @@ function startCoding() {
   CourseState.saveCode(4, "jsx", jsxEditor?.getValue() || CourseState.getDefaultJSX(4));
   CourseState.saveCode(4, "cssReact", cssReactEditor?.getValue() || CourseState.getDefaultCSS(4));
 
-  setEditorsReadOnly(false);
+  // Restore editor layout
+  document.querySelector('.editor-area').classList.remove('preview-mode');
+  document.getElementById('preview-overlay').classList.remove('active');
 
-  document.getElementById('preview-banner').classList.remove('active');
+  // Re-layout editors after becoming visible
+  setTimeout(() => {
+    [htmlEditor, cssEditor, jsEditor, jsxEditor, cssReactEditor, mainEditor].forEach(e => { if (e) e.layout(); });
+  }, 50);
 
   updatePreview();
   showToast('Lykke til! Skelett-kode er lastet inn 🎯', 'success');
