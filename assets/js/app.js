@@ -205,18 +205,33 @@ ${part1Css}
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- 
-    Velkommen til Del 1! 🎉
-    
-    Du skal bygge en personlig portfolio-side.
-    Følg oppgavene i sidepanelet til venstre.
-    
-    Start med å erstatte denne kommentaren med:
-    <header></header>
-    <main></main>
-    <footer></footer>
-    -->
-    
+
+    <header>
+        <img src="https://via.placeholder.com/150" alt="Profilbilde" class="profilbilde">
+        <h1>Ditt Navn</h1>
+        <p>Webutvikler</p>
+    </header>
+
+    <main>
+        <section class="om-meg">
+            <h2>Om meg</h2>
+            <p>Skriv litt om deg selv her. Hva er du interessert i?</p>
+        </section>
+
+        <section class="ferdigheter">
+            <h2>Ferdigheter</h2>
+            <ul>
+                <li>HTML</li>
+                <li>CSS</li>
+                <li>JavaScript</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p>Kontakt: din@epost.no</p>
+    </footer>
+
 </body>
 </html>`;
         }
@@ -228,17 +243,18 @@ ${part1Css}
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <header>
         <h1>Ditt Navn</h1>
         <p>Webutvikler</p>
     </header>
-    
+
     <main>
         <section class="om-meg">
             <h2>Om meg</h2>
-            <p>Skriv om deg selv her...</p>
+            <p>Skriv litt om deg selv her.</p>
         </section>
-        
+
         <section class="ferdigheter">
             <h2>Ferdigheter</h2>
             <ul>
@@ -247,15 +263,43 @@ ${part1Css}
                 <li>JavaScript</li>
             </ul>
         </section>
-        
-        <!-- Del 2: Legg til prosjekter og kontaktskjema her -->
-        
+
+        <section class="prosjekter">
+            <h2>Mine Prosjekter</h2>
+            <div class="prosjekt-grid">
+                <div class="prosjekt-kort">
+                    <h3>Prosjekt 1</h3>
+                    <p>Beskrivelse av prosjekt 1.</p>
+                    <button class="se-mer-btn">Se mer</button>
+                </div>
+                <div class="prosjekt-kort">
+                    <h3>Prosjekt 2</h3>
+                    <p>Beskrivelse av prosjekt 2.</p>
+                    <button class="se-mer-btn">Se mer</button>
+                </div>
+                <div class="prosjekt-kort">
+                    <h3>Prosjekt 3</h3>
+                    <p>Beskrivelse av prosjekt 3.</p>
+                    <button class="se-mer-btn">Se mer</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="kontakt">
+            <h2>Kontakt meg</h2>
+            <form id="kontakt-form">
+                <input type="text" id="navn" placeholder="Ditt navn">
+                <input type="email" id="epost" placeholder="Din e-post">
+                <textarea id="melding" placeholder="Din melding"></textarea>
+                <button type="submit">Send</button>
+            </form>
+        </section>
     </main>
-    
+
     <footer>
         <p>Kontakt: din@epost.no</p>
     </footer>
-    
+
     <script src="script.js"></script>
 </body>
 </html>`;
@@ -263,12 +307,41 @@ ${part1Css}
     
     getDefaultCSS(part) {
         if (part === 1) {
-            return `/* 
-   Din Portfolio CSS
-   Følg oppgavene for å style siden!
-*/
+            return `/* Din Portfolio CSS */
 
-/* Legg til CSS her etterhvert som du gjør oppgavene */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f5f5f5;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 40px;
+    text-align: center;
+}
+
+.profilbilde {
+    width: 150px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+section {
+    padding: 30px;
+    max-width: 800px;
+    margin: 20px auto;
+    background: white;
+    border-radius: 8px;
+}
+
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
 `;
         }
         if (part === 3) {
@@ -281,60 +354,169 @@ ${part1Css}
     padding: 20px;
 }
 
-/* Legg til mer CSS her etterhvert som du gjør oppgavene */
+.card {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 10px 0;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+button {
+    background: #646cff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #535bf2;
+}
 `;
         }
-        return `/* Din CSS fra Del 1 vil vises her */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        return `/* CSS for Din Portfolio */
 
 body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f5f5f5;
 }
 
-.header {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    text-align: center;
+header {
+    background-color: #333;
     color: white;
+    padding: 40px;
+    text-align: center;
 }
 
-.main {
-    padding: 40px;
+section {
+    padding: 30px;
     max-width: 800px;
-    margin: 0 auto;
+    margin: 20px auto;
+    background: white;
+    border-radius: 8px;
+}
+
+footer {
+    background: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Prosjekter */
+.prosjekt-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.prosjekt-kort {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.prosjekt-kort:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.se-mer-btn:hover {
+    background: #555;
+}
+
+/* Kontaktskjema */
+#kontakt-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#kontakt-form input, #kontakt-form textarea {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+#kontakt-form button {
+    background: #333;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
 }`;
     },
     
     getDefaultJS() {
         return `// JavaScript for din Portfolio
-// Følg oppgavene for å gjøre siden interaktiv!
-
 console.log('Portfolio lastet! 🚀');
 
-// Legg til JavaScript her etterhvert som du gjør oppgavene
+// Skjemavalidering
+document.getElementById('kontakt-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    alert('Takk for meldingen!');
+});
 
+// Se mer-knapper
+document.querySelectorAll('.se-mer-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        alert('Mer info kommer snart!');
+    });
+});
 `;
     },
     
     getDefaultJSX() {
         return `// App.jsx - Din React-komponent
-// VIKTIG: Ikke bruk "import" - useState, useEffect og useRef er allerede tilgjengelig!
-// Vi bruker React fra CDN, ikke en build tool.
+// VIKTIG: Ikke bruk "import" - hooks er allerede tilgjengelig!
+
+function Card(props) {
+    return (
+        <div className="card">
+            <h3>{props.title}</h3>
+            <p>{props.description}</p>
+        </div>
+    );
+}
 
 function App() {
-    // Hooks er tilgjengelig direkte: useState, useEffect, useRef
-    
+    const [count, setCount] = useState(0);
+    const [visible, setVisible] = useState(false);
+
+    const skills = ['React', 'Vite', 'JavaScript'];
+
     return (
         <div className="app">
-            {/* Start her! Erstatt denne kommentaren med JSX */}
-            <h1>Hei fra React!</h1>
-            <p>Bruk useState, ikke import!</p>
+            <h1>Min React App</h1>
+
+            <p>Teller: {count}</p>
+            <button onClick={() => setCount(count + 1)}>
+                Klikk meg!
+            </button>
+
+            <Card title="Mitt kort" description="Dette er en React-komponent!" />
+
+            <ul>
+                {skills.map((skill) => (
+                    <li key={skill}>{skill}</li>
+                ))}
+            </ul>
+
+            <button onClick={() => setVisible(!visible)}>Vis/Skjul</button>
+            {visible && <p>Hemmelig innhold!</p>}
         </div>
     );
 }
