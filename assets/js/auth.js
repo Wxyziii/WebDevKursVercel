@@ -415,7 +415,7 @@ async function loadLeaderboard() {
                             </td>
                             ${isAdmin ? `
                             <td class="admin-actions">
-                                <button class="btn btn-sm btn-danger" onclick="adminDeleteEntry(${entry.id}, ${entry.userId})">🗑️</button>
+                                <button class="btn btn-sm btn-danger" onclick="adminDeleteEntry(${entry.id}, '${entry.userId}')">🗑️</button>
                             </td>
                             ` : ''}
                         </tr>
