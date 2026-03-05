@@ -4,6 +4,8 @@
 
 let currentMode = 'html'; // 'html' or 'react'
 let currentFile = 'html';
+let previewMode = false;
+let currentIdeaType = null;
 
 // HTML mode editors
 let htmlEditor = null;
@@ -1380,10 +1382,466 @@ function App() {
   },
 };
 
+// ========================================
+// SKELETON TEMPLATES (for "Start å kode")
+// HTML and CSS are identical to ideaTemplates.
+// JS and JSX have empty function bodies with TODO comments.
+// ========================================
+
+const ideaSkeletons = {
+  todo: {
+    html: ideaTemplates.todo.html,
+    css: ideaTemplates.todo.css,
+    js: `const input = document.getElementById('todo-input');
+const addBtn = document.getElementById('add-btn');
+const list = document.getElementById('todo-list');
+
+addBtn.addEventListener('click', addTodo);
+input.addEventListener('keypress', (e) => { if (e.key === 'Enter') addTodo(); });
+
+function addTodo() {
+    // TODO: Hent tekst fra input
+    // TODO: Sjekk at teksten ikke er tom
+    // TODO: Lag et nytt li-element
+    // TODO: Legg til tekst og en slett-knapp
+    // TODO: Legg til li i listen
+    // TODO: Tøm input-feltet
+}`,
+    jsx: `function App() {
+    const [todos, setTodos] = useState([]);
+    const [input, setInput] = useState('');
+
+    function addTodo() {
+        // TODO: Sjekk at input ikke er tomt
+        // TODO: Legg til ny todo i listen med setTodos
+        // TODO: Tøm input-feltet
+    }
+
+    function toggleTodo(id) {
+        // TODO: Bytt done-status for todoen med gitt id
+    }
+
+    function deleteTodo(id) {
+        // TODO: Fjern todoen med gitt id fra listen
+    }
+
+    return (
+        <div className="container">
+            <h1>📝 Min Todo-liste</h1>
+            <div className="input-area">
+                <input value={input} onChange={e => setInput(e.target.value)}
+                    onKeyPress={e => e.key === 'Enter' && addTodo()}
+                    placeholder="Legg til oppgave..." />
+                <button onClick={addTodo}>Legg til</button>
+            </div>
+            <ul>
+                {/* TODO: Map over todos og vis dem her */}
+                {/* Hvert element bør ha onClick for toggle og en slett-knapp */}
+            </ul>
+        </div>
+    );
+}`,
+  },
+
+  quiz: {
+    html: ideaTemplates.quiz.html,
+    css: ideaTemplates.quiz.css,
+    js: `const questions = [
+    { question: 'Hva er HTML?', options: ['Hypertext Markup Language', 'Hyper Transfer Markup Language', 'High Tech Markup Language', 'Hyperlink Text Mode Language'], correct: 0 },
+    { question: 'Hvilken CSS-egenskap brukes til farge?', options: ['font-color', 'text-color', 'color', 'foreground'], correct: 2 },
+    { question: 'Hva gjør console.log() i JavaScript?', options: ['Lagrer data', 'Skriver ut til konsollen', 'Laster siden', 'Sletter variabler'], correct: 1 },
+];
+
+let current = 0;
+let score = 0;
+
+function showQuestion() {
+    // TODO: Hent nåværende spørsmål fra questions-arrayet
+    // TODO: Vis spørsmålsteksten i #question-text
+    // TODO: Tøm #options og lag knapper for hvert alternativ
+    // TODO: Legg til onclick som kaller checkAnswer(i)
+}
+
+function checkAnswer(index) {
+    // TODO: Sjekk om svaret er riktig
+    // TODO: Marker riktig svar med grønn (.correct) og feil med rød (.wrong)
+    // TODO: Oppdater score hvis riktig
+    // TODO: Vis neste-knappen
+}
+
+document.getElementById('next-btn').addEventListener('click', () => { current++; showQuestion(); });
+showQuestion();`,
+    jsx: `const questions = [
+    { question: 'Hva er HTML?', options: ['Hypertext Markup Language', 'Hyper Transfer', 'High Tech ML', 'Hyperlink TML'], correct: 0 },
+    { question: 'Hvilken CSS-egenskap gir farge?', options: ['font-color', 'text-color', 'color', 'foreground'], correct: 2 },
+    { question: 'Hva gjør useState()?', options: ['Lagrer til database', 'Håndterer komponent-tilstand', 'Henter data', 'Rendrer HTML'], correct: 1 },
+];
+
+function App() {
+    const [current, setCurrent] = useState(0);
+    const [score, setScore] = useState(0);
+    const [selected, setSelected] = useState(null);
+    const [finished, setFinished] = useState(false);
+
+    function checkAnswer(index) {
+        // TODO: Ikke la brukeren svare flere ganger (sjekk selected)
+        // TODO: Sett selected til index
+        // TODO: Oppdater score hvis riktig
+    }
+
+    function next() {
+        // TODO: Gå til neste spørsmål eller sett finished=true
+        // TODO: Nullstill selected
+    }
+
+    if (finished) return <div className="quiz-container"><h1>🎉 Ferdig!</h1><p>Poeng: {score}/{questions.length}</p></div>;
+
+    const q = questions[current];
+    return (
+        <div className="quiz-container">
+            <h1>❓ Quiz ({current + 1}/{questions.length})</h1>
+            <p className="question">{q.question}</p>
+            <div className="options">
+                {/* TODO: Map over q.options og lag knapper */}
+                {/* Legg til CSS-klasser for riktig/feil basert på selected */}
+            </div>
+            {selected !== null && <button onClick={next} className="next-btn">Neste →</button>}
+        </div>
+    );
+}`,
+  },
+
+  calculator: {
+    html: ideaTemplates.calculator.html,
+    css: ideaTemplates.calculator.css,
+    js: `let current = '0';
+let shouldReset = false;
+
+function updateDisplay() {
+    document.getElementById('display').textContent = current;
+}
+
+function appendToDisplay(val) {
+    // TODO: Hvis shouldReset, start ny beregning
+    // TODO: Erstatt '0' med verdien, eller legg til
+    // TODO: Oppdater display
+}
+
+function clearDisplay() {
+    // TODO: Sett current til '0' og oppdater display
+}
+
+function deleteLast() {
+    // TODO: Fjern siste tegn, eller sett til '0'
+    // TODO: Oppdater display
+}
+
+function calculate() {
+    // TODO: Evaluer current som et matematisk uttrykk
+    // TODO: Vis resultatet eller 'Feil'
+    // TODO: Oppdater display
+}`,
+    jsx: `function App() {
+    const [display, setDisplay] = useState('0');
+    const [shouldReset, setShouldReset] = useState(false);
+
+    function press(val) {
+        // TODO: Håndter shouldReset
+        // TODO: Oppdater display med ny verdi
+    }
+
+    function clear() {
+        // TODO: Nullstill display og shouldReset
+    }
+
+    function calculate() {
+        // TODO: Evaluer display som uttrykk
+        // TODO: Vis resultat eller 'Feil'
+    }
+
+    return (
+        <div className="calculator">
+            <div className="display">{display}</div>
+            <div className="buttons">
+                {/* TODO: Lag knapper for C, ÷, ×, ⌫, 0-9, +, -, =, . */}
+                {/* Bruk onClick for å kalle riktig funksjon */}
+            </div>
+        </div>
+    );
+}`,
+  },
+
+  countdown: {
+    html: ideaTemplates.countdown.html,
+    css: ideaTemplates.countdown.css,
+    js: `const targetInput = document.getElementById('target-date');
+
+// Set default to 1 hour from now
+const oneHour = new Date(Date.now() + 3600000);
+targetInput.value = oneHour.toISOString().slice(0, 16);
+
+setInterval(update, 1000);
+
+function update() {
+    // TODO: Hent måldato fra input
+    // TODO: Beregn differansen til nå
+    // TODO: Hvis tiden er ute, vis melding
+    // TODO: Beregn dager, timer, minutter, sekunder
+    // TODO: Oppdater DOM-elementene
+}
+
+update();`,
+    jsx: `function App() {
+    const [target, setTarget] = useState(() => {
+        const d = new Date(Date.now() + 3600000);
+        return d.toISOString().slice(0, 16);
+    });
+    const [timeLeft, setTimeLeft] = useState({});
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            // TODO: Beregn differansen mellom target og nå
+            // TODO: Hvis tiden er ute, sett timeLeft til null
+            // TODO: Ellers beregn dager, timer, minutter, sekunder
+        }, 1000);
+        return () => clearInterval(interval);
+    }, [target]);
+
+    return (
+        <div className="container">
+            <h1>⏱️ Nedtelling</h1>
+            <input type="datetime-local" value={target} onChange={e => setTarget(e.target.value)} />
+            {/* TODO: Vis nedtellingen eller "Tiden er ute!" */}
+        </div>
+    );
+}`,
+  },
+
+  colorpicker: {
+    html: ideaTemplates.colorpicker.html,
+    css: ideaTemplates.colorpicker.css,
+    js: `const colorInput = document.getElementById('color-input');
+const preview = document.getElementById('color-preview');
+
+colorInput.addEventListener('input', updateColor);
+document.getElementById('copy-btn').addEventListener('click', () => {
+    // TODO: Kopier fargeverdien til utklippstavlen
+});
+
+// Preset swatches
+const swatches = ['#e74c3c','#e67e22','#f1c40f','#2ecc71','#3b82f6','#9b59b6','#1abc9c','#34495e'];
+const palette = document.getElementById('palette');
+swatches.forEach(color => {
+    const sw = document.createElement('div');
+    sw.className = 'swatch';
+    sw.style.background = color;
+    // TODO: Legg til onclick som setter fargen
+    palette.appendChild(sw);
+});
+
+function hexToRgb(hex) {
+    // TODO: Konverter hex (#RRGGBB) til rgb(r, g, b)
+    // Hint: Bruk parseInt(hex.slice(1,3), 16) for rød
+}
+
+function updateColor() {
+    // TODO: Oppdater preview-bakgrunn, hex-tekst og rgb-tekst
+}
+
+updateColor();`,
+    jsx: `function App() {
+    const [color, setColor] = useState('#3b82f6');
+    const [copied, setCopied] = useState(false);
+    const swatches = ['#e74c3c','#e67e22','#f1c40f','#2ecc71','#3b82f6','#9b59b6','#1abc9c','#34495e'];
+
+    function hexToRgb(hex) {
+        // TODO: Konverter hex til rgb-streng
+    }
+
+    function copyHex() {
+        // TODO: Kopier farge til utklippstavlen
+        // TODO: Vis "Kopiert!" i 2 sekunder
+    }
+
+    return (
+        <div className="container">
+            <h1>🎨 Fargevelger</h1>
+            <input type="color" value={color} onChange={e => setColor(e.target.value)} />
+            {/* TODO: Vis preview, hex-verdi, rgb-verdi */}
+            {/* TODO: Kopier-knapp */}
+            {/* TODO: Vis swatches */}
+        </div>
+    );
+}`,
+  },
+
+  weather: {
+    html: ideaTemplates.weather.html,
+    css: ideaTemplates.weather.css,
+    js: `document.getElementById('search-btn').addEventListener('click', searchWeather);
+document.getElementById('city-input').addEventListener('keypress', e => { if (e.key === 'Enter') searchWeather(); });
+
+async function searchWeather() {
+    const city = document.getElementById('city-input').value.trim();
+    if (!city) return;
+
+    const result = document.getElementById('weather-result');
+    result.innerHTML = '<p>Laster...</p>';
+
+    try {
+        // TODO: Hent koordinater med Geocoding API
+        // URL: https://geocoding-api.open-meteo.com/v1/search?name=\${city}&count=1&language=no
+        
+        // TODO: Sjekk om byen ble funnet
+        
+        // TODO: Hent vær med Weather API
+        // URL: https://api.open-meteo.com/v1/forecast?latitude=\${lat}&longitude=\${lon}&current_weather=true
+        
+        // TODO: Vis temperatur, vind og by-navn i result-div
+    } catch(e) {
+        result.innerHTML = '<p>Feil ved henting av data.</p>';
+    }
+}`,
+    jsx: `function App() {
+    const [city, setCity] = useState('');
+    const [weather, setWeather] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+
+    async function searchWeather() {
+        // TODO: Sjekk at city ikke er tomt
+        // TODO: Sett loading=true
+        // TODO: Fetch fra Geocoding API og Weather API
+        // TODO: Sett weather-state med resultatet
+        // TODO: Håndter feil
+    }
+
+    return (
+        <div className="container">
+            <h1>🌤️ Vær-app</h1>
+            <div className="search">
+                <input value={city} onChange={e => setCity(e.target.value)}
+                    onKeyPress={e => e.key === 'Enter' && searchWeather()}
+                    placeholder="Skriv inn by..." />
+                <button onClick={searchWeather}>Søk</button>
+            </div>
+            {/* TODO: Vis loading, error eller vær-data */}
+        </div>
+    );
+}`,
+  },
+
+  memory: {
+    html: ideaTemplates.memory.html,
+    css: ideaTemplates.memory.css,
+    js: `const emojis = ['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼'];
+const cards = [...emojis, ...emojis];
+let flipped = [], matched = 0, moves = 0, locked = false;
+
+function shuffle(arr) { return arr.sort(() => Math.random() - 0.5); }
+
+function createBoard() {
+    const board = document.getElementById('board');
+    board.innerHTML = '';
+    flipped = []; matched = 0; moves = 0;
+    document.getElementById('moves').textContent = 0;
+    document.getElementById('pairs').textContent = 0;
+
+    // TODO: Bland kortene med shuffle()
+    // TODO: Lag div for hvert kort med class 'card'
+    // TODO: Lagre emoji i dataset.emoji
+    // TODO: Vis '?' som tekst
+    // TODO: Legg til click event listener (flipCard)
+}
+
+function flipCard() {
+    // TODO: Sjekk om spillet er låst eller kortet allerede er snudd
+    // TODO: Vis emoji og legg til 'flipped' klasse
+    // TODO: Legg til i flipped-array
+    // TODO: Hvis 2 kort er snudd, sjekk match
+    // TODO: Hvis match: legg til 'matched' klasse
+    // TODO: Hvis ikke match: snu tilbake etter 800ms
+}
+
+document.getElementById('restart-btn').addEventListener('click', createBoard);
+createBoard();`,
+    jsx: `function App() {
+    const emojis = ['🐶','🐱','🐭','🐹','🐰','🦊','🐻','🐼'];
+    const [cards, setCards] = useState(() => [...emojis,...emojis].sort(() => Math.random()-0.5).map((e,i) => ({id:i,emoji:e,flipped:false,matched:false})));
+    const [selected, setSelected] = useState([]);
+    const [moves, setMoves] = useState(0);
+    const [locked, setLocked] = useState(false);
+
+    function flip(card) {
+        // TODO: Sjekk om spillet er låst eller kortet er snudd/matchet
+        // TODO: Snu kortet (sett flipped=true)
+        // TODO: Legg til i selected
+        // TODO: Hvis 2 valgt, sjekk match
+    }
+
+    function restart() {
+        // TODO: Nullstill alle states og bland kortene på nytt
+    }
+
+    return (
+        <div className="container">
+            <h1>🃏 Memory</h1>
+            <p>Trekk: {moves} | Par: {cards.filter(c => c.matched).length / 2}/8</p>
+            <div className="board">
+                {/* TODO: Map over cards og vis dem */}
+                {/* Vis emoji hvis flipped/matched, ellers '?' */}
+            </div>
+            <button onClick={restart}>🔄 Start på nytt</button>
+        </div>
+    );
+}`,
+  },
+
+  portfolio: {
+    html: ideaTemplates.portfolio.html,
+    css: ideaTemplates.portfolio.css,
+    js: `// Legg til interaktivitet her
+console.log('Portfolio lastet! 👋');
+
+// TODO: Smooth scroll til seksjoner
+// TODO: Animasjoner ved scroll
+// TODO: Kontaktskjema validering`,
+    jsx: `const projects = [
+    { title: '🚀 Prosjekt 1', desc: 'Beskrivelse av prosjektet', link: '#' },
+    { title: '💡 Prosjekt 2', desc: 'Et annet kult prosjekt', link: '#' },
+];
+
+const skills = ['HTML', 'CSS', 'JavaScript', 'React'];
+
+function App() {
+    const [activeSection, setActiveSection] = useState('om-meg');
+
+    return (
+        <div className="portfolio">
+            <header>
+                <div className="avatar">👤</div>
+                <h1>Ditt Navn</h1>
+                <p className="tagline">Webutvikler & Kreativ Sjel</p>
+                <nav>
+                    {/* TODO: Lag navigasjonsknapper for seksjonene */}
+                </nav>
+            </header>
+
+            {/* TODO: Vis innhold basert på activeSection */}
+            {/* 'om-meg' → Om meg-tekst */}
+            {/* 'prosjekter' → Map over projects */}
+            {/* 'ferdigheter' → Map over skills */}
+        </div>
+    );
+}`,
+  },
+};
+
 function loadIdea(type) {
   if (!ideaTemplates[type]) return;
 
-  if (!confirm(`Vil du laste inn startkode for "${type}"? Eksisterende kode i gjeldende modus vil erstattes.`)) return;
+  currentIdeaType = type;
+  previewMode = true;
 
   const tmpl = ideaTemplates[type];
 
@@ -1397,15 +1855,48 @@ function loadIdea(type) {
     if (mainEditor) mainEditor.setValue(CourseState.getDefaultMain());
   }
 
-  // Save to state
+  setEditorsReadOnly(true);
+
+  document.getElementById('preview-banner').classList.add('active');
+
+  updatePreview();
+  showToast(`Forhåndsvisning av ${type} — klikk "Start å kode" for å begynne!`, 'info');
+}
+
+function setEditorsReadOnly(readOnly) {
+  [htmlEditor, cssEditor, jsEditor, jsxEditor, cssReactEditor, mainEditor].forEach(editor => {
+    if (editor) editor.updateOptions({ readOnly });
+  });
+}
+
+function startCoding() {
+  if (!currentIdeaType || !ideaSkeletons[currentIdeaType]) return;
+
+  previewMode = false;
+  const skel = ideaSkeletons[currentIdeaType];
+
+  if (currentMode === 'html') {
+    if (htmlEditor) htmlEditor.setValue(skel.html || CourseState.getDefaultHTML(4));
+    if (cssEditor) cssEditor.setValue(skel.css || CourseState.getDefaultCSS(4));
+    if (jsEditor) jsEditor.setValue(skel.js || CourseState.getDefaultJS(4));
+  } else {
+    if (jsxEditor) jsxEditor.setValue(skel.jsx || CourseState.getDefaultJSX(4));
+    if (cssReactEditor) cssReactEditor.setValue(skel.css || CourseState.getDefaultCSS(4));
+    if (mainEditor) mainEditor.setValue(CourseState.getDefaultMain());
+  }
+
   CourseState.saveCode(4, "html", htmlEditor?.getValue() || CourseState.getDefaultHTML(4));
   CourseState.saveCode(4, "css", cssEditor?.getValue() || CourseState.getDefaultCSS(4));
   CourseState.saveCode(4, "js", jsEditor?.getValue() || CourseState.getDefaultJS(4));
   CourseState.saveCode(4, "jsx", jsxEditor?.getValue() || CourseState.getDefaultJSX(4));
   CourseState.saveCode(4, "cssReact", cssReactEditor?.getValue() || CourseState.getDefaultCSS(4));
 
+  setEditorsReadOnly(false);
+
+  document.getElementById('preview-banner').classList.remove('active');
+
   updatePreview();
-  showToast(`Startkode for ${type} lastet inn! 🚀`, "success");
+  showToast('Lykke til! Skelett-kode er lastet inn 🎯', 'success');
 }
 
 // ========================================

@@ -33,19 +33,84 @@
         }
         .idea-card {
             background: var(--bg-tertiary);
-            border-radius: 8px;
-            padding: 12px 14px;
-            margin-bottom: 8px;
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 10px;
             cursor: pointer;
             transition: all 0.2s;
             border: 1px solid var(--border-color);
+            border-left: 3px solid var(--accent);
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            position: relative;
         }
         .idea-card:hover {
             border-color: var(--accent);
-            transform: translateX(3px);
+            transform: translateX(4px);
+            background: rgba(99, 102, 241, 0.08);
         }
-        .idea-card h4 { font-size: 13px; margin-bottom: 4px; }
+        .idea-card::after {
+            content: 'Forhåndsvis →';
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 11px;
+            color: var(--accent);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .idea-card:hover::after {
+            opacity: 1;
+        }
+        .idea-card .idea-emoji {
+            font-size: 28px;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+        .idea-card .idea-info { flex: 1; }
+        .idea-card h4 { font-size: 14px; margin-bottom: 3px; font-weight: 600; }
         .idea-card p { font-size: 12px; color: var(--text-secondary); margin: 0; }
+        .preview-banner {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.15));
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 8px;
+            margin: 0 0 8px 0;
+        }
+        .preview-banner.active {
+            display: flex;
+        }
+        .preview-banner p {
+            margin: 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .preview-banner .preview-label {
+            font-weight: 600;
+            color: #818cf8;
+        }
+        .start-coding-btn {
+            padding: 8px 20px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .start-coding-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
         .idea-badge {
             display: inline-block;
             font-size: 10px;
@@ -117,44 +182,68 @@
                         </p>
 
                         <div class="idea-card" onclick="loadIdea('todo')">
-                            <span class="idea-badge badge-any">HTML eller React</span>
-                            <h4>📝 Todo-liste</h4>
-                            <p>Legg til, fullfør og slett oppgaver</p>
+                            <span class="idea-emoji">📝</span>
+                            <div class="idea-info">
+                                <span class="idea-badge badge-any">HTML eller React</span>
+                                <h4>Todo-liste</h4>
+                                <p>Legg til, fullfør og slett oppgaver</p>
+                            </div>
                         </div>
                         <div class="idea-card" onclick="loadIdea('quiz')">
-                            <span class="idea-badge badge-any">HTML eller React</span>
-                            <h4>❓ Quiz-app</h4>
-                            <p>Lag et spørsmålsspill med poeng</p>
+                            <span class="idea-emoji">❓</span>
+                            <div class="idea-info">
+                                <span class="idea-badge badge-any">HTML eller React</span>
+                                <h4>Quiz-app</h4>
+                                <p>Lag et spørsmålsspill med poeng</p>
+                            </div>
                         </div>
                         <div class="idea-card" onclick="loadIdea('calculator')">
-                            <span class="idea-badge badge-html">HTML/CSS/JS</span>
-                            <h4>🔢 Kalkulator</h4>
-                            <p>En enkel kalkulator med knapper</p>
+                            <span class="idea-emoji">🔢</span>
+                            <div class="idea-info">
+                                <span class="idea-badge badge-html">HTML/CSS/JS</span>
+                                <h4>Kalkulator</h4>
+                                <p>En enkel kalkulator med knapper</p>
+                            </div>
                         </div>
                         <div class="idea-card" onclick="loadIdea('countdown')">
-                            <span class="idea-badge badge-any">HTML eller React</span>
-                            <h4>⏱️ Nedtelling</h4>
-                            <p>Nedtellingstimer til en dato</p>
+                            <span class="idea-emoji">⏱️</span>
+                            <div class="idea-info">
+                                <span class="idea-badge badge-any">HTML eller React</span>
+                                <h4>Nedtelling</h4>
+                                <p>Nedtellingstimer til en dato</p>
+                            </div>
                         </div>
                         <div class="idea-card" onclick="loadIdea('colorpicker')">
-                            <span class="idea-badge badge-html">HTML/CSS/JS</span>
-                            <h4>🎨 Fargevelger</h4>
-                            <p>Generer og kopier CSS-farger</p>
+                            <span class="idea-emoji">🎨</span>
+                            <div class="idea-info">
+                                <span class="idea-badge badge-html">HTML/CSS/JS</span>
+                                <h4>Fargevelger</h4>
+                                <p>Generer og kopier CSS-farger</p>
+                            </div>
                         </div>
                         <div class="idea-card" onclick="loadIdea('weather')">
-                            <span class="idea-badge badge-react">React</span>
-                            <h4>🌤️ Vær-app</h4>
-                            <p>Vis vær basert på by (med fetch)</p>
+                            <span class="idea-emoji">🌤️</span>
+                            <div class="idea-info">
+                                <span class="idea-badge badge-react">React</span>
+                                <h4>Vær-app</h4>
+                                <p>Vis vær basert på by (med fetch)</p>
+                            </div>
                         </div>
                         <div class="idea-card" onclick="loadIdea('memory')">
-                            <span class="idea-badge badge-html">HTML/CSS/JS</span>
-                            <h4>🃏 Memory-spill</h4>
-                            <p>Match par av kort</p>
+                            <span class="idea-emoji">🃏</span>
+                            <div class="idea-info">
+                                <span class="idea-badge badge-html">HTML/CSS/JS</span>
+                                <h4>Memory-spill</h4>
+                                <p>Match par av kort</p>
+                            </div>
                         </div>
                         <div class="idea-card" onclick="loadIdea('portfolio')">
-                            <span class="idea-badge badge-any">HTML eller React</span>
-                            <h4>👤 Portfolio</h4>
-                            <p>Personlig presentasjonsside</p>
+                            <span class="idea-emoji">👤</span>
+                            <div class="idea-info">
+                                <span class="idea-badge badge-any">HTML eller React</span>
+                                <h4>Portfolio</h4>
+                                <p>Personlig presentasjonsside</p>
+                            </div>
                         </div>
                     </div>
 
@@ -203,6 +292,10 @@
                         <button class="toolbar-btn" id="reset-btn" data-i18n="course.reset">↺ Tilbakestill</button>
                         <button class="toolbar-btn" id="download-btn" data-i18n="course.download">⬇ Last ned</button>
                     </div>
+                </div>
+                <div class="preview-banner" id="preview-banner">
+                    <p><span class="preview-label">👁️ Forhåndsvisning</span> — Se hvordan prosjektet ser ut ferdig. Klikk "Start" for å begynne med skelett-kode.</p>
+                    <button class="start-coding-btn" onclick="startCoding()">🚀 Start å kode</button>
                 </div>
                 <div class="editor-container">
                     <div class="code-editor" id="editor-container"></div>
