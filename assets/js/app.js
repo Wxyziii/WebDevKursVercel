@@ -26,6 +26,17 @@ const CourseState = {
                     main: this.getDefaultMain()
                 };
             }
+            if (!state.part4Code) {
+                state.part4Code = {
+                    mode: 'html',
+                    html: this.getDefaultHTML(4),
+                    css: this.getDefaultCSS(4),
+                    js: this.getDefaultJS(4),
+                    jsx: this.getDefaultJSX(4),
+                    cssReact: this.getDefaultCSS(4),
+                    main: this.getDefaultMain()
+                };
+            }
             
             return state;
         }
@@ -49,6 +60,16 @@ const CourseState = {
             part3Code: {
                 jsx: this.getDefaultJSX(),
                 css: this.getDefaultCSS(3),
+                main: this.getDefaultMain()
+            },
+            part4TimeRemaining: 60 * 60,
+            part4Code: {
+                mode: 'html',
+                html: this.getDefaultHTML(4),
+                css: this.getDefaultCSS(4),
+                js: this.getDefaultJS(4),
+                jsx: this.getDefaultJSX(4),
+                cssReact: this.getDefaultCSS(4),
                 main: this.getDefaultMain()
             }
         };
@@ -139,6 +160,16 @@ ${part1Css}
         this.saveState(state);
     },
     
+    isPart3Completed() {
+        return this.getState().part3Completed === true;
+    },
+    
+    completePart4() {
+        const state = this.getState();
+        state.part4Completed = true;
+        this.saveState(state);
+    },
+    
     saveCode(part, type, code) {
         const state = this.getState();
         
@@ -148,6 +179,17 @@ ${part1Css}
                 state[`part${part}Code`] = {
                     jsx: this.getDefaultJSX(),
                     css: this.getDefaultCSS(3),
+                    main: this.getDefaultMain()
+                };
+            }
+            if (part === 4) {
+                state[`part${part}Code`] = {
+                    mode: 'html',
+                    html: this.getDefaultHTML(4),
+                    css: this.getDefaultCSS(4),
+                    js: this.getDefaultJS(4),
+                    jsx: this.getDefaultJSX(4),
+                    cssReact: this.getDefaultCSS(4),
                     main: this.getDefaultMain()
                 };
             }
@@ -166,6 +208,7 @@ ${part1Css}
             if (part === 1) return type === 'html' ? this.getDefaultHTML(1) : type === 'css' ? this.getDefaultCSS(1) : '';
             if (part === 2) return type === 'html' ? this.getDefaultHTML(2) : type === 'css' ? this.getDefaultCSS(2) : type === 'js' ? this.getDefaultJS() : '';
             if (part === 3) return type === 'jsx' ? this.getDefaultJSX() : type === 'css' ? this.getDefaultCSS(3) : type === 'main' ? this.getDefaultMain() : '';
+            if (part === 4) return type === 'html' ? this.getDefaultHTML(4) : type === 'css' ? this.getDefaultCSS(4) : type === 'js' ? this.getDefaultJS(4) : type === 'jsx' ? this.getDefaultJSX(4) : type === 'cssReact' ? this.getDefaultCSS(4) : type === 'main' ? this.getDefaultMain() : '';
         }
         
         return partCode[type] || '';
@@ -185,6 +228,7 @@ ${part1Css}
         if (timeRemaining === undefined) {
             if (part === 1 || part === 2) return 15 * 60;
             if (part === 3) return 30 * 60;
+            if (part === 4) return 60 * 60;
         }
         
         return timeRemaining;
@@ -225,6 +269,22 @@ ${part1Css}
         <!-- Oppgave 7: Legg til kontaktinformasjon -->
     </footer>
 
+</body>
+</html>`;
+        }
+        if (part === 4) {
+            return `<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <title>Mitt Prosjekt</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Bygg hva du vil her! 🚀 -->
+
+    <script src="script.js"><\/script>
 </body>
 </html>`;
         }
@@ -326,6 +386,19 @@ button:hover {
 }
 `;
         }
+        if (part === 4) {
+            return `/* Stiler for ditt prosjekt */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: #f5f5f5;
+}
+
+/* Legg til dine egne stiler her */
+`;
+        }
         return `/* CSS for Din Portfolio */
 
 body {
@@ -384,7 +457,14 @@ footer {
 }`;
     },
     
-    getDefaultJS() {
+    getDefaultJS(part = 2) {
+        if (part === 4) {
+            return `// JavaScript for ditt prosjekt
+console.log('Prosjekt lastet! 🚀');
+
+// Legg til din kode her
+`;
+        }
         return `// JavaScript for din Portfolio
 console.log('Portfolio lastet! 🚀');
 
@@ -402,7 +482,23 @@ document.querySelectorAll('.se-mer-btn').forEach(btn => {
 `;
     },
     
-    getDefaultJSX() {
+    getDefaultJSX(part = 3) {
+        if (part === 4) {
+            return `// App.jsx - Din React-komponent
+// VIKTIG: Ikke bruk "import" - hooks er allerede tilgjengelig!
+
+function App() {
+    // Legg til state her med useState
+
+    return (
+        <div className="app">
+            {/* Bygg hva du vil her! 🚀 */}
+            <h1>Mitt React Prosjekt</h1>
+        </div>
+    );
+}
+`;
+        }
         return `// App.jsx - Din React-komponent
 // VIKTIG: Ikke bruk "import" - hooks er allerede tilgjengelig!
 
@@ -446,6 +542,18 @@ function App() {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App />);
 `;
+    },
+
+    saveMode(mode) {
+        const state = this.getState();
+        if (!state.part4Code) state.part4Code = {};
+        state.part4Code.mode = mode;
+        this.saveState(state);
+    },
+
+    getMode() {
+        const state = this.getState();
+        return state.part4Code?.mode || 'html';
     }
 };
 
@@ -505,6 +613,21 @@ function updateNavigation() {
         if (navPart3) navPart3.classList.add('locked');
         if (part3Card) part3Card.classList.add('locked');
     }
+
+    const navPart4 = document.getElementById('nav-part4');
+    const part4Card = document.getElementById('part4-card');
+    const part4Btn = document.getElementById('part4-btn');
+
+    if (CourseState.isPart3Completed()) {
+        if (navPart4) navPart4.classList.remove('locked');
+        if (part4Card) part4Card.classList.remove('locked');
+        if (part4Btn) {
+            part4Btn.innerHTML = 'Start Ekstra';
+        }
+    } else {
+        if (navPart4) navPart4.classList.add('locked');
+        if (part4Card) part4Card.classList.add('locked');
+    }
 }
 
 // ========================================
@@ -544,6 +667,22 @@ document.addEventListener('DOMContentLoaded', () => {
         part3Btn.addEventListener('click', (e) => {
             e.preventDefault();
             showToast(typeof Lang !== 'undefined' ? Lang.t('toast.unlockPart3') : 'Fullfør Del 2 først for å låse opp Del 3', 'info');
+        });
+    }
+
+    const navPart4 = document.getElementById('nav-part4');
+    if (navPart4 && !CourseState.isPart3Completed()) {
+        navPart4.addEventListener('click', (e) => {
+            e.preventDefault();
+            showToast(typeof Lang !== 'undefined' ? Lang.t('toast.unlockPart4') : 'Fullfør Del 3 først for å låse opp Ekstra', 'info');
+        });
+    }
+
+    const part4Btn = document.getElementById('part4-btn');
+    if (part4Btn && !CourseState.isPart3Completed()) {
+        part4Btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            showToast(typeof Lang !== 'undefined' ? Lang.t('toast.unlockPart4') : 'Fullfør Del 3 først for å låse opp Ekstra', 'info');
         });
     }
 });

@@ -12,6 +12,7 @@ const Lang = {
         'nav.part1': { no: 'Del 1', en: 'Part 1' },
         'nav.part2': { no: 'Del 2', en: 'Part 2' },
         'nav.part3': { no: 'Del 3', en: 'Part 3' },
+        'nav.part4': { no: 'Ekstra', en: 'Extra' },
         'nav.leaderboard': { no: 'Rangering', en: 'Leaderboard' },
         'nav.gallery': { no: 'Galleri', en: 'Gallery' },
         'nav.login': { no: 'Logg inn', en: 'Log in' },
@@ -256,6 +257,18 @@ const Lang = {
         },
         'part3.res.linksTitle': { no: '📚 React + Vite Referanser', en: '📚 React + Vite References' },
 
+        // ========== PART 4 ==========
+        'part4.title': { no: 'Ekstra: Fritt Prosjekt', en: 'Extra: Free Project' },
+        'part4.subtitle': { no: 'Bygg hva du vil – velg mellom HTML/CSS/JS eller React', en: 'Build what you want – choose between HTML/CSS/JS or React' },
+        'part4.locked.title': { no: 'Ekstra er Låst', en: 'Extra is Locked' },
+        'part4.locked.msg': { no: 'Fullfør Del 3 for å låse opp den frie byggeseksjonen.', en: 'Complete Part 3 to unlock the free build section.' },
+        'part4.locked.btn': { no: '← Gå til Del 3', en: '← Go to Part 3' },
+        'part4.modeHtml': { no: 'HTML/CSS/JS', en: 'HTML/CSS/JS' },
+        'part4.modeReact': { no: 'React', en: 'React' },
+        'part4.save': { no: '💾 Lagre', en: '💾 Save' },
+        'part4.ideas': { no: '💡 Prosjektideer', en: '💡 Project Ideas' },
+        'part4.resources': { no: '📚 Ressurser', en: '📚 Resources' },
+
         // ========== GALLERY ==========
         'gallery.title': { no: '🎨 Prosjektgalleri', en: '🎨 Project Gallery' },
         'gallery.subtitle': { no: 'Se hva andre brukere har laget under kurset', en: 'See what other users have made during the course' },
@@ -288,6 +301,7 @@ const Lang = {
         },
         'toast.unlockPart2': { no: 'Fullfør Del 1 først for å låse opp Del 2', en: 'Complete Part 1 first to unlock Part 2' },
         'toast.unlockPart3': { no: 'Fullfør Del 2 først for å låse opp Del 3', en: 'Complete Part 2 first to unlock Part 3' },
+        'toast.unlockPart4': { no: 'Fullfør Del 3 først for å låse opp Ekstra', en: 'Complete Part 3 first to unlock Extra' },
         'toast.sessionExpired': { no: 'Session utløpt (75 min) - localStorage ryddes', en: 'Session expired (75 min) - localStorage cleared' },
         'toast.courseReset': {
             no: 'Kurset er tilbakestilt. Last siden på nytt for å starte på nytt.',

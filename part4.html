@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ekstra: Fritt Prosjekt - WebDev Kurs</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .mode-toggle {
+            display: flex;
+            gap: 4px;
+            background: var(--bg-tertiary);
+            padding: 4px;
+            border-radius: 8px;
+            margin-right: 12px;
+        }
+        .mode-btn {
+            padding: 6px 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            background: transparent;
+            color: var(--text-secondary);
+            transition: all 0.2s;
+        }
+        .mode-btn.active {
+            background: var(--accent);
+            color: white;
+        }
+        .idea-card {
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid var(--border-color);
+        }
+        .idea-card:hover {
+            border-color: var(--accent);
+            transform: translateX(3px);
+        }
+        .idea-card h4 { font-size: 13px; margin-bottom: 4px; }
+        .idea-card p { font-size: 12px; color: var(--text-secondary); margin: 0; }
+        .idea-badge {
+            display: inline-block;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        .badge-html { background: #e34c26; color: white; }
+        .badge-react { background: #61dafb; color: #000; }
+        .badge-any { background: #6366f1; color: white; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="logo">⟨/⟩</span>
+            <span class="brand-text">WebDev Kurs</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link" data-i18n="nav.home">Hjem</a>
+            <a href="part1.html" class="nav-link" data-i18n="nav.part1">Del 1</a>
+            <a href="part2.html" class="nav-link" id="nav-part2" data-i18n="nav.part2">Del 2</a>
+            <a href="part3.html" class="nav-link" id="nav-part3" data-i18n="nav.part3">Del 3</a>
+            <a href="part4.html" class="nav-link active" id="nav-part4" data-i18n="nav.part4">Ekstra</a>
+            <a href="leaderboard.html" class="nav-link" data-i18n="nav.leaderboard">Rangering</a>
+            <a href="gallery.html" class="nav-link" data-i18n="nav.gallery">Galleri</a>
+        </div>
+        <div class="nav-auth">
+            <button id="lang-toggle" onclick="Lang.toggle()">🇬🇧 EN</button>
+            <button class="btn btn-secondary btn-sm" id="auth-btn" onclick="showAuthModal()" data-i18n="nav.login">Logg inn</button>
+            <div class="user-info" id="user-info" style="display: none;">
+                <span class="user-name"></span>
+                <button class="btn btn-secondary btn-sm" onclick="AuthService.logout()" data-i18n="nav.logout">Logg ut</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="locked-overlay" id="locked-overlay">
+        <div class="locked-content">
+            <div class="locked-icon">🔒</div>
+            <h2 data-i18n="part4.locked.title">Ekstra er Låst</h2>
+            <p data-i18n="part4.locked.msg">Fullfør Del 3 for å låse opp den frie byggeseksjonen.</p>
+            <a href="part3.html" class="btn btn-primary" data-i18n="part4.locked.btn">← Gå til Del 3</a>
+        </div>
+    </div>
+
+    <div class="course-page">
+        <header class="course-header">
+            <div class="course-info">
+                <h1 data-i18n="part4.title">Ekstra: Fritt Prosjekt</h1>
+                <p data-i18n="part4.subtitle">Bygg hva du vil – velg mellom HTML/CSS/JS eller React</p>
+            </div>
+            <div class="course-controls">
+                <!-- no timer for free build -->
+            </div>
+        </header>
+
+        <div class="course-content">
+            <aside class="sidebar">
+                <div class="sidebar-tabs">
+                    <button class="sidebar-tab active" data-tab="ideas">💡 Ideer</button>
+                    <button class="sidebar-tab" data-tab="resources">📚 Ressurser</button>
+                </div>
+                <div class="sidebar-content">
+                    <div class="tab-panel active" id="ideas-panel">
+                        <p style="font-size:13px; color: var(--text-secondary); margin-bottom: 12px;">
+                            Klikk på en idé for å laste inn startkode!
+                        </p>
+
+                        <div class="idea-card" onclick="loadIdea('todo')">
+                            <span class="idea-badge badge-any">HTML eller React</span>
+                            <h4>📝 Todo-liste</h4>
+                            <p>Legg til, fullfør og slett oppgaver</p>
+                        </div>
+                        <div class="idea-card" onclick="loadIdea('quiz')">
+                            <span class="idea-badge badge-any">HTML eller React</span>
+                            <h4>❓ Quiz-app</h4>
+                            <p>Lag et spørsmålsspill med poeng</p>
+                        </div>
+                        <div class="idea-card" onclick="loadIdea('calculator')">
+                            <span class="idea-badge badge-html">HTML/CSS/JS</span>
+                            <h4>🔢 Kalkulator</h4>
+                            <p>En enkel kalkulator med knapper</p>
+                        </div>
+                        <div class="idea-card" onclick="loadIdea('countdown')">
+                            <span class="idea-badge badge-any">HTML eller React</span>
+                            <h4>⏱️ Nedtelling</h4>
+                            <p>Nedtellingstimer til en dato</p>
+                        </div>
+                        <div class="idea-card" onclick="loadIdea('colorpicker')">
+                            <span class="idea-badge badge-html">HTML/CSS/JS</span>
+                            <h4>🎨 Fargevelger</h4>
+                            <p>Generer og kopier CSS-farger</p>
+                        </div>
+                        <div class="idea-card" onclick="loadIdea('weather')">
+                            <span class="idea-badge badge-react">React</span>
+                            <h4>🌤️ Vær-app</h4>
+                            <p>Vis vær basert på by (med fetch)</p>
+                        </div>
+                        <div class="idea-card" onclick="loadIdea('memory')">
+                            <span class="idea-badge badge-html">HTML/CSS/JS</span>
+                            <h4>🃏 Memory-spill</h4>
+                            <p>Match par av kort</p>
+                        </div>
+                        <div class="idea-card" onclick="loadIdea('portfolio')">
+                            <span class="idea-badge badge-any">HTML eller React</span>
+                            <h4>👤 Portfolio</h4>
+                            <p>Personlig presentasjonsside</p>
+                        </div>
+                    </div>
+
+                    <div class="tab-panel" id="resources-panel">
+                        <div class="media-item">
+                            <h4>🌐 HTML/CSS/JS</h4>
+                            <ul style="color: var(--text-secondary); font-size: 14px; padding-left: 20px;">
+                                <li style="margin-bottom: 8px;"><a href="https://developer.mozilla.org/no/" target="_blank" style="color: var(--accent);">MDN Web Docs</a></li>
+                                <li style="margin-bottom: 8px;"><a href="https://css-tricks.com/" target="_blank" style="color: var(--accent);">CSS-Tricks</a></li>
+                                <li style="margin-bottom: 8px;"><a href="https://javascript.info/" target="_blank" style="color: var(--accent);">JavaScript.info</a></li>
+                                <li style="margin-bottom: 8px;"><a href="https://www.w3schools.com/" target="_blank" style="color: var(--accent);">W3Schools</a></li>
+                            </ul>
+                        </div>
+                        <div class="media-item">
+                            <h4>⚛️ React</h4>
+                            <ul style="color: var(--text-secondary); font-size: 14px; padding-left: 20px;">
+                                <li style="margin-bottom: 8px;"><a href="https://react.dev/" target="_blank" style="color: var(--accent);">React Dokumentasjon</a></li>
+                                <li style="margin-bottom: 8px;"><a href="https://react.dev/learn" target="_blank" style="color: var(--accent);">React Learn</a></li>
+                                <li style="margin-bottom: 8px;"><a href="https://react.dev/reference/react/hooks" target="_blank" style="color: var(--accent);">React Hooks Referanse</a></li>
+                            </ul>
+                        </div>
+                        <div class="media-item">
+                            <h4>🎨 Design</h4>
+                            <ul style="color: var(--text-secondary); font-size: 14px; padding-left: 20px;">
+                                <li style="margin-bottom: 8px;"><a href="https://coolors.co/" target="_blank" style="color: var(--accent);">Coolors – Fargepaletter</a></li>
+                                <li style="margin-bottom: 8px;"><a href="https://fonts.google.com/" target="_blank" style="color: var(--accent);">Google Fonts</a></li>
+                                <li style="margin-bottom: 8px;"><a href="https://cssgradient.io/" target="_blank" style="color: var(--accent);">CSS Gradient Generator</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <div class="editor-area">
+                <div class="editor-toolbar">
+                    <div class="mode-toggle" id="mode-toggle">
+                        <button class="mode-btn active" id="mode-html-btn" onclick="switchMode('html')">HTML/CSS/JS</button>
+                        <button class="mode-btn" id="mode-react-btn" onclick="switchMode('react')">React</button>
+                    </div>
+                    <div class="file-tabs" id="file-tabs">
+                        <!-- filled by JS based on mode -->
+                    </div>
+                    <div class="toolbar-actions">
+                        <button class="toolbar-btn" id="save-btn" data-i18n="course.save">💾 Lagre</button>
+                        <button class="toolbar-btn" id="save-project-btn" data-i18n="course.saveProject">📁 Lagre prosjekt</button>
+                        <button class="toolbar-btn" id="reset-btn" data-i18n="course.reset">↺ Tilbakestill</button>
+                        <button class="toolbar-btn" id="download-btn" data-i18n="course.download">⬇ Last ned</button>
+                    </div>
+                </div>
+                <div class="editor-container">
+                    <div class="code-editor" id="editor-container"></div>
+                    <div class="resizer" id="resizer"></div>
+                    <div class="preview-container">
+                        <div class="preview-header" data-i18n="course.livePreview">Live Preview</div>
+                        <iframe class="preview-frame" id="preview-frame" sandbox="allow-scripts allow-same-origin"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.45.0/min/vs/loader.min.js"></script>
+    <script src="assets/js/database.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/lang.js"></script>
+    <script src="assets/js/app.js?v=8"></script>
+    <script src="assets/js/course-part4.js"></script>
+</body>
+</html>
