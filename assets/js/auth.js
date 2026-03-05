@@ -24,7 +24,11 @@ const AuthService = {
 
     isAdmin() {
         const user = this.getCurrentUser();
-        return user && user.isAdmin === true;
+        if (!user) return false;
+        if (user.isAdmin === true) return true;
+        // Fallback: check email for known admin accounts
+        const adminEmails = ['admin@kurs.no', 'marcel@kurs.no'];
+        return adminEmails.includes((user.email || '').toLowerCase());
     },
 
     async register(name, email, password) {
