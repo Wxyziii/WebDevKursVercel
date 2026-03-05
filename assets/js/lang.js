@@ -311,18 +311,9 @@ const Lang = {
         'toast.unlockPart2': { no: 'Fullfør Del 1 først for å låse opp Del 2', en: 'Complete Part 1 first to unlock Part 2' },
         'toast.unlockPart3': { no: 'Fullfør Del 2 først for å låse opp Del 3', en: 'Complete Part 2 first to unlock Part 3' },
         'toast.unlockPart4': { no: 'Fullfør Del 3 først for å låse opp Ekstra', en: 'Complete Part 3 first to unlock Extra' },
-        'toast.sessionExpired': { no: 'Session utløpt (75 min) - localStorage ryddes', en: 'Session expired (75 min) - localStorage cleared' },
-        'toast.courseReset': {
-            no: 'Kurset er tilbakestilt. Last siden på nytt for å starte på nytt.',
-            en: 'Course reset. Reload the page to start over.'
-        },
         'confirm.resetCode': {
             no: 'Er du sikker på at du vil tilbakestille koden til utgangspunktet?',
             en: 'Are you sure you want to reset the code to the starting point?'
-        },
-        'confirm.sessionExpired': {
-            no: 'Session utløpt. Vil du laste siden på nytt?',
-            en: 'Session expired. Do you want to reload the page?'
         },
         'cheat.title': { no: 'Kurs Fullført!', en: 'Course Completed!' },
         'cheat.msg': {

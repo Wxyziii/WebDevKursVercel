@@ -696,65 +696,26 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // ========================================
-// AUTO-CLEAR LOCALSTORAGE AFTER 75 MINUTES
+// AUTO-LOGOUT ON BROWSER/TAB CLOSE
 // ========================================
+// Logs the user out when they close the browser/tab, but preserves
+// their code and course progress so it loads back when they return.
 
-(function initAutoClearTimer() {
-    const SESSION_KEY = 'webdev_session_start';
-    const CLEAR_AFTER_MS = 75 * 60 * 1000; // 75 minutes in milliseconds
-    
-    // Get or set session start time
-    let sessionStart = localStorage.getItem(SESSION_KEY);
-    
-    if (!sessionStart) {
-        // First visit - set start time
-        sessionStart = Date.now().toString();
-        localStorage.setItem(SESSION_KEY, sessionStart);
+(function initSessionCloseLogout() {
+    const SESSION_FLAG = 'webdev_active_session';
+
+    if (sessionStorage.getItem(SESSION_FLAG)) {
+        // Session is still active (same tab, navigation or refresh) — do nothing
+        return;
     }
-    
-    // Check if 75 minutes have passed
-    function checkAndClearIfExpired() {
-        const startTime = parseInt(localStorage.getItem(SESSION_KEY));
-        const currentTime = Date.now();
-        const elapsed = currentTime - startTime;
-        
-        if (elapsed >= CLEAR_AFTER_MS) {
-            // Time's up! Clear everything
-            console.log('75 minutes elapsed - clearing localStorage');
-            
-            // Show notification before clearing
-            showToast(typeof Lang !== 'undefined' ? Lang.t('toast.sessionExpired') : 'Session utløpt (75 min) - localStorage ryddes', 'info');
-            
-            // Clear all localStorage data after a short delay
-            setTimeout(() => {
-                localStorage.clear();
-                
-                // Show final message
-                showToast(typeof Lang !== 'undefined' ? Lang.t('toast.courseReset') : 'Kurset er tilbakestilt. Last siden på nytt for å starte på nytt.', 'info');
-                
-                // Optionally reload after 3 seconds
-                setTimeout(() => {
-                    if (confirm(typeof Lang !== 'undefined' ? Lang.t('confirm.sessionExpired') : 'Session utløpt. Vil du laste siden på nytt?')) {
-                        window.location.reload();
-                    }
-                }, 3000);
-            }, 1000);
-            
-            return true;
-        }
-        
-        return false;
-    }
-    
-    // Check immediately on load
-    if (!checkAndClearIfExpired()) {
-        // If not expired, check every minute
-        setInterval(checkAndClearIfExpired, 60 * 1000);
-        
-        // Optional: Show time remaining in console
-        const startTime = parseInt(sessionStart);
-        const timeRemaining = CLEAR_AFTER_MS - (Date.now() - startTime);
-        console.log(`Session will auto-clear in ${Math.floor(timeRemaining / 60000)} minutes`);
+
+    // New browser session (tab was closed and reopened)
+    sessionStorage.setItem(SESSION_FLAG, 'true');
+
+    // If a user was previously logged in, log them out (auth only)
+    if (localStorage.getItem('webdev_current_user')) {
+        localStorage.removeItem('webdev_current_user');
+        console.log('Browser session ended — user logged out (code & progress preserved)');
     }
 })();
 
