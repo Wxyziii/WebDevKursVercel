@@ -207,29 +207,22 @@ ${part1Css}
 <body>
 
     <header>
-        <img src="https://via.placeholder.com/150" alt="Profilbilde" class="profilbilde">
-        <h1>Ditt Navn</h1>
-        <p>Webutvikler</p>
+        <!-- Oppgave 2: Legg til <h1> med navn og <p> med tittel -->
+        <!-- Oppgave 8: Legg til <img> med profilbilde -->
     </header>
 
     <main>
         <section class="om-meg">
-            <h2>Om meg</h2>
-            <p>Skriv litt om deg selv her. Hva er du interessert i?</p>
+            <!-- Oppgave 3: Legg til <h2> og <p> med beskrivelse -->
         </section>
 
         <section class="ferdigheter">
-            <h2>Ferdigheter</h2>
-            <ul>
-                <li>HTML</li>
-                <li>CSS</li>
-                <li>JavaScript</li>
-            </ul>
+            <!-- Oppgave 4: Legg til <h2> og <ul> med <li>-elementer -->
         </section>
     </main>
 
     <footer>
-        <p>Kontakt: din@epost.no</p>
+        <!-- Oppgave 7: Legg til kontaktinformasjon -->
     </footer>
 
 </body>
@@ -252,7 +245,7 @@ ${part1Css}
     <main>
         <section class="om-meg">
             <h2>Om meg</h2>
-            <p>Skriv litt om deg selv her.</p>
+            <p>Skriv om deg selv her...</p>
         </section>
 
         <section class="ferdigheter">
@@ -265,34 +258,12 @@ ${part1Css}
         </section>
 
         <section class="prosjekter">
-            <h2>Mine Prosjekter</h2>
-            <div class="prosjekt-grid">
-                <div class="prosjekt-kort">
-                    <h3>Prosjekt 1</h3>
-                    <p>Beskrivelse av prosjekt 1.</p>
-                    <button class="se-mer-btn">Se mer</button>
-                </div>
-                <div class="prosjekt-kort">
-                    <h3>Prosjekt 2</h3>
-                    <p>Beskrivelse av prosjekt 2.</p>
-                    <button class="se-mer-btn">Se mer</button>
-                </div>
-                <div class="prosjekt-kort">
-                    <h3>Prosjekt 3</h3>
-                    <p>Beskrivelse av prosjekt 3.</p>
-                    <button class="se-mer-btn">Se mer</button>
-                </div>
-            </div>
+            <!-- Oppgave 1: Legg til <h2> og <div class="prosjekt-grid"> -->
+            <!-- Oppgave 2: Legg til prosjekt-kort med se-mer-btn inne i grid -->
         </section>
 
         <section class="kontakt">
-            <h2>Kontakt meg</h2>
-            <form id="kontakt-form">
-                <input type="text" id="navn" placeholder="Ditt navn">
-                <input type="email" id="epost" placeholder="Din e-post">
-                <textarea id="melding" placeholder="Din melding"></textarea>
-                <button type="submit">Send</button>
-            </form>
+            <!-- Oppgave 4: Legg til <h2> og <form id="kontakt-form"> med inputs -->
         </section>
     </main>
 
@@ -310,37 +281,23 @@ ${part1Css}
             return `/* Din Portfolio CSS */
 
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    background: #f5f5f5;
+    /* Oppgave 6: Legg til font-family, margin: 0 og background */
 }
 
 header {
-    background-color: #333;
-    color: white;
-    padding: 40px;
-    text-align: center;
+    /* Oppgave 5: Legg til background-color, color, padding og text-align */
 }
 
 .profilbilde {
-    width: 150px;
-    border-radius: 50%;
-    margin-bottom: 20px;
+    /* Oppgave 8: Legg til width og border-radius: 50% */
 }
 
 section {
-    padding: 30px;
-    max-width: 800px;
-    margin: 20px auto;
-    background: white;
-    border-radius: 8px;
+    /* Oppgave 6: Legg til padding, max-width, margin og background */
 }
 
 footer {
-    background: #333;
-    color: white;
-    text-align: center;
-    padding: 20px;
+    /* Oppgave 7: Legg til background, color, text-align og padding */
 }
 `;
         }
@@ -348,37 +305,24 @@ footer {
             return `/* App.css - Stiler for React-appen */
 
 .app {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+    /* Oppgave 5: Legg til font-family, max-width og margin */
 }
 
 .card {
-    background: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    margin: 10px 0;
-    transition: transform 0.3s, box-shadow 0.3s;
+    /* Oppgave 5: Legg til background, padding, border-radius og box-shadow */
+    /* Oppgave 8: Legg til transition */
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    /* Oppgave 8: Legg til transform og box-shadow */
 }
 
 button {
-    background: #646cff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+    /* Oppgave 5: Legg til background, color, padding, border og border-radius */
 }
 
 button:hover {
-    background: #535bf2;
+    /* Oppgave 8: Legg til hover-bakgrunn */
 }
 `;
         }
@@ -412,51 +356,31 @@ footer {
     padding: 20px;
 }
 
-/* Prosjekter */
+/* Oppgave 3: Prosjekt-grid */
 .prosjekt-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
+    /* Legg til display: grid, grid-template-columns og gap */
 }
 
 .prosjekt-kort {
-    background: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
+    /* Legg til background, padding, border-radius og box-shadow */
+    /* Oppgave 8: Legg til transition */
 }
 
 .prosjekt-kort:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    /* Oppgave 8: Legg til transform og box-shadow */
 }
 
-.se-mer-btn:hover {
-    background: #555;
-}
-
-/* Kontaktskjema */
+/* Oppgave 5: Kontaktskjema */
 #kontakt-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+    /* Legg til display: flex, flex-direction og gap */
 }
 
 #kontakt-form input, #kontakt-form textarea {
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
+    /* Legg til padding, border og font-size */
 }
 
 #kontakt-form button {
-    background: #333;
-    color: white;
-    padding: 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    /* Legg til background, color, padding og cursor */
 }`;
     },
     
@@ -464,16 +388,15 @@ footer {
         return `// JavaScript for din Portfolio
 console.log('Portfolio lastet! 🚀');
 
-// Skjemavalidering
+// Oppgave 6: Skjemavalidering
 document.getElementById('kontakt-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    alert('Takk for meldingen!');
+    // Legg til e.preventDefault() og alert her
 });
 
-// Se mer-knapper
+// Oppgave 7: Se mer-knapper
 document.querySelectorAll('.se-mer-btn').forEach(btn => {
     btn.addEventListener('click', function() {
-        alert('Mer info kommer snart!');
+        // Legg til alert her
     });
 });
 `;
@@ -483,40 +406,33 @@ document.querySelectorAll('.se-mer-btn').forEach(btn => {
         return `// App.jsx - Din React-komponent
 // VIKTIG: Ikke bruk "import" - hooks er allerede tilgjengelig!
 
+// Oppgave 4: Lag Card-komponenten her
 function Card(props) {
     return (
         <div className="card">
-            <h3>{props.title}</h3>
-            <p>{props.description}</p>
+            {/* Vis props.title og props.description */}
         </div>
     );
 }
 
 function App() {
-    const [count, setCount] = useState(0);
-    const [visible, setVisible] = useState(false);
+    // Oppgave 2: Legg til useState for teller (count, setCount)
+    // Oppgave 7: Legg til useState for visible (visible, setVisible)
 
-    const skills = ['React', 'Vite', 'JavaScript'];
+    // Oppgave 6: Lag en skills-array med ['React', 'Vite', 'JavaScript']
 
     return (
         <div className="app">
             <h1>Min React App</h1>
 
-            <p>Teller: {count}</p>
-            <button onClick={() => setCount(count + 1)}>
-                Klikk meg!
-            </button>
+            {/* Oppgave 2: Vis telleren med <p> */}
+            {/* Oppgave 3: Legg til <button> med onClick som øker telleren */}
 
-            <Card title="Mitt kort" description="Dette er en React-komponent!" />
+            {/* Oppgave 4: Bruk <Card>-komponenten med title og description */}
 
-            <ul>
-                {skills.map((skill) => (
-                    <li key={skill}>{skill}</li>
-                ))}
-            </ul>
+            {/* Oppgave 6: Vis skills-arrayen med .map() og <ul>/<li> */}
 
-            <button onClick={() => setVisible(!visible)}>Vis/Skjul</button>
-            {visible && <p>Hemmelig innhold!</p>}
+            {/* Oppgave 7: Legg til knapp som toggler visible, og betinget rendering */}
         </div>
     );
 }
