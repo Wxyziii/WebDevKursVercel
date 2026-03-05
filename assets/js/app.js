@@ -467,7 +467,7 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem(SESSION_KEY, sessionStart);
     }
     
-    // Check if 35 minutes have passed
+    // Check if 75 minutes have passed
     function checkAndClearIfExpired() {
         const startTime = parseInt(localStorage.getItem(SESSION_KEY));
         const currentTime = Date.now();

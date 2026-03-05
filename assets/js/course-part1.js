@@ -377,7 +377,7 @@ function updateTimerDisplay() {
 }
 
 function updateProgress() {
-  const totalTime = 30 * 60;
+  const totalTime = 15 * 60;
   const elapsed = totalTime - timeRemaining;
   const progress = (elapsed / totalTime) * 100;
   document.getElementById("progress-fill").style.width =
