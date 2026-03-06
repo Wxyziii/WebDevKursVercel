@@ -565,6 +565,12 @@ function updateNavigation() {
         if (navPart4) navPart4.classList.add('locked');
         if (part4Card) part4Card.classList.add('locked');
     }
+
+    // Show/hide admin nav link
+    const navAdmin = document.getElementById('nav-admin');
+    if (navAdmin) {
+        navAdmin.style.display = admin ? '' : 'none';
+    }
 }
 
 // ========================================

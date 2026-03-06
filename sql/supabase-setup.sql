@@ -128,8 +128,14 @@ create policy "Users and admins can delete projects" on public.projects
 create policy "Users can insert their own activity" on public.activity
     for insert with check (auth.uid() = user_id);
 
-create policy "Users can view their own activity" on public.activity
-    for select using (auth.uid() = user_id);
+create policy "Users and admins can view activity" on public.activity
+    for select using (
+        auth.uid() = user_id or
+        exists (
+            select 1 from public.users
+            where id = auth.uid() and is_admin = true
+        )
+    );
 
 -- ========================================
 -- INDEXES for better performance

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - WebDev Kurs</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .admin-denied {
+            text-align: center;
+            padding: 80px 20px;
+        }
+        .admin-denied .denied-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+        .users-table th,
+        .users-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .users-table th {
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .users-table tr:hover {
+            background: rgba(255,255,255,0.05);
+        }
+        .status-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+        .status-dot.active {
+            background: #4ade80;
+            box-shadow: 0 0 6px rgba(74, 222, 128, 0.5);
+        }
+        .status-dot.inactive {
+            background: #ef4444;
+            box-shadow: 0 0 6px rgba(239, 68, 68, 0.3);
+        }
+        .status-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        .admin-badge {
+            background: rgba(139, 92, 246, 0.2);
+            color: #a78bfa;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+        .progress-badges {
+            display: flex;
+            gap: 4px;
+        }
+        .part-badge {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .part-badge.done {
+            background: rgba(74, 222, 128, 0.2);
+            color: #4ade80;
+        }
+        .part-badge.pending {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-muted);
+        }
+        .user-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        .stat-card .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .stat-card .stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        .users-table .btn-danger {
+            padding: 4px 10px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="logo">⟨/⟩</span>
+            <span class="brand-text">WebDev Kurs</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link" data-i18n="nav.home">Hjem</a>
+            <a href="part1.html" class="nav-link" data-i18n="nav.part1">Del 1</a>
+            <a href="part2.html" class="nav-link" id="nav-part2" data-i18n="nav.part2">Del 2</a>
+            <a href="part3.html" class="nav-link" id="nav-part3" data-i18n="nav.part3">Del 3</a>
+            <a href="part4.html" class="nav-link" id="nav-part4" data-i18n="nav.part4">Ekstra</a>
+            <a href="leaderboard.html" class="nav-link" data-i18n="nav.leaderboard">Rangering</a>
+            <a href="gallery.html" class="nav-link" data-i18n="nav.gallery">Galleri</a>
+            <a href="admin.html" class="nav-link active">Admin</a>
+        </div>
+        <div class="nav-auth">
+            <button id="lang-toggle" onclick="Lang.toggle()">🇬🇧 EN</button>
+            <button class="btn btn-secondary btn-sm" id="auth-btn" onclick="showAuthModal()" data-i18n="nav.login">Logg inn</button>
+            <div class="user-info" id="user-info" style="display: none;">
+                <span class="user-name"></span>
+                <button class="btn btn-secondary btn-sm" onclick="AuthService.logout()" data-i18n="nav.logout">Logg ut</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <!-- Access denied (shown to non-admins) -->
+        <div id="admin-denied" class="admin-denied" style="display: none;">
+            <div class="denied-icon">🔒</div>
+            <h2>Ingen tilgang</h2>
+            <p style="color: var(--text-secondary);">Denne siden er kun for administratorer.</p>
+            <a href="index.html" class="btn btn-primary" style="margin-top: 16px;">← Tilbake til Hjem</a>
+        </div>
+
+        <!-- Admin content (shown to admins) -->
+        <div id="admin-content" style="display: none;">
+            <div class="page-header">
+                <h1>👑 Admin Panel</h1>
+                <p>Oversikt over alle brukere</p>
+            </div>
+
+            <div class="user-stats" id="user-stats"></div>
+
+            <div class="leaderboard-container glass-card">
+                <div id="users-content">
+                    <div class="loading">Laster brukere...</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p data-i18n="index.footer">© 2026 WebDev Kurs. Laget for å lære.</p>
+    </footer>
+
+    <script src="assets/js/database.js?v=3"></script>
+    <script src="assets/js/auth.js?v=2"></script>
+    <script src="assets/js/lang.js?v=3"></script>
+    <script src="assets/js/app.js?v=13"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            updateAuthUI();
+            updateNavigation();
+
+            // Wait for auth to be ready
+            const user = AuthService.getCurrentUser();
+            if (!user || !AuthService.isAdmin()) {
+                document.getElementById('admin-denied').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('admin-content').style.display = 'block';
+            await loadAdminUsers();
+        });
+
+        async function loadAdminUsers() {
+            const container = document.getElementById('users-content');
+            const statsContainer = document.getElementById('user-stats');
+
+            try {
+                const [users, activityMap] = await Promise.all([
+                    db.getAllUsers(),
+                    db.getLatestActivityPerUser()
+                ]);
+
+                const now = Date.now();
+                const ACTIVE_THRESHOLD = 15 * 60 * 1000; // 15 minutes
+
+                // Calculate stats
+                const totalUsers = users.length;
+                const activeUsers = users.filter(u => {
+                    const lastActivity = activityMap[u.id];
+                    return lastActivity && (now - new Date(lastActivity).getTime()) < ACTIVE_THRESHOLD;
+                }).length;
+                const completedPart1 = users.filter(u => u.part1Completed).length;
+                const completedPart2 = users.filter(u => u.part2Completed).length;
+                const completedPart3 = users.filter(u => u.part3Completed).length;
+                const flaggedUsers = users.filter(u => u.isFlagged).length;
+
+                statsContainer.innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-value">${totalUsers}</div>
+                        <div class="stat-label">Totalt brukere</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: #4ade80;">${activeUsers}</div>
+                        <div class="stat-label">Aktive nå</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${completedPart1}</div>
+                        <div class="stat-label">Fullført Del 1</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${completedPart2}</div>
+                        <div class="stat-label">Fullført Del 2</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${completedPart3}</div>
+                        <div class="stat-label">Fullført Del 3</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" style="color: ${flaggedUsers > 0 ? '#f59e0b' : 'var(--text-secondary)'};">${flaggedUsers}</div>
+                        <div class="stat-label">⚠️ Flagget</div>
+                    </div>
+                `;
+
+                if (users.length === 0) {
+                    container.innerHTML = '<div class="empty-state">Ingen brukere registrert ennå.</div>';
+                    return;
+                }
+
+                // Sort: active first, then by name
+                users.sort((a, b) => {
+                    const aActive = activityMap[a.id] && (now - new Date(activityMap[a.id]).getTime()) < ACTIVE_THRESHOLD;
+                    const bActive = activityMap[b.id] && (now - new Date(activityMap[b.id]).getTime()) < ACTIVE_THRESHOLD;
+                    if (aActive && !bActive) return -1;
+                    if (!aActive && bActive) return 1;
+                    return a.name.localeCompare(b.name);
+                });
+
+                container.innerHTML = `
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>Status</th>
+                                <th>Navn</th>
+                                <th>E-post</th>
+                                <th>Rolle</th>
+                                <th>Fremgang</th>
+                                <th>Siste aktivitet</th>
+                                <th>Registrert</th>
+                                <th>Handlinger</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${users.map(user => {
+                                const lastActivity = activityMap[user.id];
+                                const isActive = lastActivity && (now - new Date(lastActivity).getTime()) < ACTIVE_THRESHOLD;
+                                const lastActivityText = lastActivity ? formatTimeAgo(new Date(lastActivity)) : 'Aldri';
+
+                                return `
+                                <tr>
+                                    <td>
+                                        <span class="status-dot ${isActive ? 'active' : 'inactive'}"></span>
+                                        <span class="status-text">${isActive ? 'Aktiv' : 'Inaktiv'}</span>
+                                    </td>
+                                    <td><a href="profile.html?id=${user.id}" class="profile-link">${escapeHtml(user.name)}</a></td>
+                                    <td style="color: var(--text-secondary);">${escapeHtml(user.email)}</td>
+                                    <td>${user.isAdmin ? '<span class="admin-badge">Admin</span>' : 'Elev'}</td>
+                                    <td>
+                                        <div class="progress-badges">
+                                            <span class="part-badge ${user.part1Completed ? 'done' : 'pending'}" title="Del 1">1</span>
+                                            <span class="part-badge ${user.part2Completed ? 'done' : 'pending'}" title="Del 2">2</span>
+                                            <span class="part-badge ${user.part3Completed ? 'done' : 'pending'}" title="Del 3">3</span>
+                                        </div>
+                                    </td>
+                                    <td style="color: var(--text-secondary); font-size: 13px;">${lastActivityText}</td>
+                                    <td style="color: var(--text-secondary); font-size: 13px;">${new Date(user.createdAt).toLocaleDateString('no-NO')}</td>
+                                    <td>
+                                        ${!user.isAdmin ? `<button class="btn btn-sm btn-danger" onclick="adminDeleteUser('${user.id}')">🗑️</button>` : ''}
+                                    </td>
+                                </tr>`;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } catch (err) {
+                container.innerHTML = `<div class="error">Feil ved lasting: ${err.message}</div>`;
+            }
+        }
+
+        function formatTimeAgo(date) {
+            const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
+            if (seconds < 60) return 'Akkurat nå';
+            const minutes = Math.floor(seconds / 60);
+            if (minutes < 60) return `${minutes} min siden`;
+            const hours = Math.floor(minutes / 60);
+            if (hours < 24) return `${hours} timer siden`;
+            const days = Math.floor(hours / 24);
+            if (days === 1) return 'I går';
+            return `${days} dager siden`;
+        }
+    </script>
+</body>
+</html>
+

@@ -487,6 +487,25 @@ class DatabaseService {
         if (error) return [];
         return data;
     }
+
+    async getLatestActivityPerUser() {
+        // Get the most recent activity timestamp for each user
+        const { data, error } = await this.client
+            .from('activity')
+            .select('user_id, timestamp')
+            .order('timestamp', { ascending: false });
+
+        if (error) return {};
+
+        // Build a map of user_id -> latest timestamp
+        const latestMap = {};
+        for (const row of data) {
+            if (!latestMap[row.user_id]) {
+                latestMap[row.user_id] = row.timestamp;
+            }
+        }
+        return latestMap;
+    }
 }
 
 // Create global instance
