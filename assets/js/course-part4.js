@@ -318,11 +318,15 @@ function updatePreview() {
 
   if (currentMode === 'html') {
     if (!htmlEditor || !cssEditor || !jsEditor) return;
-    const htmlCode = htmlEditor.getValue();
+    let htmlCode = htmlEditor.getValue();
     const cssCode = cssEditor.getValue();
     const jsCode = jsEditor.getValue();
 
-    // Inject CSS and JS into the HTML
+    // Strip external file references that can't load in srcdoc
+    htmlCode = htmlCode.replace(/<link[^>]+href=["']style\.css["'][^>]*>/gi, '');
+    htmlCode = htmlCode.replace(/<script[^>]+src=["']script\.js["'][^>]*><\/script>/gi, '');
+
+    // Inject CSS and JS inline
     const injected = htmlCode
       .replace('</head>', `<style>${cssCode}</style></head>`)
       .replace('</body>', `<script>${jsCode}<\/script></body>`);

@@ -813,6 +813,7 @@ body {
     flex: 1;
     display: flex;
     overflow: hidden;
+    position: relative;
 }
 
 .code-editor {
@@ -850,6 +851,7 @@ body {
 
 .preview-frame {
     flex: 1;
+    width: 100%;
     border: none;
     background: white;
 }
