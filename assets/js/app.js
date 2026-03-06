@@ -82,61 +82,6 @@ const CourseState = {
     completePart1() {
         const state = this.getState();
         state.part1Completed = true;
-        
-        // Copy code from part 1 to part 2, merging with part 2 template
-        const part1Html = state.part1Code.html;
-        const part1Css = state.part1Code.css;
-        
-        // Extract body content from part 1 HTML
-        const bodyMatch = part1Html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
-        const part1BodyContent = bodyMatch ? bodyMatch[1].trim() : '';
-        
-        // Create part 2 HTML with part 1 content inside main
-        state.part2Code.html = `<!DOCTYPE html>
-<html lang="no">
-<head>
-    <meta charset="UTF-8">
-    <title>Min Interaktive Nettside</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <header class="header">
-        <h1>Min Webapp</h1>
-    </header>
-    
-    <main class="main">
-        <!-- Din kode fra Del 1 -->
-${part1BodyContent}
-        
-        <!-- Legg til interaktive elementer her -->
-        
-    </main>
-    
-    <script src="script.js"></script>
-</body>
-</html>`;
-        
-        // Merge CSS - add part 1 CSS to part 2 CSS
-        state.part2Code.css = `/* Din CSS fra Del 1 */
-${part1Css}
-
-/* ===== Del 2: Nye stiler ===== */
-.header {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    text-align: center;
-    color: white;
-}
-
-.main {
-    padding: 40px;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-/* Legg til mer CSS her */
-`;
-        
         this.saveState(state);
     },
     

@@ -202,6 +202,7 @@ const Lang = {
             no: 'Du har fullført Del 3! Du kan nå gå videre til Ekstra-delen og bygge hva du vil — enten med vanlig HTML/CSS/JS eller React!',
             en: 'You have completed Part 3! You can now go to the Extra section and build whatever you want — using either plain HTML/CSS/JS or React!'
         },
+        'part3.startPart4': { no: 'Start Ekstra →', en: 'Start Extra →' },
         'part3.ex1.title': { no: 'React-komponent', en: 'React component' },
         'part3.ex1.desc': {
             no: 'Vi starter med å bygge en React-komponent! Lag en <code>App</code>-funksjon som returnerer JSX.',

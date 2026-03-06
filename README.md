@@ -14,7 +14,7 @@ A free, self-contained web development course built as a static site and deploye
 - **Leaderboard** — Ranked by completion time with validity badges
 - **Project Gallery** — Showcase of student-submitted work
 - **🇳🇴/🇬🇧 Language Toggle** — Full Norwegian and English support
-- **Auto-clear** — Session resets after 75 minutes
+- **Session Logout** — Automatically logs out when the browser tab is closed
 - **Cache Clearing** — Dedicated page to clear browser cache and reset progress
 
 ## Tech Stack
@@ -99,7 +99,7 @@ vercel --prod
 ## How It Works
 
 1. **Part 1** — Students build a portfolio site learning HTML structure and CSS styling (8 exercises)
-2. **Part 2** — Extends the portfolio with JavaScript interactivity: forms, events, DOM manipulation (8 exercises)
+2. **Part 2** — Students build an interactive task manager (oppgaveliste) learning DOM manipulation, events, filtering, and localStorage (8 exercises)
 3. **Part 3** — Introduces React concepts: components, useState, props, .map(), conditional rendering (8 exercises)
 4. **Ekstra** — Free-build section where students choose between HTML/CSS/JS or React mode and create their own project. Includes 8 project idea templates with starter code.
 

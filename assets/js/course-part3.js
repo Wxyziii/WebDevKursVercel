@@ -288,10 +288,9 @@ const exerciseChecks = {
   7: () => {
     const jsx = stripJSX(jsxEditor.getValue());
     return (
-      ((jsx.includes("visible") || jsx.includes("show")) &&
-        jsx.includes("&&") &&
-        jsx.includes("setVisible")) ||
-      jsx.includes("setShow")
+      (jsx.includes("visible") || jsx.includes("show")) &&
+      jsx.includes("&&") &&
+      (jsx.includes("setVisible") || jsx.includes("setShow"))
     );
   },
   8: () => {
@@ -565,7 +564,7 @@ document.getElementById("complete-btn")?.addEventListener("click", async () => {
             ? cheatAnalysis.flags.join(", ")
             : existingCompletion.flag_reason,
           cheatScore: Math.max(
-            cheatAnalysis.summary?.cheatScore || 0,
+            cheatAnalysis.suspicionScore || 0,
             existingCompletion.cheat_score || 0,
           ),
         });
@@ -579,7 +578,7 @@ document.getElementById("complete-btn")?.addEventListener("click", async () => {
           flagReason: cheatAnalysis.isSuspicious
             ? cheatAnalysis.flags.join(", ")
             : null,
-          cheatScore: cheatAnalysis.summary?.cheatScore || 0,
+          cheatScore: cheatAnalysis.suspicionScore || 0,
         });
       }
 

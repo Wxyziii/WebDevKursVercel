@@ -157,18 +157,19 @@ const CheatDetector = {
     },
 
     getActivitySummary() {
-        // Calculate final focus time
+        // Calculate final focus time without mutating state
+        let totalFocusTime = this.focusTime;
         if (this.editorActive && this.lastFocusTime) {
-            this.focusTime += Date.now() - this.lastFocusTime;
+            totalFocusTime += Date.now() - this.lastFocusTime;
         }
 
         const totalTime = Date.now() - this.startTime;
-        const focusPercentage = (this.focusTime / totalTime) * 100;
+        const focusPercentage = (totalFocusTime / totalTime) * 100;
 
         return {
             sessionId: this.sessionId,
             totalTime,
-            focusTime: this.focusTime,
+            focusTime: totalFocusTime,
             focusPercentage,
             keystrokes: this.keystrokes,
             codeChanges: this.codeChanges,

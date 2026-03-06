@@ -146,22 +146,24 @@ function updatePreview() {
 
   const previewFrame = document.getElementById("preview-frame");
 
-  // Combine HTML and CSS
+  // Strip dead file references that fail in srcdoc
   let combinedHTML = htmlCode;
+  combinedHTML = combinedHTML.replace(/<link\s+rel=["']stylesheet["']\s+href=["'][^"']+["']\s*\/?>/gi, '');
+  combinedHTML = combinedHTML.replace(/<script\s+src=["'][^"']+["']\s*><\/script>/gi, '');
 
   // Inject CSS into the HTML
-  if (htmlCode.includes("</head>")) {
-    combinedHTML = htmlCode.replace(
+  if (combinedHTML.includes("</head>")) {
+    combinedHTML = combinedHTML.replace(
       "</head>",
       `<style>${cssCode}</style></head>`,
     );
-  } else if (htmlCode.includes("<head>")) {
-    combinedHTML = htmlCode.replace(
+  } else if (combinedHTML.includes("<head>")) {
+    combinedHTML = combinedHTML.replace(
       "<head>",
       `<head><style>${cssCode}</style>`,
     );
   } else {
-    combinedHTML = `<style>${cssCode}</style>${htmlCode}`;
+    combinedHTML = `<style>${cssCode}</style>${combinedHTML}`;
   }
 
   // Use srcdoc for better compatibility
@@ -457,7 +459,7 @@ document.getElementById("complete-btn").addEventListener("click", async () => {
       flagReason: cheatAnalysis.isSuspicious
         ? cheatAnalysis.flags.join(", ")
         : null,
-      cheatScore: cheatAnalysis.summary?.cheatScore || 0,
+      cheatScore: cheatAnalysis.suspicionScore || 0,
     });
 
     // Flag user if suspicious

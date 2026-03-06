@@ -567,7 +567,7 @@ document.getElementById("complete-btn")?.addEventListener("click", async () => {
           ? cheatAnalysis.flags.join(", ")
           : existingCompletion.flag_reason,
         cheatScore: Math.max(
-          cheatAnalysis.summary?.cheatScore || 0,
+          cheatAnalysis.suspicionScore || 0,
           existingCompletion.cheat_score || 0,
         ),
       });
@@ -581,7 +581,7 @@ document.getElementById("complete-btn")?.addEventListener("click", async () => {
         flagReason: cheatAnalysis.isSuspicious
           ? cheatAnalysis.flags.join(", ")
           : null,
-        cheatScore: cheatAnalysis.summary?.cheatScore || 0,
+        cheatScore: cheatAnalysis.suspicionScore || 0,
       });
     }
 
