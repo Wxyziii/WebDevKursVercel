@@ -90,6 +90,7 @@ const Lang = {
         // ========== COURSE COMMON ==========
         'course.exercises': { no: 'Oppgaver', en: 'Exercises' },
         'course.resources': { no: 'Ressurser', en: 'Resources' },
+        'course.start': { no: '▶ Start', en: '▶ Start' },
         'course.save': { no: '💾 Lagre', en: '💾 Save' },
         'course.saveProject': { no: '📁 Lagre prosjekt', en: '📁 Save project' },
         'course.reset': { no: '↺ Tilbakestill', en: '↺ Reset' },

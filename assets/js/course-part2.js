@@ -9,14 +9,15 @@ let currentFile = "html";
 let timerInterval = null;
 let timeRemaining = CourseState.getTimeRemaining(2);
 let startTime = Date.now();
+let courseStarted = CourseState.isPartStarted(2);
 
 // Editor containers
 let htmlEditorContainer = null;
 let cssEditorContainer = null;
 let jsEditorContainer = null;
 
-// Initialize cheat detection
-if (isAdminUser() || CourseState.isPart1Completed()) {
+// Cheat detection initialized on start
+if ((isAdminUser() || CourseState.isPart1Completed()) && courseStarted) {
   CheatDetector.init(2);
 }
 
@@ -37,10 +38,32 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function initializeCourse() {
-  startTimer();
   updateProgress();
   updateNavigation();
   updateAuthUI();
+  updateTimerDisplay();
+
+  const startBtn = document.getElementById("start-btn");
+
+  if (courseStarted) {
+    if (startBtn) startBtn.style.display = "none";
+    startTimer();
+  }
+
+  if (startBtn) {
+    startBtn.addEventListener("click", () => {
+      courseStarted = true;
+      CourseState.startPart(2);
+      startBtn.style.display = "none";
+      startTimer();
+      CheatDetector.init(2);
+      // Unlock editors
+      if (htmlEditor) htmlEditor.updateOptions({ readOnly: false });
+      if (cssEditor) cssEditor.updateOptions({ readOnly: false });
+      if (jsEditor) jsEditor.updateOptions({ readOnly: false });
+      showToast("Kurset har startet! Lykke til! 🚀", "success");
+    });
+  }
 }
 
 // ========================================
@@ -117,6 +140,7 @@ require(["vs/editor/editor.main"], function () {
     renderWhitespace: "selection",
     tabSize: 2,
     padding: { top: 16, bottom: 16 },
+    readOnly: !courseStarted,
   });
 
   // Create CSS editor
@@ -134,6 +158,7 @@ require(["vs/editor/editor.main"], function () {
     renderWhitespace: "selection",
     tabSize: 2,
     padding: { top: 16, bottom: 16 },
+    readOnly: !courseStarted,
   });
 
   // Create JS editor
@@ -151,6 +176,7 @@ require(["vs/editor/editor.main"], function () {
     renderWhitespace: "selection",
     tabSize: 2,
     padding: { top: 16, bottom: 16 },
+    readOnly: !courseStarted,
   });
 
   // Live preview update

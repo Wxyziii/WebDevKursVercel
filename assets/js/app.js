@@ -116,6 +116,16 @@ const CourseState = {
         return this.getState().part3Completed === true;
     },
     
+    isPartStarted(part) {
+        return this.getState()[`part${part}Started`] === true;
+    },
+    
+    startPart(part) {
+        const state = this.getState();
+        state[`part${part}Started`] = true;
+        this.saveState(state);
+    },
+    
     completePart4() {
         const state = this.getState();
         state.part4Completed = true;

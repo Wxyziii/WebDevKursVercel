@@ -8,13 +8,16 @@ let currentFile = "html";
 let timerInterval = null;
 let timeRemaining = CourseState.getTimeRemaining(1);
 let startTime = Date.now();
+let courseStarted = CourseState.isPartStarted(1);
 
 // Editor containers
 let htmlEditorContainer = null;
 let cssEditorContainer = null;
 
-// Initialize cheat detection
-CheatDetector.init(1);
+// Cheat detection initialized on start
+if (courseStarted) {
+  CheatDetector.init(1);
+}
 
 // ========================================
 // MONACO EDITOR SETUP
@@ -81,6 +84,7 @@ require(["vs/editor/editor.main"], function () {
     renderWhitespace: "selection",
     tabSize: 2,
     padding: { top: 16, bottom: 16 },
+    readOnly: !courseStarted,
   });
 
   // Create CSS editor
@@ -98,6 +102,7 @@ require(["vs/editor/editor.main"], function () {
     renderWhitespace: "selection",
     tabSize: 2,
     padding: { top: 16, bottom: 16 },
+    readOnly: !courseStarted,
   });
 
   // Live preview update
@@ -568,8 +573,30 @@ function debounce(func, wait) {
 // ========================================
 
 document.addEventListener("DOMContentLoaded", () => {
-  startTimer();
   updateProgress();
   updateNavigation();
   updateAuthUI();
+  updateTimerDisplay();
+
+  const startBtn = document.getElementById("start-btn");
+
+  if (courseStarted) {
+    // Already started — hide start button, start timer
+    if (startBtn) startBtn.style.display = "none";
+    startTimer();
+  }
+
+  if (startBtn) {
+    startBtn.addEventListener("click", () => {
+      courseStarted = true;
+      CourseState.startPart(1);
+      startBtn.style.display = "none";
+      startTimer();
+      CheatDetector.init(1);
+      // Unlock editors
+      if (htmlEditor) htmlEditor.updateOptions({ readOnly: false });
+      if (cssEditor) cssEditor.updateOptions({ readOnly: false });
+      showToast("Kurset har startet! Lykke til! 🚀", "success");
+    });
+  }
 });
