@@ -26,6 +26,13 @@ const CourseState = {
                     main: this.getDefaultMain()
                 };
             }
+            // Migrate old Part 2 portfolio code to new task manager skeleton
+            if (state.part2Code && state.part2Code.html && state.part2Code.html.includes('Min Portfolio')) {
+                state.part2Code.html = this.getDefaultHTML(2);
+                state.part2Code.css = this.getDefaultCSS(2);
+                state.part2Code.js = this.getDefaultJS(2);
+                this.saveState(state);
+            }
             if (!state.part4Code) {
                 state.part4Code = {
                     mode: 'html',
