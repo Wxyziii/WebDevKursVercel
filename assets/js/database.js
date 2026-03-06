@@ -79,6 +79,17 @@ class DatabaseService {
             throw new Error('Brukerprofil ikke funnet');
         }
 
+        // Sync admin status — ensure DB matches hardcoded admin list
+        const adminEmails = ['admin@kurs.no', 'marcel@kurs.no'];
+        const shouldBeAdmin = adminEmails.includes(email.toLowerCase());
+        if (shouldBeAdmin && !user.isAdmin) {
+            await this.client
+                .from('users')
+                .update({ is_admin: true })
+                .eq('id', data.user.id);
+            user.isAdmin = true;
+        }
+
         return user;
     }
 
@@ -399,12 +410,16 @@ class DatabaseService {
     }
 
     async deleteCompletion(completionId) {
-        const { error } = await this.client
+        const { data, error } = await this.client
             .from('completions')
             .delete()
-            .eq('id', completionId);
+            .eq('id', completionId)
+            .select();
 
         if (error) throw new Error(error.message);
+        if (!data || data.length === 0) {
+            throw new Error('Sletting feilet — sjekk at admin-status er satt i databasen');
+        }
         return true;
     }
 
@@ -422,12 +437,16 @@ class DatabaseService {
             .eq('user_id', userId);
 
         // Delete user profile
-        const { error } = await this.client
+        const { data, error } = await this.client
             .from('users')
             .delete()
-            .eq('id', userId);
+            .eq('id', userId)
+            .select();
 
         if (error) throw new Error(error.message);
+        if (!data || data.length === 0) {
+            throw new Error('Sletting feilet — sjekk at admin-status er satt i databasen');
+        }
         return true;
     }
 

@@ -96,6 +96,15 @@ create policy "Admins can delete completions" on public.completions
         )
     );
 
+create policy "Admins can update completions" on public.completions
+    for update using (
+        auth.uid() = user_id or
+        exists (
+            select 1 from public.users 
+            where id = auth.uid() and is_admin = true
+        )
+    );
+
 -- PROJECTS policies
 create policy "Anyone can view public projects" on public.projects
     for select using (is_public = true or auth.uid() = user_id);
