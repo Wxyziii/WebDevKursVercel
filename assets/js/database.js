@@ -216,7 +216,7 @@ class DatabaseService {
             .from('completions')
             .select(`
                 *,
-                users (name, is_flagged)
+                users!completions_user_id_fkey (name, is_flagged)
             `)
             .not('total_time', 'is', null)
             .order('total_time', { ascending: true });
@@ -497,7 +497,7 @@ class DatabaseService {
             .from('completions')
             .select(`
                 *,
-                users (name, email, is_flagged, flag_reason)
+                users!completions_user_id_fkey (name, email, is_flagged, flag_reason)
             `)
             .eq('is_flagged', true)
             .order('completed_at', { ascending: false });
