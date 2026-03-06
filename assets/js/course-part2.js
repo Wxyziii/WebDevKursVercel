@@ -210,21 +210,23 @@ function updatePreview() {
   const previewFrame = document.getElementById("preview-frame");
 
   // Build complete HTML document
-  let combinedHTML = htmlCode;
+  let combinedHTML = htmlCode
+    .replace(/<link[^>]+href=["']style\.css["'][^>]*>/gi, '')
+    .replace(/<script[^>]+src=["']script\.js["'][^>]*><\/script>/gi, '');
 
   // Inject CSS
-  if (htmlCode.includes("</head>")) {
-    combinedHTML = htmlCode.replace(
+  if (combinedHTML.includes("</head>")) {
+    combinedHTML = combinedHTML.replace(
       "</head>",
       `<style>${cssCode}</style></head>`,
     );
-  } else if (htmlCode.includes("<head>")) {
-    combinedHTML = htmlCode.replace(
+  } else if (combinedHTML.includes("<head>")) {
+    combinedHTML = combinedHTML.replace(
       "<head>",
       `<head><style>${cssCode}</style>`,
     );
   } else {
-    combinedHTML = `<style>${cssCode}</style>${htmlCode}`;
+    combinedHTML = `<style>${cssCode}</style>${combinedHTML}`;
   }
 
   // Inject JS (before </body> or at end)
@@ -257,61 +259,63 @@ const exerciseChecks = {
   1: () => {
     const html = stripHTML(htmlEditor.getValue());
     return (
-      html.includes('class="prosjekter"') && html.includes("prosjekt-grid")
+      html.includes('oppgave-liste') &&
+      html.includes('<input') &&
+      (html.includes('legg-til-btn') || html.includes('type="button"') || html.includes('button'))
     );
   },
   2: () => {
-    const html = stripHTML(htmlEditor.getValue());
-    return html.includes("prosjekt-kort") && html.includes("se-mer-btn");
-  },
-  3: () => {
     const css = stripCSS(cssEditor.getValue());
     return (
-      css.includes(".prosjekt-grid") &&
-      /display\s*:\s*grid/.test(css) &&
-      css.includes(".prosjekt-kort")
+      /\.container\s*\{[^}]*padding\s*:/s.test(css) &&
+      css.includes('background') &&
+      (css.includes('border-radius') || css.includes('font-family'))
+    );
+  },
+  3: () => {
+    const js = stripJS(jsEditor.getValue());
+    return (
+      js.includes('getElementById') &&
+      js.includes('createElement') &&
+      js.includes('appendChild')
     );
   },
   4: () => {
-    const html = stripHTML(htmlEditor.getValue());
+    const js = stripJS(jsEditor.getValue());
     return (
-      html.includes("kontakt-form") &&
-      html.includes("<input") &&
-      html.includes("<textarea")
+      js.includes('remove()') &&
+      (js.includes('slett') || js.includes('delete') || js.includes('×'))
     );
   },
   5: () => {
-    const css = stripCSS(cssEditor.getValue());
+    const js = stripJS(jsEditor.getValue());
     return (
-      css.includes("#kontakt-form") &&
-      css.includes("flex") &&
-      css.includes("padding")
+      js.includes('classList') &&
+      js.includes('ferdig')
     );
   },
   6: () => {
     const js = stripJS(jsEditor.getValue());
     return (
-      js.includes("kontakt-form") &&
-      js.includes("addEventListener") &&
-      js.includes("submit") &&
-      (js.includes("preventDefault") || js.includes("alert"))
+      js.includes('querySelectorAll') &&
+      js.includes('.length') &&
+      (js.includes('teller') || js.includes('textContent'))
     );
   },
   7: () => {
     const js = stripJS(jsEditor.getValue());
     return (
-      js.includes("se-mer-btn") &&
-      js.includes("addEventListener") &&
-      js.includes("click") &&
-      js.includes("alert")
+      js.includes('filter') &&
+      js.includes('style.display') &&
+      (js.includes('alle') || js.includes('aktiv') || js.includes('fullført') || js.includes('none'))
     );
   },
   8: () => {
-    const css = stripCSS(cssEditor.getValue());
+    const js = stripJS(jsEditor.getValue());
     return (
-      css.includes("hover") &&
-      css.includes("transition") &&
-      css.includes("transform")
+      js.includes('localStorage') &&
+      js.includes('JSON.stringify') &&
+      js.includes('JSON.parse')
     );
   },
 };

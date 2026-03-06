@@ -292,46 +292,21 @@ ${part1Css}
 <html lang="no">
 <head>
     <meta charset="UTF-8">
-    <title>Min Portfolio</title>
+    <title>Min Oppgaveliste</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <header>
-        <h1>Ditt Navn</h1>
-        <p>Webutvikler</p>
-    </header>
+    <div class="container">
+        <!-- Oppgave 1: Legg til overskrift, input-felt og legg til-knapp -->
+        <!-- Oppgave 1: Legg til <ul id="oppgave-liste"></ul> -->
 
-    <main>
-        <section class="om-meg">
-            <h2>Om meg</h2>
-            <p>Skriv om deg selv her...</p>
-        </section>
+        <!-- Oppgave 6: Legg til <p id="teller"></p> for oppgaveteller -->
 
-        <section class="ferdigheter">
-            <h2>Ferdigheter</h2>
-            <ul>
-                <li>HTML</li>
-                <li>CSS</li>
-                <li>JavaScript</li>
-            </ul>
-        </section>
+        <!-- Oppgave 7: Legg til filterknapper (Alle/Aktive/Fullførte) -->
+    </div>
 
-        <section class="prosjekter">
-            <!-- Oppgave 1: Legg til <h2> og <div class="prosjekt-grid"> -->
-            <!-- Oppgave 2: Legg til prosjekt-kort med se-mer-btn inne i grid -->
-        </section>
-
-        <section class="kontakt">
-            <!-- Oppgave 4: Legg til <h2> og <form id="kontakt-form"> med inputs -->
-        </section>
-    </main>
-
-    <footer>
-        <p>Kontakt: din@epost.no</p>
-    </footer>
-
-    <script src="script.js"></script>
+    <script src="script.js"><\/script>
 </body>
 </html>`;
     },
@@ -399,61 +374,48 @@ body {
 /* Legg til dine egne stiler her */
 `;
         }
-        return `/* CSS for Din Portfolio */
+        return `/* Oppgaveliste CSS */
 
+/* Oppgave 2: Style body med font-family, background og margin */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    background: #f5f5f5;
 }
 
-header {
-    background-color: #333;
-    color: white;
-    padding: 40px;
-    text-align: center;
+/* Oppgave 2: Style .container med max-width, margin, padding og background */
+.container {
 }
 
-section {
-    padding: 30px;
-    max-width: 800px;
-    margin: 20px auto;
-    background: white;
-    border-radius: 8px;
+/* Oppgave 2: Style input og knapp med padding, border og font-size */
+#oppgave-input {
 }
 
-footer {
-    background: #333;
-    color: white;
-    text-align: center;
-    padding: 20px;
+#legg-til-btn {
 }
 
-/* Oppgave 3: Prosjekt-grid */
-.prosjekt-grid {
-    /* Legg til display: grid, grid-template-columns og gap */
+/* Oppgave 2: Style listeelementene */
+#oppgave-liste {
+    list-style: none;
+    padding: 0;
 }
 
-.prosjekt-kort {
-    /* Legg til background, padding, border-radius og box-shadow */
-    /* Oppgave 8: Legg til transition */
+#oppgave-liste li {
 }
 
-.prosjekt-kort:hover {
-    /* Oppgave 8: Legg til transform og box-shadow */
+/* Oppgave 5: Style .ferdig-klassen med strikethrough og opacity */
+.ferdig {
 }
 
-/* Oppgave 5: Kontaktskjema */
-#kontakt-form {
-    /* Legg til display: flex, flex-direction og gap */
+/* Oppgave 4: Style slett-knappen */
+.slett-btn {
 }
 
-#kontakt-form input, #kontakt-form textarea {
-    /* Legg til padding, border og font-size */
+/* Oppgave 7: Style filterknappene */
+.filter-knapper {
 }
 
-#kontakt-form button {
-    /* Legg til background, color, padding og cursor */
+.filter-knapper button {
+}
+
+.filter-knapper button.aktiv {
 }`;
     },
     
@@ -465,14 +427,27 @@ console.log('Prosjekt lastet! 🚀');
 // Legg til din kode her
 `;
         }
-        return `// JavaScript for din Portfolio
-console.log('Portfolio lastet! 🚀');
+        return `// JavaScript for Oppgaveliste
+console.log('Oppgaveliste lastet! ✅');
 
-// Oppgave 6: Legg til skjemavalidering for kontakt-form
-// Bruk addEventListener('submit', ...) med e.preventDefault() og alert()
+// Oppgave 3: Hent elementer med getElementById
+// Oppgave 3: Legg til click-event på knappen som kaller en funksjon for å legge til oppgaver
+// Oppgave 3: Bruk createElement('li') og appendChild for å legge til i listen
 
-// Oppgave 7: Legg til click-hendelse på se-mer-knappene
-// Bruk querySelectorAll og addEventListener('click', ...) med alert()
+// Oppgave 4: Lag en funksjon som legger til en slett-knapp (×) på hvert element
+// Oppgave 4: Bruk addEventListener('click') og element.remove()
+
+// Oppgave 5: Legg til click-event på hvert li-element
+// Oppgave 5: Bruk classList.toggle('ferdig') for å markere som ferdig
+
+// Oppgave 6: Lag en oppdaterTeller() funksjon
+// Oppgave 6: Tell antall li og antall med klassen 'ferdig'
+
+// Oppgave 7: Legg til click-events på filterknappene
+// Oppgave 7: Bruk style.display for å vise/skjule basert på filter
+
+// Oppgave 8: Bruk localStorage.setItem() og localStorage.getItem()
+// Oppgave 8: Lagre oppgavene som JSON og last dem ved oppstart
 `;
     },
     

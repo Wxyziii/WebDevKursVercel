@@ -181,12 +181,12 @@ const CheatDetector = {
         const flags = [];
         let suspicionScore = 0;
 
-        // Check 1: Unrealistically fast completion (less than 5 minutes for a 30-min course)
-        if (timeUsed < 5 * 60) {
-            flags.push('Fullført på under 5 minutter');
+        // Check 1: Unrealistically fast completion (less than 3 minutes for a 15-min course)
+        if (timeUsed < 3 * 60) {
+            flags.push('Fullført på under 3 minutter');
             suspicionScore += 40;
-        } else if (timeUsed < 10 * 60) {
-            flags.push('Fullført veldig raskt (under 10 minutter)');
+        } else if (timeUsed < 5 * 60) {
+            flags.push('Fullført veldig raskt (under 5 minutter)');
             suspicionScore += 20;
         }
 
