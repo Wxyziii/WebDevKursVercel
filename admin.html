@@ -172,10 +172,10 @@
         <p data-i18n="index.footer">© 2026 WebDev Kurs. Laget for å lære.</p>
     </footer>
 
-    <script src="assets/js/database.js?v=3"></script>
+    <script src="assets/js/database.js?v=4"></script>
     <script src="assets/js/auth.js?v=2"></script>
     <script src="assets/js/lang.js?v=3"></script>
-    <script src="assets/js/app.js?v=13"></script>
+    <script src="assets/js/app.js?v=14"></script>
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             updateAuthUI();
@@ -237,9 +237,9 @@
                         <div class="stat-value">${completedPart3}</div>
                         <div class="stat-label">Fullført Del 3</div>
                     </div>
-                    <div class="stat-card">
+                    <div class="stat-card" style="cursor: pointer;" onclick="window.location.href='flag-review.html'">
                         <div class="stat-value" style="color: ${flaggedUsers > 0 ? '#f59e0b' : 'var(--text-secondary)'};">${flaggedUsers}</div>
-                        <div class="stat-label">⚠️ Flagget</div>
+                        <div class="stat-label">⚠️ Flagget <span style="font-size:11px;">→ Se detaljer</span></div>
                     </div>
                 `;
 
@@ -266,6 +266,7 @@
                                 <th>E-post</th>
                                 <th>Rolle</th>
                                 <th>Fremgang</th>
+                                <th>Flagg</th>
                                 <th>Siste aktivitet</th>
                                 <th>Registrert</th>
                                 <th>Handlinger</th>
@@ -292,6 +293,11 @@
                                             <span class="part-badge ${user.part2Completed ? 'done' : 'pending'}" title="Del 2">2</span>
                                             <span class="part-badge ${user.part3Completed ? 'done' : 'pending'}" title="Del 3">3</span>
                                         </div>
+                                    </td>
+                                    <td>
+                                        ${user.isFlagged
+                                            ? `<a href="flag-review.html" style="color: #f59e0b; font-size: 13px; text-decoration: none;" title="${escapeHtml(user.flagReason || '')}">⚠️ Flagget</a>`
+                                            : '<span style="color: var(--text-muted); font-size: 13px;">—</span>'}
                                     </td>
                                     <td style="color: var(--text-secondary); font-size: 13px;">${lastActivityText}</td>
                                     <td style="color: var(--text-secondary); font-size: 13px;">${new Date(user.createdAt).toLocaleDateString('no-NO')}</td>

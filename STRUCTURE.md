@@ -10,6 +10,8 @@ WebDevKursVercel/
 ├── gallery.html            # Project gallery
 ├── leaderboard.html        # Leaderboard
 ├── profile.html            # User profile
+├── admin.html              # Admin panel (user overview, activity status)
+├── flag-review.html        # Flag review page (cheat detection details)
 ├── clear-cache.html        # Cache clearing utility
 ├── test.html               # Test page
 ├── test-state.html         # State test page

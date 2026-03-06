@@ -488,6 +488,102 @@ class DatabaseService {
         return data;
     }
 
+    // ========================================
+    // FLAG REVIEW METHODS
+    // ========================================
+
+    async getFlaggedCompletions() {
+        const { data, error } = await this.client
+            .from('completions')
+            .select(`
+                *,
+                users (name, email, is_flagged, flag_reason)
+            `)
+            .eq('is_flagged', true)
+            .order('completed_at', { ascending: false });
+
+        if (error) throw new Error(error.message);
+        return data.map(c => ({
+            id: c.id,
+            userId: c.user_id,
+            userName: c.users?.name || 'Ukjent',
+            userEmail: c.users?.email || '',
+            part1Time: c.part1_time,
+            part2Time: c.part2_time,
+            part3Time: c.part3_time,
+            totalTime: c.total_time,
+            isFlagged: c.is_flagged,
+            flagReason: c.flag_reason,
+            cheatScore: c.cheat_score,
+            flagStatus: c.flag_status,
+            flagReviewedAt: c.flag_reviewed_at,
+            flagReviewNote: c.flag_review_note,
+            completedAt: c.completed_at,
+            userFlagged: c.users?.is_flagged,
+            userFlagReason: c.users?.flag_reason
+        }));
+    }
+
+    async getUserAllCompletions(userId) {
+        const { data, error } = await this.client
+            .from('completions')
+            .select('*')
+            .eq('user_id', userId)
+            .order('completed_at', { ascending: false });
+
+        if (error) throw new Error(error.message);
+        return data;
+    }
+
+    async getUserActivity(userId, limit = 200) {
+        const { data, error } = await this.client
+            .from('activity')
+            .select('*')
+            .eq('user_id', userId)
+            .order('timestamp', { ascending: false })
+            .limit(limit);
+
+        if (error) return [];
+        return data;
+    }
+
+    async reviewFlag(completionId, status, reviewNote) {
+        const user = AuthService.getCurrentUser();
+        const { data, error } = await this.client
+            .from('completions')
+            .update({
+                flag_status: status,
+                flag_reviewed_by: user?.id || null,
+                flag_reviewed_at: new Date().toISOString(),
+                flag_review_note: reviewNote || null
+            })
+            .eq('id', completionId)
+            .select();
+
+        if (error) throw new Error(error.message);
+        return data?.[0] || null;
+    }
+
+    async unflagUser(userId) {
+        return this.updateUser(userId, { isFlagged: false, flagReason: null });
+    }
+
+    async unflagCompletion(completionId) {
+        const { data, error } = await this.client
+            .from('completions')
+            .update({
+                is_flagged: false,
+                flag_status: 'dismissed',
+                flag_reviewed_by: AuthService.getCurrentUser()?.id || null,
+                flag_reviewed_at: new Date().toISOString()
+            })
+            .eq('id', completionId)
+            .select();
+
+        if (error) throw new Error(error.message);
+        return data?.[0] || null;
+    }
+
     async getLatestActivityPerUser() {
         // Get the most recent activity timestamp for each user
         const { data, error } = await this.client

@@ -22,12 +22,25 @@ create table if not exists public.completions (
     user_id uuid references public.users(id) on delete cascade,
     part1_time integer,
     part2_time integer,
+    part3_time integer,
     total_time integer,
     is_flagged boolean default false,
     flag_reason text,
     cheat_score integer default 0,
+    flag_status text default null,          -- null = not reviewed, 'approved' = confirmed cheating, 'dismissed' = false positive
+    flag_reviewed_by uuid references public.users(id),
+    flag_reviewed_at timestamp with time zone,
+    flag_review_note text,
     completed_at timestamp with time zone default now()
 );
+
+-- Migration: Add flag review columns to existing completions table
+-- (Run these if the table already exists)
+-- ALTER TABLE public.completions ADD COLUMN IF NOT EXISTS part3_time integer;
+-- ALTER TABLE public.completions ADD COLUMN IF NOT EXISTS flag_status text default null;
+-- ALTER TABLE public.completions ADD COLUMN IF NOT EXISTS flag_reviewed_by uuid references public.users(id);
+-- ALTER TABLE public.completions ADD COLUMN IF NOT EXISTS flag_reviewed_at timestamp with time zone;
+-- ALTER TABLE public.completions ADD COLUMN IF NOT EXISTS flag_review_note text;
 
 -- 3. PROJECTS TABLE (Gallery)
 create table if not exists public.projects (

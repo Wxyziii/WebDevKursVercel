@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flagg-gjennomgang - WebDev Kurs</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .flag-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .flag-stat-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        .flag-stat-card .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .flag-stat-card .stat-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+        .filter-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05);
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        .filter-btn:hover { background: rgba(255,255,255,0.1); }
+        .filter-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        .flag-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+            transition: border-color 0.2s;
+        }
+        .flag-card:hover {
+            border-color: rgba(255,255,255,0.2);
+        }
+        .flag-card.reviewed-approved {
+            border-left: 4px solid #ef4444;
+        }
+        .flag-card.reviewed-dismissed {
+            border-left: 4px solid #4ade80;
+            opacity: 0.7;
+        }
+        .flag-card.pending-review {
+            border-left: 4px solid #f59e0b;
+        }
+        .flag-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .flag-user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .flag-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .flag-user-name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        .flag-user-email {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        .flag-score-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .score-low { background: rgba(74,222,128,0.15); color: #4ade80; }
+        .score-medium { background: rgba(245,158,11,0.15); color: #f59e0b; }
+        .score-high { background: rgba(239,68,68,0.15); color: #ef4444; }
+        .score-critical { background: rgba(239,68,68,0.3); color: #fca5a5; }
+
+        .flag-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        @media (max-width: 768px) {
+            .flag-details { grid-template-columns: 1fr; }
+        }
+        .detail-section {
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 16px;
+        }
+        .detail-section h4 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+        .flag-reasons-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .flag-reasons-list li {
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        .flag-reasons-list li:last-child { border-bottom: none; }
+        .flag-reasons-list .reason-icon {
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .time-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+        }
+        .time-item {
+            text-align: center;
+            padding: 8px;
+            border-radius: 6px;
+            background: rgba(255,255,255,0.05);
+        }
+        .time-item .time-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+        .time-item .time-value {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .time-item .time-value.flagged { color: #f59e0b; }
+
+        .review-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .review-status.pending { background: rgba(245,158,11,0.15); color: #f59e0b; }
+        .review-status.approved { background: rgba(239,68,68,0.15); color: #ef4444; }
+        .review-status.dismissed { background: rgba(74,222,128,0.15); color: #4ade80; }
+
+        .review-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .review-note-input {
+            flex: 1;
+            min-width: 200px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(0,0,0,0.3);
+            color: var(--text-primary);
+            font-size: 13px;
+        }
+        .review-note-input::placeholder { color: var(--text-muted); }
+        .btn-approve {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            background: rgba(239,68,68,0.2);
+            color: #fca5a5;
+            transition: all 0.2s;
+        }
+        .btn-approve:hover { background: rgba(239,68,68,0.4); }
+        .btn-dismiss {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            background: rgba(74,222,128,0.2);
+            color: #86efac;
+            transition: all 0.2s;
+        }
+        .btn-dismiss:hover { background: rgba(74,222,128,0.4); }
+
+        .activity-timeline {
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+        .activity-timeline::-webkit-scrollbar { width: 4px; }
+        .activity-timeline::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
+        }
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 13px;
+        }
+        .activity-item:last-child { border-bottom: none; }
+        .activity-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+        .activity-icon.paste { background: rgba(239,68,68,0.2); }
+        .activity-icon.focus { background: rgba(74,222,128,0.2); }
+        .activity-icon.blur { background: rgba(245,158,11,0.2); }
+        .activity-icon.session { background: rgba(96,165,250,0.2); }
+        .activity-icon.default { background: rgba(255,255,255,0.1); }
+        .activity-time {
+            color: var(--text-muted);
+            font-size: 11px;
+            white-space: nowrap;
+        }
+        .activity-text { color: var(--text-secondary); }
+
+        .review-result-info {
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-top: 12px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .toggle-activity {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.15);
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+        .toggle-activity:hover {
+            background: rgba(255,255,255,0.1);
+            color: var(--text-primary);
+        }
+        .score-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        .score-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.3s;
+        }
+        .admin-denied {
+            text-align: center;
+            padding: 80px 20px;
+        }
+        .admin-denied .denied-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+        .empty-flag-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+        .empty-flag-state .empty-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <span class="logo">⟨/⟩</span>
+            <span class="brand-text">WebDev Kurs</span>
+        </div>
+        <div class="nav-links">
+            <a href="index.html" class="nav-link" data-i18n="nav.home">Hjem</a>
+            <a href="part1.html" class="nav-link" data-i18n="nav.part1">Del 1</a>
+            <a href="part2.html" class="nav-link" id="nav-part2" data-i18n="nav.part2">Del 2</a>
+            <a href="part3.html" class="nav-link" id="nav-part3" data-i18n="nav.part3">Del 3</a>
+            <a href="part4.html" class="nav-link" id="nav-part4" data-i18n="nav.part4">Ekstra</a>
+            <a href="leaderboard.html" class="nav-link" data-i18n="nav.leaderboard">Rangering</a>
+            <a href="gallery.html" class="nav-link" data-i18n="nav.gallery">Galleri</a>
+            <a href="admin.html" class="nav-link" id="nav-admin" style="display:none;">Admin</a>
+        </div>
+        <div class="nav-auth">
+            <button id="lang-toggle" onclick="Lang.toggle()">🇬🇧 EN</button>
+            <button class="btn btn-secondary btn-sm" id="auth-btn" onclick="showAuthModal()" data-i18n="nav.login">Logg inn</button>
+            <div class="user-info" id="user-info" style="display: none;">
+                <span class="user-name"></span>
+                <button class="btn btn-secondary btn-sm" onclick="AuthService.logout()" data-i18n="nav.logout">Logg ut</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div id="admin-denied" class="admin-denied" style="display: none;">
+            <div class="denied-icon">🔒</div>
+            <h2>Ingen tilgang</h2>
+            <p style="color: var(--text-secondary);">Denne siden er kun for administratorer.</p>
+            <a href="index.html" class="btn btn-primary" style="margin-top: 16px;">← Tilbake til Hjem</a>
+        </div>
+
+        <div id="flag-content" style="display: none;">
+            <div class="page-header">
+                <h1>🚩 Flagg-gjennomgang</h1>
+                <p>Gjennomgå og vurder flaggede innleveringer</p>
+                <a href="admin.html" style="color: var(--accent); font-size: 14px;">← Tilbake til Admin</a>
+            </div>
+
+            <div class="flag-stats" id="flag-stats"></div>
+
+            <div class="filter-bar" id="filter-bar">
+                <button class="filter-btn active" data-filter="all">Alle</button>
+                <button class="filter-btn" data-filter="pending">⏳ Venter på vurdering</button>
+                <button class="filter-btn" data-filter="approved">❌ Bekreftet juks</button>
+                <button class="filter-btn" data-filter="dismissed">✅ Avvist (falsk positiv)</button>
+            </div>
+
+            <div id="flag-entries"></div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p data-i18n="index.footer">© 2026 WebDev Kurs. Laget for å lære.</p>
+    </footer>
+
+    <script src="assets/js/database.js?v=4"></script>
+    <script src="assets/js/auth.js?v=2"></script>
+    <script src="assets/js/lang.js?v=3"></script>
+    <script src="assets/js/app.js?v=14"></script>
+    <script>
+        let allFlaggedEntries = [];
+        let activityCache = {};
+        let currentFilter = 'all';
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            updateAuthUI();
+            updateNavigation();
+
+            const user = AuthService.getCurrentUser();
+            if (!user || !AuthService.isAdmin()) {
+                document.getElementById('admin-denied').style.display = 'block';
+                return;
+            }
+
+            document.getElementById('flag-content').style.display = 'block';
+
+            // Filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.dataset.filter;
+                    renderEntries();
+                });
+            });
+
+            await loadFlaggedEntries();
+        });
+
+        async function loadFlaggedEntries() {
+            const container = document.getElementById('flag-entries');
+            container.innerHTML = '<div class="loading">Laster flaggede innleveringer...</div>';
+
+            try {
+                allFlaggedEntries = await db.getFlaggedCompletions();
+                renderStats();
+                renderEntries();
+            } catch (err) {
+                container.innerHTML = `<div class="error">Feil: ${err.message}</div>`;
+            }
+        }
+
+        function renderStats() {
+            const total = allFlaggedEntries.length;
+            const pending = allFlaggedEntries.filter(e => !e.flagStatus).length;
+            const approved = allFlaggedEntries.filter(e => e.flagStatus === 'approved').length;
+            const dismissed = allFlaggedEntries.filter(e => e.flagStatus === 'dismissed').length;
+            const avgScore = total > 0
+                ? Math.round(allFlaggedEntries.reduce((s, e) => s + (e.cheatScore || 0), 0) / total)
+                : 0;
+
+            document.getElementById('flag-stats').innerHTML = `
+                <div class="flag-stat-card">
+                    <div class="stat-value" style="color: #f59e0b;">${total}</div>
+                    <div class="stat-label">Totalt flagget</div>
+                </div>
+                <div class="flag-stat-card">
+                    <div class="stat-value" style="color: #fbbf24;">${pending}</div>
+                    <div class="stat-label">Venter på vurdering</div>
+                </div>
+                <div class="flag-stat-card">
+                    <div class="stat-value" style="color: #ef4444;">${approved}</div>
+                    <div class="stat-label">Bekreftet juks</div>
+                </div>
+                <div class="flag-stat-card">
+                    <div class="stat-value" style="color: #4ade80;">${dismissed}</div>
+                    <div class="stat-label">Avvist (falsk positiv)</div>
+                </div>
+                <div class="flag-stat-card">
+                    <div class="stat-value">${avgScore}</div>
+                    <div class="stat-label">Gj.snitt mistankescore</div>
+                </div>
+            `;
+        }
+
+        function renderEntries() {
+            const container = document.getElementById('flag-entries');
+            let entries = allFlaggedEntries;
+
+            if (currentFilter === 'pending') {
+                entries = entries.filter(e => !e.flagStatus);
+            } else if (currentFilter === 'approved') {
+                entries = entries.filter(e => e.flagStatus === 'approved');
+            } else if (currentFilter === 'dismissed') {
+                entries = entries.filter(e => e.flagStatus === 'dismissed');
+            }
+
+            if (entries.length === 0) {
+                const messages = {
+                    all: 'Ingen flaggede innleveringer funnet.',
+                    pending: 'Ingen innleveringer venter på vurdering.',
+                    approved: 'Ingen innleveringer er bekreftet som juks.',
+                    dismissed: 'Ingen innleveringer er avvist som falsk positiv.'
+                };
+                container.innerHTML = `
+                    <div class="empty-flag-state">
+                        <div class="empty-icon">✅</div>
+                        <h3>${messages[currentFilter]}</h3>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = entries.map(entry => renderFlagCard(entry)).join('');
+        }
+
+        function renderFlagCard(entry) {
+            const scoreClass = getScoreClass(entry.cheatScore);
+            const statusClass = entry.flagStatus ? `reviewed-${entry.flagStatus}` : 'pending-review';
+            const reasons = (entry.flagReason || '').split(', ').filter(Boolean);
+            const partInfo = getPartInfo(entry);
+
+            let reviewStatusHtml = '';
+            if (entry.flagStatus === 'approved') {
+                reviewStatusHtml = '<span class="review-status approved">❌ Bekreftet juks</span>';
+            } else if (entry.flagStatus === 'dismissed') {
+                reviewStatusHtml = '<span class="review-status dismissed">✅ Avvist</span>';
+            } else {
+                reviewStatusHtml = '<span class="review-status pending">⏳ Venter</span>';
+            }
+
+            let reviewResultHtml = '';
+            if (entry.flagStatus) {
+                const reviewDate = entry.flagReviewedAt
+                    ? new Date(entry.flagReviewedAt).toLocaleString('no-NO')
+                    : '';
+                reviewResultHtml = `
+                    <div class="review-result-info">
+                        ${reviewStatusHtml}
+                        ${reviewDate ? `<span style="color: var(--text-muted); font-size: 12px;">Vurdert: ${reviewDate}</span>` : ''}
+                        ${entry.flagReviewNote ? `<span style="color: var(--text-secondary);">«${escapeHtml(entry.flagReviewNote)}»</span>` : ''}
+                    </div>`;
+            }
+
+            return `
+            <div class="flag-card ${statusClass}" id="flag-card-${entry.id}">
+                <div class="flag-header">
+                    <div class="flag-user-info">
+                        <div class="flag-avatar">👤</div>
+                        <div>
+                            <div class="flag-user-name">${escapeHtml(entry.userName)}</div>
+                            <div class="flag-user-email">${escapeHtml(entry.userEmail)}</div>
+                        </div>
+                        ${reviewStatusHtml}
+                    </div>
+                    <div class="flag-score-badge ${scoreClass}">
+                        🎯 Mistankescore: ${entry.cheatScore || 0}/100
+                    </div>
+                </div>
+
+                <div class="score-bar">
+                    <div class="score-bar-fill" style="width: ${Math.min(entry.cheatScore || 0, 100)}%; background: ${getScoreColor(entry.cheatScore)};"></div>
+                </div>
+
+                <div class="flag-details" style="margin-top: 16px;">
+                    <div class="detail-section">
+                        <h4>🚩 Flagg-årsaker</h4>
+                        <ul class="flag-reasons-list">
+                            ${reasons.map(r => `
+                                <li>
+                                    <span class="reason-icon">${getReasonIcon(r)}</span>
+                                    <span>${escapeHtml(r)}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+
+                    <div class="detail-section">
+                        <h4>⏱️ Tidsbruk per del</h4>
+                        <div class="time-grid">
+                            <div class="time-item">
+                                <div class="time-label">Del 1</div>
+                                <div class="time-value ${entry.part1Time && entry.part1Time < 300 ? 'flagged' : ''}">${formatTime(entry.part1Time)}</div>
+                            </div>
+                            <div class="time-item">
+                                <div class="time-label">Del 2</div>
+                                <div class="time-value ${entry.part2Time && entry.part2Time < 300 ? 'flagged' : ''}">${formatTime(entry.part2Time)}</div>
+                            </div>
+                            <div class="time-item">
+                                <div class="time-label">Del 3</div>
+                                <div class="time-value ${entry.part3Time && entry.part3Time < 300 ? 'flagged' : ''}">${formatTime(entry.part3Time)}</div>
+                            </div>
+                        </div>
+                        <div style="text-align: center; margin-top: 8px; font-size: 12px; color: var(--text-muted);">
+                            Fullført: ${entry.completedAt ? new Date(entry.completedAt).toLocaleString('no-NO') : 'Ukjent'}
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 12px;">
+                    <button class="toggle-activity" onclick="toggleActivity('${entry.id}', '${entry.userId}')">
+                        📋 Vis aktivitetslogg
+                    </button>
+                    <div id="activity-${entry.id}" style="display: none; margin-top: 12px;"></div>
+                </div>
+
+                ${reviewResultHtml}
+
+                ${!entry.flagStatus ? `
+                <div class="review-actions">
+                    <input type="text" class="review-note-input" id="note-${entry.id}" placeholder="Legg til en kommentar (valgfritt)...">
+                    <button class="btn-approve" onclick="reviewEntry(${entry.id}, 'approved')">
+                        ❌ Bekreft juks
+                    </button>
+                    <button class="btn-dismiss" onclick="reviewEntry(${entry.id}, 'dismissed')">
+                        ✅ Avvis flagg
+                    </button>
+                </div>
+                ` : `
+                <div class="review-actions">
+                    <button class="toggle-activity" onclick="resetReview(${entry.id})" style="color: var(--text-muted);">
+                        🔄 Tilbakestill vurdering
+                    </button>
+                </div>
+                `}
+            </div>`;
+        }
+
+        async function toggleActivity(entryId, userId) {
+            const container = document.getElementById(`activity-${entryId}`);
+            if (container.style.display !== 'none') {
+                container.style.display = 'none';
+                return;
+            }
+
+            container.style.display = 'block';
+            container.innerHTML = '<div class="loading" style="padding: 12px;">Laster aktivitetslogg...</div>';
+
+            try {
+                if (!activityCache[userId]) {
+                    activityCache[userId] = await db.getUserActivity(userId);
+                }
+                const activities = activityCache[userId];
+
+                if (activities.length === 0) {
+                    container.innerHTML = '<div style="padding: 12px; color: var(--text-muted); font-size: 13px;">Ingen aktivitetsdata funnet.</div>';
+                    return;
+                }
+
+                container.innerHTML = `
+                    <div class="detail-section">
+                        <h4>📋 Aktivitetslogg (siste ${Math.min(activities.length, 50)} hendelser)</h4>
+                        <div class="activity-timeline">
+                            ${activities.slice(0, 50).map(a => renderActivityItem(a)).join('')}
+                        </div>
+                    </div>`;
+            } catch (err) {
+                container.innerHTML = `<div style="padding: 12px; color: #ef4444;">Feil: ${err.message}</div>`;
+            }
+        }
+
+        function renderActivityItem(activity) {
+            const iconMap = {
+                'large_paste': { icon: '📋', cls: 'paste' },
+                'window_focus': { icon: '👁️', cls: 'focus' },
+                'window_blur': { icon: '😴', cls: 'blur' },
+                'session_start': { icon: '🚀', cls: 'session' },
+                'session_end': { icon: '🏁', cls: 'session' }
+            };
+            const { icon, cls } = iconMap[activity.activity_type] || { icon: '📌', cls: 'default' };
+
+            const labelMap = {
+                'large_paste': `Stor innliming (${activity.data?.size || '?'} tegn)`,
+                'window_focus': 'Vindu ble aktivt',
+                'window_blur': `Forlot vinduet${activity.data?.focusTime ? ` (fokustid: ${Math.round(activity.data.focusTime / 1000)}s)` : ''}`,
+                'session_start': `Startet sesjon — ${activity.data?.part ? 'Del ' + activity.data.part : ''}`,
+                'session_end': 'Avsluttet sesjon'
+            };
+            const label = labelMap[activity.activity_type] || activity.activity_type;
+
+            const time = activity.timestamp
+                ? new Date(activity.timestamp).toLocaleTimeString('no-NO', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+                : '';
+            const date = activity.timestamp
+                ? new Date(activity.timestamp).toLocaleDateString('no-NO')
+                : '';
+
+            return `
+                <div class="activity-item">
+                    <div class="activity-icon ${cls}">${icon}</div>
+                    <div style="flex: 1;">
+                        <div class="activity-text">${label}</div>
+                    </div>
+                    <div class="activity-time">${date} ${time}</div>
+                </div>`;
+        }
+
+        async function reviewEntry(entryId, status) {
+            const noteEl = document.getElementById(`note-${entryId}`);
+            const note = noteEl ? noteEl.value.trim() : '';
+
+            const label = status === 'approved' ? 'bekreftet som juks' : 'avvist som falsk positiv';
+            if (!confirm(`Er du sikker på at du vil markere denne innleveringen som ${label}?`)) return;
+
+            try {
+                await db.reviewFlag(entryId, status, note);
+
+                // If dismissed, also unflag the completion
+                if (status === 'dismissed') {
+                    await db.unflagCompletion(entryId);
+                    // Check if user has any other flagged completions
+                    const entry = allFlaggedEntries.find(e => e.id === entryId);
+                    if (entry) {
+                        const otherFlags = allFlaggedEntries.filter(
+                            e => e.userId === entry.userId && e.id !== entryId && e.flagStatus !== 'dismissed'
+                        );
+                        if (otherFlags.length === 0) {
+                            await db.unflagUser(entry.userId);
+                        }
+                    }
+                }
+
+                showToast(status === 'approved' ? '❌ Markert som juks' : '✅ Flagg avvist', 'success');
+                await loadFlaggedEntries();
+            } catch (err) {
+                showToast('Feil: ' + err.message, 'error');
+            }
+        }
+
+        async function resetReview(entryId) {
+            if (!confirm('Tilbakestille vurderingen?')) return;
+            try {
+                await db.reviewFlag(entryId, null, null);
+                showToast('🔄 Vurdering tilbakestilt', 'success');
+                await loadFlaggedEntries();
+            } catch (err) {
+                showToast('Feil: ' + err.message, 'error');
+            }
+        }
+
+        function getScoreClass(score) {
+            if (score >= 80) return 'score-critical';
+            if (score >= 60) return 'score-high';
+            if (score >= 50) return 'score-medium';
+            return 'score-low';
+        }
+
+        function getScoreColor(score) {
+            if (score >= 80) return '#ef4444';
+            if (score >= 60) return '#f97316';
+            if (score >= 50) return '#f59e0b';
+            return '#4ade80';
+        }
+
+        function getReasonIcon(reason) {
+            if (reason.includes('minutter') || reason.includes('raskt')) return '⚡';
+            if (reason.includes('tastetrykk')) return '⌨️';
+            if (reason.includes('kodeendringer')) return '📝';
+            if (reason.includes('aktiv') || reason.includes('Editor')) return '👁️';
+            if (reason.includes('innliming')) return '📋';
+            return '🚩';
+        }
+
+        function getPartInfo(entry) {
+            const parts = [];
+            if (entry.part1Time) parts.push('Del 1');
+            if (entry.part2Time) parts.push('Del 2');
+            if (entry.part3Time) parts.push('Del 3');
+            return parts.join(', ') || 'Ukjent';
+        }
+
+        function formatTime(seconds) {
+            if (!seconds && seconds !== 0) return '—';
+            const m = Math.floor(seconds / 60);
+            const s = seconds % 60;
+            return `${m}:${String(s).padStart(2, '0')}`;
+        }
+
+        function showToast(message, type = 'info') {
+            const toast = document.createElement('div');
+            toast.style.cssText = `
+                position: fixed; bottom: 20px; right: 20px; z-index: 10000;
+                padding: 12px 20px; border-radius: 8px; font-size: 14px; font-weight: 500;
+                background: ${type === 'error' ? '#ef4444' : type === 'success' ? '#22c55e' : '#3b82f6'};
+                color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                animation: slideIn 0.3s ease;
+            `;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+    </script>
+</body>
+</html>
