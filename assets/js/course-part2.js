@@ -248,27 +248,32 @@ function updatePreview() {
 // EXERCISE CHECKING
 // ========================================
 
+// Strip comments so exercise checks don't match hint text
+function stripHTML(code) { return code.replace(/<!--[\s\S]*?-->/g, ''); }
+function stripCSS(code) { return code.replace(/\/\*[\s\S]*?\*\//g, ''); }
+function stripJS(code) { return code.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, ''); }
+
 const exerciseChecks = {
   1: () => {
-    const html = htmlEditor.getValue();
+    const html = stripHTML(htmlEditor.getValue());
     return (
       html.includes('class="prosjekter"') && html.includes("prosjekt-grid")
     );
   },
   2: () => {
-    const html = htmlEditor.getValue();
+    const html = stripHTML(htmlEditor.getValue());
     return html.includes("prosjekt-kort") && html.includes("se-mer-btn");
   },
   3: () => {
-    const css = cssEditor.getValue();
+    const css = stripCSS(cssEditor.getValue());
     return (
       css.includes(".prosjekt-grid") &&
-      css.includes("grid") &&
+      /display\s*:\s*grid/.test(css) &&
       css.includes(".prosjekt-kort")
     );
   },
   4: () => {
-    const html = htmlEditor.getValue();
+    const html = stripHTML(htmlEditor.getValue());
     return (
       html.includes("kontakt-form") &&
       html.includes("<input") &&
@@ -276,7 +281,7 @@ const exerciseChecks = {
     );
   },
   5: () => {
-    const css = cssEditor.getValue();
+    const css = stripCSS(cssEditor.getValue());
     return (
       css.includes("#kontakt-form") &&
       css.includes("flex") &&
@@ -284,23 +289,25 @@ const exerciseChecks = {
     );
   },
   6: () => {
-    const js = jsEditor.getValue();
+    const js = stripJS(jsEditor.getValue());
     return (
       js.includes("kontakt-form") &&
       js.includes("addEventListener") &&
-      js.includes("submit")
+      js.includes("submit") &&
+      (js.includes("preventDefault") || js.includes("alert"))
     );
   },
   7: () => {
-    const js = jsEditor.getValue();
+    const js = stripJS(jsEditor.getValue());
     return (
       js.includes("se-mer-btn") &&
       js.includes("addEventListener") &&
-      js.includes("click")
+      js.includes("click") &&
+      js.includes("alert")
     );
   },
   8: () => {
-    const css = cssEditor.getValue();
+    const css = stripCSS(cssEditor.getValue());
     return (
       css.includes("hover") &&
       css.includes("transition") &&

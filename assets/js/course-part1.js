@@ -175,9 +175,13 @@ function updatePreview() {
 // EXERCISE CHECKING
 // ========================================
 
+// Strip comments so exercise checks don't match hint text
+function stripHTML(code) { return code.replace(/<!--[\s\S]*?-->/g, ''); }
+function stripCSS(code) { return code.replace(/\/\*[\s\S]*?\*\//g, ''); }
+
 const exerciseChecks = {
   1: () => {
-    const html = htmlEditor.getValue();
+    const html = stripHTML(htmlEditor.getValue());
     return (
       html.includes("<header>") &&
       html.includes("<main>") &&
@@ -185,15 +189,14 @@ const exerciseChecks = {
     );
   },
   2: () => {
-    const html = htmlEditor.getValue();
+    const html = stripHTML(htmlEditor.getValue());
     return (
-      html.includes("<header>") &&
       html.includes("<h1>") &&
       /<header>[\s\S]*<h1>/.test(html)
     );
   },
   3: () => {
-    const html = htmlEditor.getValue();
+    const html = stripHTML(htmlEditor.getValue());
     return (
       html.includes('class="om-meg"') &&
       html.includes("<h2>") &&
@@ -201,7 +204,7 @@ const exerciseChecks = {
     );
   },
   4: () => {
-    const html = htmlEditor.getValue();
+    const html = stripHTML(htmlEditor.getValue());
     return (
       html.includes('class="ferdigheter"') &&
       html.includes("<ul>") &&
@@ -209,7 +212,7 @@ const exerciseChecks = {
     );
   },
   5: () => {
-    const css = cssEditor.getValue();
+    const css = stripCSS(cssEditor.getValue());
     return (
       css.includes("header") &&
       css.includes("background") &&
@@ -217,7 +220,7 @@ const exerciseChecks = {
     );
   },
   6: () => {
-    const css = cssEditor.getValue();
+    const css = stripCSS(cssEditor.getValue());
     return (
       css.includes("body") &&
       css.includes("section") &&
@@ -225,13 +228,13 @@ const exerciseChecks = {
     );
   },
   7: () => {
-    const html = htmlEditor.getValue();
-    const css = cssEditor.getValue();
-    return /<footer>[\s\S]*<\/footer>/.test(html) && css.includes("footer");
+    const html = stripHTML(htmlEditor.getValue());
+    const css = stripCSS(cssEditor.getValue());
+    return /<footer>[\s\S]*\S+[\s\S]*<\/footer>/.test(html) && css.includes("footer") && css.includes("padding");
   },
   8: () => {
-    const html = htmlEditor.getValue();
-    const css = cssEditor.getValue();
+    const html = stripHTML(htmlEditor.getValue());
+    const css = stripCSS(cssEditor.getValue());
     return (
       html.includes("<img") &&
       (css.includes("border-radius") || css.includes("profilbilde"))

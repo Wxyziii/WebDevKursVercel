@@ -242,9 +242,13 @@ ${mainCode}
 // EXERCISE CHECKING
 // ========================================
 
+// Strip comments so exercise checks don't match hint text
+function stripJSX(code) { return code.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '').replace(/\{\/\*[\s\S]*?\*\/\}/g, ''); }
+function stripCSS(code) { return code.replace(/\/\*[\s\S]*?\*\//g, ''); }
+
 const exerciseChecks = {
   1: () => {
-    const jsx = jsxEditor.getValue();
+    const jsx = stripJSX(jsxEditor.getValue());
     return (
       jsx.includes("function App") &&
       jsx.includes("return") &&
@@ -252,19 +256,19 @@ const exerciseChecks = {
     );
   },
   2: () => {
-    const jsx = jsxEditor.getValue();
+    const jsx = stripJSX(jsxEditor.getValue());
     return (
-      jsx.includes("useState") &&
+      /useState\s*\(/.test(jsx) &&
       jsx.includes("count") &&
       jsx.includes("setCount")
     );
   },
   3: () => {
-    const jsx = jsxEditor.getValue();
+    const jsx = stripJSX(jsxEditor.getValue());
     return jsx.includes("onClick") && jsx.includes("setCount");
   },
   4: () => {
-    const jsx = jsxEditor.getValue();
+    const jsx = stripJSX(jsxEditor.getValue());
     return (
       jsx.includes("function Card") &&
       jsx.includes("props") &&
@@ -272,17 +276,17 @@ const exerciseChecks = {
     );
   },
   5: () => {
-    const css = cssEditor.getValue();
+    const css = stripCSS(cssEditor.getValue());
     return (
       css.includes(".card") && css.includes("button") && css.includes("padding")
     );
   },
   6: () => {
-    const jsx = jsxEditor.getValue();
+    const jsx = stripJSX(jsxEditor.getValue());
     return jsx.includes(".map(") && jsx.includes("key=");
   },
   7: () => {
-    const jsx = jsxEditor.getValue();
+    const jsx = stripJSX(jsxEditor.getValue());
     return (
       ((jsx.includes("visible") || jsx.includes("show")) &&
         jsx.includes("&&") &&
@@ -291,7 +295,7 @@ const exerciseChecks = {
     );
   },
   8: () => {
-    const css = cssEditor.getValue();
+    const css = stripCSS(cssEditor.getValue());
     return (
       css.includes("hover") &&
       css.includes("transition") &&

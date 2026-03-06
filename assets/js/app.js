@@ -468,17 +468,11 @@ console.log('Prosjekt lastet! 🚀');
         return `// JavaScript for din Portfolio
 console.log('Portfolio lastet! 🚀');
 
-// Oppgave 6: Skjemavalidering
-document.getElementById('kontakt-form').addEventListener('submit', function(e) {
-    // Legg til e.preventDefault() og alert her
-});
+// Oppgave 6: Legg til skjemavalidering for kontakt-form
+// Bruk addEventListener('submit', ...) med e.preventDefault() og alert()
 
-// Oppgave 7: Se mer-knapper
-document.querySelectorAll('.se-mer-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-        // Legg til alert her
-    });
-});
+// Oppgave 7: Legg til click-hendelse på se-mer-knappene
+// Bruk querySelectorAll og addEventListener('click', ...) med alert()
 `;
     },
     
